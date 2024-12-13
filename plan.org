@@ -1,0 +1,25 @@
+# plan.org
+# 12/dec/2024
+# wxCustomizableControls
+
+/* ---------------- controls to implement ---------------- */
+
+* TODO button
+* TODO checkboxes
+* TODO radiobuttons
+* TODO static text
+* TODO static box
+* TODO text control
+* TODO combobox (choice)
+* TODO scrolledwindow
+* TODO sliders
+* TODO progress bar
+* TODO panels
+* TODO frame top bar
+* TODO menubar
+* TODO static lines
+
+/* ------------------------ notes ------------------------ */
+
+- create dropdown popup to use in menubar and combobox
+  
