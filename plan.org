@@ -1,5 +1,5 @@
 # plan.org
-# 12/dec/2024
+# 13/dec/2024
 # wxCustomizableControls
 
 /* ---------------- controls to implement ---------------- */
@@ -21,5 +21,107 @@
 
 /* ------------------------ notes ------------------------ */
 
-- create dropdown popup to use in menubar and combobox
+- create reusable dropdown popup to use in menubar and combobox
+
   
+/* --------------- customizable attributes --------------- */
+
+the layout for customizing an attribute is
+
+| property | state | element |
+
+for example: "backgroundcolor_default_drawingarea" refers to the
+drawing area's background when the object's state is default.
+
+some properties will not have a particular element assigned to
+them. its value will be assigned to the object as a whole. for
+example, we wouldn't want different mouse cursors when he hover over
+the checkbox itself and when he hover over the text label (or maybe we
+might, but might over complicate the implementation)
+
+properties include:
+
+| property        | has element | element examples                                   |
+| backgroundcolor | yes         | drawingarea, checkbox, radiobutton, staticbox, etc |
+| bordercolor     | yes         | drawingarea, checkbox, radiobutton, staticbox, etc |
+| borderwidth     | yes         | checkbox, radiobutton, etc                         |
+| cornerradius    | yes         | checkbox, combobox, staticbox, etc                 |
+| textseparation  | yes         | checkbox, radiobutton, image                       |
+| textside        | yes         | checkbox, radiobutton, image                       |
+| textcolor       | no          |                                                    |
+| textfont        | no          |                                                    |
+| textsize        | no          |                                                    |
+| textstyle       | no          |                                                    |
+| mousecursor     | no          |                                                    |
+| imagepath       | no          |                                                    |
+| width           | yes         | checkbox, image                                    |
+| height          | yes         | checkbox, image                                    |
+| radius          | yes         | radiobutton                                        |
+
+the object states are:
+
+| state   |
+| default |
+| hover   |
+| pressed |
+| default |
+
+all objects will have a "use_defaults" option that will make the
+object's drawing method use the default state values, regardless of
+its state. this is helpful for objects that are not intended to behave
+like controls. for example, we normally don't want to use a different
+background color every time the user hovers over a panel, but this is
+easily modifiable.
+
+the "elements" refer to a section that is drawn inside the object
+interface. for example, a checkbox has: its initial drawing area, the
+checkbox itself, a text label, and optionally an image. a user might
+denote these attributes like
+
+- drawingarea_border_color
+- drawingarea_border_width
+- checkbox_border_color
+- checkbox_border_width
+- checkbox_width
+- checkbox_height
+- image_width
+- image_height
+
+but in order to simplify the code implementation we could instead
+separate these attributes in different parts, being properties and
+elements. each element will denote the section that we are referring
+to.
+
+from solely the previous attribute examples, we could come up with
+only 4 properties and 3 elements, which would be:
+
+| property     |
+| border_color |
+| border_width |
+| width        |
+| height       |
+
+and the elements being:
+
+| element     |
+| drawingarea |
+| checkbox    |
+| image       |
+
+and in order to simplify the code implementation even more, we will
+use one-word properties without either camel or snake casing. add to
+these properties the object's state (when use_defaults is off) and our
+customizable attribute "specification" is done.
+
+| property | state | element |
+
+now we will use this specification to dynamically "parse" the
+attribute in the code.
+
+the elements might be different for each object (a button's drawing
+method will not have the need to look for a checkbox width), so all of
+these elements, as well as their properties (not all properties will
+work with all elements, and some properties will be particular to
+certain elements, like the radius of the circular selector in the
+radiobutton) will have to be clearly defined. the only guaranteed
+shared element between all objects is the drawing area.

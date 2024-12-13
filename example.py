@@ -5,9 +5,7 @@
 
 
 
-
 import wx
-
 
 
 
@@ -19,8 +17,7 @@ class Main(wx.Frame):
         self.__init_ui()
 
 
-
-
+        
     def __init_ui(self):
 
         """Initializes the user interface."""
@@ -32,10 +29,6 @@ class Main(wx.Frame):
 
 
                 
-        
-
-
-
         
 if __name__ == "__main__":
     app = wx.App()
