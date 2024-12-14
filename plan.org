@@ -13,7 +13,7 @@
 * TODO combobox (choice)
 * TODO scrolledwindow
 * TODO sliders
-* TODO progress bar
+* TODO progress bar7
 * TODO panels
 * TODO frame top bar
 * TODO menubar
@@ -22,6 +22,7 @@
 /* ------------------------ notes ------------------------ */
 
 - create reusable dropdown popup to use in menubar and combobox
+- add act-on-press option? (disgusting)
 
   
 /* --------------- customizable attributes --------------- */
@@ -125,66 +126,4 @@ work with all elements, and some properties will be particular to
 certain elements, like the radius of the circular selector in the
 radiobutton) will have to be clearly defined. the only guaranteed
 shared element between all objects is the drawing area.
-
-/* ----------------------- example ----------------------- */
-
-drawingarea
-
-backgroundcolor_drawingarea_default
-backgroundcolor_drawingarea_hover
-backgroundcolor_drawingarea_pressed
-backgroundcolor_drawingarea_disabled
-
-bordercolor_drawingarea_default
-bordercolor_drawingarea_hover
-bordercolor_drawingarea_pressed
-bordercolor_drawingarea_disabled
-
-borderwidth_drawingarea_default
-borderwidth_drawingarea_hover
-borderwidth_drawingarea_pressed
-borderwidth_drawingarea_disabled
-
-borderstyle_drawingarea_default
-borderstyle_drawingarea_hover
-borderstyle_drawingarea_pressed
-borderstyle_drawingarea_disabled
-
-cornerradius_drawingarea_default
-cornerradius_drawingarea_hover
-cornerradius_drawingarea_pressed
-cornerradius_drawingarea_disabled
-
-button
-
-backgroundcolor_button_default
-backgroundcolor_button_hover
-backgroundcolor_button_pressed
-backgroundcolor_button_disabled
-
-bordercolor_button_default
-bordercolor_button_hover
-bordercolor_button_pressed
-bordercolor_button_disabled
-
-borderwidth_button_default
-borderwidth_button_hover
-borderwidth_button_pressed
-borderwidth_button_disabled
-
-borderstyle_button_default
-borderstyle_button_hover
-borderstyle_button_pressed
-borderstyle_button_disabled
-
-cornerradius_button_default
-cornerradius_button_hover
-cornerradius_button_pressed
-cornerradius_button_disabled
-
-
-
-
-
-
 
