@@ -37,7 +37,10 @@ class Button(CustomizableWindow):
         """Handles the drawing of the control.
         """
 
-        state = self._get_state_as_string()
+        if self._UseDefaults:
+            state = "default"
+        else:
+            state = self._get_state_as_string()
         
         gcdc, gc = self._get_drawing_contexts(self)
         gcdc.Clear()
