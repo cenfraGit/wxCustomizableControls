@@ -157,8 +157,9 @@ class CustomizableObject:
             image_width = self._config[f"width_image_{state}"]
             image_height = self._config[f"height_image_{state}"]
             image: wx.Image = wx.Image(image_path).AdjustChannels(*self._config[f"channels_image_{state}"])
+            image = image.Scale(image_width, image_height, wx.IMAGE_QUALITY_HIGH)
             bitmap: wx.Bitmap = image.ConvertToBitmap()
-            bitmap.SetSize(wx.Size(image_width, image_height))
+            #bitmap.SetSize(wx.Size(image_width, image_height))
         return bitmap, image_width, image_height            
 
     def _get_max_value(self, property: str, element: str) -> int:

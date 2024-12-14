@@ -121,12 +121,12 @@ class Main(wx.Frame):
             "path_image_pressed": "",
             "path_image_disabled": "",
 
-            "width_image_default": 80,
+            "width_image_default": 70,
             "width_image_hover": 10,
             "width_image_pressed": 10,
             "width_image_disabled": 10,
 
-            "height_image_default": 80, 
+            "height_image_default": 70, 
             "height_image_hover": 10,
             "height_image_pressed": 10,
             "height_image_disabled": 10,
