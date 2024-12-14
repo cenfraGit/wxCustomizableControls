@@ -117,22 +117,22 @@ class Main(wx.Frame):
             # ------------------------- images ------------------------- #
 
             "path_image_default": "images/example.png",
-            "path_image_hover": "",
+            "path_image_hover": "images/example.png",
             "path_image_pressed": "",
             "path_image_disabled": "",
 
             "width_image_default": 70,
-            "width_image_hover": 10,
+            "width_image_hover": 70,
             "width_image_pressed": 10,
             "width_image_disabled": 10,
 
             "height_image_default": 70, 
-            "height_image_hover": 10,
+            "height_image_hover": 70,
             "height_image_pressed": 10,
             "height_image_disabled": 10,
 
             "channels_image_default": (1.0, 1.0, 1.0, 1.0),
-            "channels_image_hover": (1.0, 1.0, 1.0, 1.0),
+            "channels_image_hover": (1.0, 1.0, 1.0, 0.5),
             "channels_image_pressed": (1.0, 1.0, 1.0, 1.0),
             "channels_image_disabled": (1.0, 1.0, 1.0, 1.0),
 
@@ -142,7 +142,7 @@ class Main(wx.Frame):
             "separation_image_disabled": 10,
 
             "side_image_default": "left",
-            "side_image_hover": "left",
+            "side_image_hover": "up",
             "side_image_pressed": "left",
             "side_image_disabled": "left",
         }

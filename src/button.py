@@ -44,17 +44,15 @@ class Button(CustomizableWindow):
 
         # drawing area
         drawing_area: wx.Rect = self.GetClientRect()
-        properties = self._get_element_properties("drawingarea", state, gc)
-        gcdc.SetPen(properties["pen"])
-        gcdc.SetBrush(properties["brush"])
+        gcdc.SetPen(self._get_pen_element("drawingarea", state))
+        gc.SetBrush(self._get_brush_element("drawingarea", state, gc))
         gcdc.DrawRectangle(drawing_area)
 
         # button
         button_rectangle = drawing_area.Deflate(1, 1)
-        properties = self._get_element_properties("button", state, gc)
-        gcdc.SetPen(properties["pen"])
-        gcdc.SetBrush(properties["brush"])
-        gcdc.DrawRoundedRectangle(button_rectangle, properties["cornerradius"])
+        gcdc.SetPen(self._get_pen_element("button", state))
+        gc.SetBrush(self._get_brush_element("button", state, gc))
+        gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"cornerradius_button_{state}"])
 
         # text
         text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
@@ -65,7 +63,7 @@ class Button(CustomizableWindow):
         # draw
         self._draw_text_and_bitmap(self._Label, text_width, text_height,
                                    bitmap, image_width, image_height,
-                                   button_rectangle, gcdc, state)
+                                   button_rectangle, state, gcdc)
 
     def __on_left_down(self, event) -> None:
         if not self._Pressed:
@@ -84,7 +82,4 @@ class Button(CustomizableWindow):
         event.Skip()
 
     def DoGetBestClientSize(self) -> wx.Size:
-        return wx.Size(300, 70)
-        
-
-        
+        return wx.Size(300, 300)

@@ -78,39 +78,56 @@ class CustomizableObject:
         else:
             raise ValueError("Incorrect tool or style.")
 
-    def _get_element_properties(self, element: str, state: str, gc) -> dict:
-        """Returns a dictionary containing all properties belonging to
-        the element, in the current window state.
-        """
-        # initial properties dictionary
-        properties = {}
-        # iterate over config to find element properties with state
-        for attribute, value in self._config.items():
-            parts = attribute.split('_')
-            # up to this point, we have divided the attribute:
-            # background_colour, drawingarea, default
-            if (parts[1] == element) and (parts[2] == state):
-                properties[parts[0]] = value
-        # we can also add the pen and the brush to the dictionary
-        properties["pen"] = self._get_pen(properties["bordercolor"],
-                                          properties["borderwidth"],
-                                          properties["borderstyle"])
-        properties["brush"] = self._get_brush(properties["backgroundcolor"],
-                                              properties["backgroundstyle"],
-                                              gc)
-        return properties
+    # def _get_element_properties(self, element: str, state: str, gc) -> dict:
+    #     """Returns a dictionary containing all properties belonging to
+    #     the element, in the current window state.
+    #     """
+    #     # initial properties dictionary
+    #     properties = {}
+    #     # iterate over config to find element properties with state
+    #     for attribute, value in self._config.items():
+    #         parts = attribute.split('_')
+    #         # up to this point, we have divided the attribute:
+    #         # background_colour, drawingarea, default
+    #         if (parts[1] == element) and (parts[2] == state):
+    #             properties[parts[0]] = value
+    #     # we can also add the pen and the brush to the dictionary
+    #     properties["pen"] = self._get_pen(properties["bordercolor"],
+    #                                       properties["borderwidth"],
+    #                                       properties["borderstyle"])
+    #     properties["brush"] = self._get_brush(properties["backgroundcolor"],
+    #                                           properties["backgroundstyle"],
+    #                                           gc)
+    #     return properties
 
-    def _get_pen(self, bordercolor: list, borderwidth: int,
-                 borderstyle: str) -> wx.Pen:
-        return wx.Pen(wx.Colour(bordercolor),
-                     borderwidth,
-                     self._get_tool_style("pen", borderstyle))
+    # def _get_pen(self, bordercolor: list, borderwidth: int,
+    #              borderstyle: str) -> wx.Pen:
+    #     return wx.Pen(wx.Colour(bordercolor),
+    #                  borderwidth,
+    #                  self._get_tool_style("pen", borderstyle))
 
-    def _get_brush(self, backgroundcolor: list, backgroundstyle: str, gc:
-                   wx.GraphicsContext) -> wx.Brush:
+    # def _get_brush(self, backgroundcolor: list, backgroundstyle: str, gc:
+    #                wx.GraphicsContext) -> wx.Brush:
+    #     # the backgroundcolor can either be an rgb tuple or a linear
+    #     # gradient tuple. if the length of the list is 3, use normal
+    #     # brush. else, try to create a linear gradient brush
+    #     if len(backgroundcolor) == 3:
+    #         return wx.Brush(wx.Colour(backgroundcolor),
+    #                         self._get_tool_style("brush", backgroundstyle))
+    #     else:
+    #         return gc.CreateLinearGradientBrush(*backgroundcolor)
+
+    def _get_pen_element(self, element: str, state: str) -> wx.Pen:
+        return wx.Pen(wx.Colour(self._config[f"bordercolor_{element}_{state}"]),
+                      self._config[f"borderwidth_{element}_{state}"],
+                      self._get_tool_style("pen", self._config[f"borderstyle_{element}_{state}"]))
+
+    def _get_brush_element(self, element: str, state: str, gc: wx.GraphicsContext) -> wx.Brush:
         # the backgroundcolor can either be an rgb tuple or a linear
         # gradient tuple. if the length of the list is 3, use normal
         # brush. else, try to create a linear gradient brush
+        backgroundcolor = self._config[f"backgroundcolor_{element}_{state}"]
+        backgroundstyle = self._config[f"backgroundstyle_{element}_{state}"]
         if len(backgroundcolor) == 3:
             return wx.Brush(wx.Colour(backgroundcolor),
                             self._get_tool_style("brush", backgroundstyle))
@@ -220,7 +237,7 @@ class CustomizableObject:
 
     def _draw_text_and_bitmap(self, text: str, text_width: int, text_height: int,
                               bitmap: wx.Bitmap, image_width: int, image_height: int,
-                              rectangle: wx.Rect, gcdc: wx.GCDC, state: str) -> None:
+                              rectangle: wx.Rect, state:str, gcdc: wx.GCDC) -> None:
         """Draws text and a bitmap in the specified rectangle, taking
         into account the text side and the separation between the
         bitmap and the text.
