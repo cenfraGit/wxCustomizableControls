@@ -37,10 +37,7 @@ class Button(CustomizableWindow):
         """Handles the drawing of the control.
         """
 
-        if self._UseDefaults:
-            state = "default"
-        else:
-            state = self._get_state_as_string()
+        state = "default" if self._UseDefaults else self._get_state_as_string()
         
         gcdc, gc = self._get_drawing_contexts(self)
         gcdc.Clear()
@@ -91,4 +88,26 @@ class Button(CustomizableWindow):
             wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_BUTTON.typeId, self.GetId()))
 
     def DoGetBestClientSize(self) -> wx.Size:
+        # get contexts
+        dc = wx.ClientDC(self)
+        gcdc = wx.GCDC(dc)
+        gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
+        # get max dimensions
+        state = "default" if self._UseDefaults else self._get_state_as_string()
+        # state = "default"
+        text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
+        image_width = self._get_max_value("width", "image")
+        image_height = self._get_max_value("height", "image")
+        text_image_separation = self._config[f"separation_image_{state}"]
+        width, height = self._get_object_sides_dimensions(text_width, text_height,
+                                                          image_width, image_height,
+                                                          text_image_separation,
+                                                          self._config[f"side_image_{state}"])
+        # padding
+        width += 2 * 10
+        height += 2 * 5
+        return wx.Size(int(width), int(height))
+        
+
+        
         return wx.Size(300, 300)

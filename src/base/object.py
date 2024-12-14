@@ -78,45 +78,6 @@ class CustomizableObject:
         else:
             raise ValueError("Incorrect tool or style.")
 
-    # def _get_element_properties(self, element: str, state: str, gc) -> dict:
-    #     """Returns a dictionary containing all properties belonging to
-    #     the element, in the current window state.
-    #     """
-    #     # initial properties dictionary
-    #     properties = {}
-    #     # iterate over config to find element properties with state
-    #     for attribute, value in self._config.items():
-    #         parts = attribute.split('_')
-    #         # up to this point, we have divided the attribute:
-    #         # background_colour, drawingarea, default
-    #         if (parts[1] == element) and (parts[2] == state):
-    #             properties[parts[0]] = value
-    #     # we can also add the pen and the brush to the dictionary
-    #     properties["pen"] = self._get_pen(properties["bordercolor"],
-    #                                       properties["borderwidth"],
-    #                                       properties["borderstyle"])
-    #     properties["brush"] = self._get_brush(properties["backgroundcolor"],
-    #                                           properties["backgroundstyle"],
-    #                                           gc)
-    #     return properties
-
-    # def _get_pen(self, bordercolor: list, borderwidth: int,
-    #              borderstyle: str) -> wx.Pen:
-    #     return wx.Pen(wx.Colour(bordercolor),
-    #                  borderwidth,
-    #                  self._get_tool_style("pen", borderstyle))
-
-    # def _get_brush(self, backgroundcolor: list, backgroundstyle: str, gc:
-    #                wx.GraphicsContext) -> wx.Brush:
-    #     # the backgroundcolor can either be an rgb tuple or a linear
-    #     # gradient tuple. if the length of the list is 3, use normal
-    #     # brush. else, try to create a linear gradient brush
-    #     if len(backgroundcolor) == 3:
-    #         return wx.Brush(wx.Colour(backgroundcolor),
-    #                         self._get_tool_style("brush", backgroundstyle))
-    #     else:
-    #         return gc.CreateLinearGradientBrush(*backgroundcolor)
-
     def _get_pen_element(self, element: str, state: str) -> wx.Pen:
         return wx.Pen(wx.Colour(self._config[f"bordercolor_{element}_{state}"]),
                       self._config[f"borderwidth_{element}_{state}"],
@@ -150,9 +111,8 @@ class CustomizableObject:
         elif fontweight == "bold":
             fontweight = wx.FONTWEIGHT_BOLD
 
-        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle,
-                       fontweight, faceName=fontfacename)
-
+        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle, fontweight, faceName=fontfacename)
+    
     def _get_text_dimensions(self, text: str, state: str, gc: wx.GraphicsContext) -> Tuple[int, int]:
         text_width, text_height = 0, 0
         if (text.strip() != ""):
@@ -235,6 +195,23 @@ class CustomizableObject:
                 object2_Y = object1_Y + object1_height + separation
         return int(object1_X), int(object1_Y), int(object2_X), int(object2_Y)
 
+    def _get_object_sides_dimensions(self, object1_width: int, object1_height: int,
+                                     object2_width: int, object2_height: int,
+                                     separation: int,
+                                     object2_side: Literal["left", "right", "up", "down"]) -> Tuple[int, int]:
+        """Returns the dimensions of an imaginary rectangle containing
+        object1 and object2 depending on their arrangement. Used in
+        images, checkboxes, radiobuttons.
+        """
+        rectangle_width, rectangle_height = 0, 0
+        if (object2_side == "right" or object2_side == "left"):
+            rectangle_width = object1_width + separation + object2_width
+            rectangle_height = max(object1_height, object2_height)
+        elif (object2_side == "up" or object2_side == "down"):
+            rectangle_width = max(object1_width, object2_width)
+            rectangle_height = object1_height + separation + object2_height
+        return rectangle_width, rectangle_height
+
     def _draw_text_and_bitmap(self, text: str, text_width: int, text_height: int,
                               bitmap: wx.Bitmap, image_width: int, image_height: int,
                               rectangle: wx.Rect, state:str, gcdc: wx.GCDC) -> None:
@@ -242,9 +219,9 @@ class CustomizableObject:
         into account the text side and the separation between the
         bitmap and the text.
         """
-        image_x, image_y, text_x, text_y = self._get_coords_object_sides(rectangle,
-                                                                         image_width, image_height,
+        text_x, text_y, image_x, image_y = self._get_coords_object_sides(rectangle,
                                                                          text_width, text_height,
+                                                                         image_width, image_height,
                                                                          self._config[f"separation_image_{state}"],
                                                                          self._config[f"side_image_{state}"])
         if text.strip() != "":

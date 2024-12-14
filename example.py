@@ -141,13 +141,13 @@ class Main(wx.Frame):
             "separation_image_pressed": 10,
             "separation_image_disabled": 10,
 
-            "side_image_default": "left",
+            "side_image_default": "down",
             "side_image_hover": "up",
             "side_image_pressed": "left",
             "side_image_disabled": "left",
         }
 
-        b = cc.Button(self.main_panel, label="test", config=b_style, use_defaults=True)
+        b = cc.Button(self.main_panel, label="test", config=b_style)
 
         b.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
                 
