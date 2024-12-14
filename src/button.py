@@ -70,6 +70,8 @@ class Button(CustomizableWindow):
             self.CaptureMouse()
             self._Pressed = True
             self.Refresh()
+            if self._ActOnPress:
+                self.__post_event()
         event.Skip()
 
     def __on_left_up(self, event) -> None:
@@ -77,9 +79,13 @@ class Button(CustomizableWindow):
             self.ReleaseMouse()
             self._Pressed = False
             self.Refresh()
-            if self._Hover:
-                wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_BUTTON.typeId, self.GetId()))
+            if not self._ActOnPress:
+                self.__post_event()
         event.Skip()
+
+    def __post_event(self):
+        if self._Hover:
+            wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_BUTTON.typeId, self.GetId()))
 
     def DoGetBestClientSize(self) -> wx.Size:
         return wx.Size(300, 300)

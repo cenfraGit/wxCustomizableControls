@@ -39,6 +39,9 @@ class CustomizableWindow(wx.Window, CustomizableObject):
         self._Value = kwargs.get("value", None)
         self._Choices = kwargs.get("choices", None)
 
+        self._ActOnPress = kwargs.get("act_on_press", False)
+        self._UseDefaults = kwargs.get("use_defaults", False)
+
         # ---------------------- window setup ---------------------- #
 
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)

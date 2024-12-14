@@ -147,8 +147,9 @@ class Main(wx.Frame):
             "side_image_disabled": "left",
         }
 
-        cc.Button(self.main_panel, label="test", config=b_style)
+        b = cc.Button(self.main_panel, label="test", config=b_style, act_on_press=True)
 
+        b.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
                 
         
 if __name__ == "__main__":
