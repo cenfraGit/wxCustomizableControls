@@ -246,7 +246,7 @@ class CustomizableObject:
         elif (object2_side == "up" or object2_side == "down"):
             rectangle_width = max(object1_width, object2_width)
             rectangle_height = object1_height + separation + object2_height
-        return rectangle_width, rectangle_height
+        return int(rectangle_width), int(rectangle_height)
 
     def _draw_text_and_bitmap(self, text: str, text_width: int, text_height: int,
                               bitmap: wx.Bitmap, image_width: int, image_height: int,
@@ -258,8 +258,8 @@ class CustomizableObject:
         text_x, text_y, image_x, image_y = self._get_coords_object_sides(rectangle,
                                                                          text_width, text_height,
                                                                          image_width, image_height,
-                                                                         self._config[f"separation_image_{state}"],
-                                                                         self._config[f"side_image_{state}"])
+                                                                         self._config[f"separation_image"],
+                                                                         self._config[f"side_image"])
         if text.strip() != "":
             gcdc.DrawText(text, text_x, text_y)
         if (image_width != 0) and (image_height != 0):

@@ -71,11 +71,10 @@ class Button(CustomizableWindow):
         text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
         image_width = self._get_max_value("width", "image")
         image_height = self._get_max_value("height", "image")
-        text_image_separation = self._config[f"separation_image_{state}"]
         width, height = self._get_object_sides_dimensions(text_width, text_height,
                                                           image_width, image_height,
-                                                          text_image_separation,
-                                                          self._config[f"side_image_{state}"])
+                                                          self._config[f"separation_image"],
+                                                          self._config[f"side_image"])
         # padding
         width += 2 * 10
         height += 2 * 5
