@@ -220,7 +220,23 @@ class Main(wx.Frame):
 
             "width_checkbox": 20,
             "height_checkbox": 20,
-            
+
+            # checkmark
+
+            "bordercolor_checkmark_default": (255, 255, 255),
+            "bordercolor_checkmark_hover": (255, 255, 255),
+            "bordercolor_checkmark_pressed": (255, 255, 255),
+            "bordercolor_checkmark_disabled": (255, 255, 255),
+
+            "borderwidth_checkmark_default": 2,
+            "borderwidth_checkmark_hover": 3,
+            "borderwidth_checkmark_pressed": 4,
+            "borderwidth_checkmark_disabled": 2,
+
+            "borderstyle_checkmark_default": "solid",
+            "borderstyle_checkmark_hover": "solid",
+            "borderstyle_checkmark_pressed": "solid",
+            "borderstyle_checkmark_disabled": "solid",
         }
 
         b = cc.Button(self.main_panel, label="test", config=button_style)

@@ -7,7 +7,7 @@ wxCustomizableControls
 cenfra
 """
 
-
+from copy import copy
 from .base.window import CustomizableWindow
 import wx
 
@@ -78,11 +78,22 @@ class CheckBox(CustomizableWindow):
         gc.SetBrush(self._get_brush_element("checkbox", state, gc))
         gcdc.DrawRoundedRectangle(checkbox_rectangle,
                                   self._config[f"cornerradius_checkbox_{state}"])
-        
-        # add support for custom check images
-        # if no image specified, use drawn checkmark
-        
 
+        # draw checkmark if checkbox is active
+        if self._Value:
+            # create smaller rectangle to represent checkmark area
+            checkmark_rectangle: wx.Rect = copy(checkbox_rectangle).Deflate(int(self._config["width_checkbox"] * 0.3),
+                                                                            int(self._config["height_checkbox"] * 0.3))
+            # draw the checkmark
+            gcdc.SetPen(self._get_pen_element("checkmark", state))
+            gcdc.SetBrush(wx.TRANSPARENT_BRUSH)
+            path: wx.GraphicsPath = gc.CreatePath()
+            path.MoveToPoint(checkmark_rectangle.GetX(),
+                             checkmark_rectangle.GetY() + (checkmark_rectangle.GetHeight() // 1.5))
+            path.AddLineToPoint(checkmark_rectangle.GetX() + (checkmark_rectangle.GetWidth() // 2.5),
+                                checkmark_rectangle.GetY() + checkmark_rectangle.GetHeight())
+            path.AddLineToPoint(*checkmark_rectangle.GetTopRight())
+            gc.StrokePath(path)
                           
     def _handle_event(self):
         if self._Hover:
