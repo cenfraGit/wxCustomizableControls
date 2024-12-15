@@ -48,22 +48,22 @@ class CheckBox(CustomizableWindow):
         text_image_rectangle_width, text_image_rectangle_height = self._get_object_sides_dimensions(
             text_width, text_height,
             image_width, image_height,
-            self._config["separation_image"],
-            self._config["side_image"])
+            self._config["image_separation"],
+            self._config["image_side"])
 
         # now we calculate the coordinates for the previous rectangle
         # and the checkbox itself
         text_image_rectangle_x, text_image_rectangle_y, checkbox_x, checkbox_y = self._get_coords_object_sides(
             drawing_rect,
             text_image_rectangle_width, text_image_rectangle_height,
-            self._config["width_checkbox"], self._config["height_checkbox"],
-            self._config["separation_checkbox"],
-            self._config["side_checkbox"])
+            self._config["checkbox_width"], self._config["checkbox_height"],
+            self._config["checkbox_separation"],
+            self._config["checkbox_side"])
 
         # create rectangles
         checkbox_rectangle = wx.Rect(checkbox_x, checkbox_y,
-                                     self._config["width_checkbox"],
-                                     self._config["height_checkbox"])
+                                     self._config["checkbox_width"],
+                                     self._config["checkbox_height"])
         text_image_rectangle = wx.Rect(
             text_image_rectangle_x,
             text_image_rectangle_y,
@@ -73,18 +73,18 @@ class CheckBox(CustomizableWindow):
         # draw text label and image 
         self._draw_text_and_bitmap(self._Label, text_width, text_height,
                                    bitmap, image_width, image_height,
-                                   text_image_rectangle, state, gcdc)
+                                   text_image_rectangle, gcdc)
         # draw checkbox rectangle
         gcdc.SetPen(self._get_pen_element("checkbox", state))
         gc.SetBrush(self._get_brush_element("checkbox", state, gc))
         gcdc.DrawRoundedRectangle(checkbox_rectangle,
-                                  self._config[f"cornerradius_checkbox_{state}"])
+                                  self._config[f"checkbox_cornerradius_{state}"])
 
         # draw checkmark if checkbox is active
         if self._Value:
             # create smaller rectangle to represent checkmark area
-            checkmark_rectangle: wx.Rect = copy(checkbox_rectangle).Deflate(int(self._config["width_checkbox"] * 0.3),
-                                                                            int(self._config["height_checkbox"] * 0.3))
+            checkmark_rectangle: wx.Rect = copy(checkbox_rectangle).Deflate(int(self._config["checkbox_width"] * 0.3),
+                                                                            int(self._config["checkbox_height"] * 0.3))
             # draw the checkmark
             gcdc.SetPen(self._get_pen_element("checkmark", state))
             gcdc.SetBrush(wx.TRANSPARENT_BRUSH)
@@ -114,12 +114,12 @@ class CheckBox(CustomizableWindow):
         image_height = self._get_max_value("height", "image")
         text_image_width, text_image_height = self._get_object_sides_dimensions(text_width, text_height,
                                                                                 image_width, image_height,
-                                                                                self._config[f"separation_image"],
-                                                                                self._config[f"side_image"])
+                                                                                self._config[f"image_separation"],
+                                                                                self._config[f"image_side"])
         width, height = self._get_object_sides_dimensions(text_image_width, text_image_height,
-                                                          self._config["width_checkbox"], self._config["height_checkbox"],
-                                                          self._config["separation_checkbox"],
-                                                          self._config["side_checkbox"])
+                                                          self._config["checkbox_width"], self._config["checkbox_height"],
+                                                          self._config["checkbox_separation"],
+                                                          self._config["checkbox_side"])
         # padding
         width += 2 * 10
         height += 2 * 5

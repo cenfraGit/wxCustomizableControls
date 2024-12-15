@@ -34,39 +34,7 @@ class Main(wx.Frame):
 
             "mousecursor_hover": "hand",
             "mousecursor_pressed": "cross",
-            "mousecursor_disabled": "arrow", 
-
-            # ------------------------- button ------------------------- #
-
-            "backgroundcolor_button_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "backgroundcolor_button_hover": (224, 203, 224),
-            "backgroundcolor_button_pressed": (124, 185, 182),
-            "backgroundcolor_button_disabled": (231, 1, 202),
-
-            "backgroundstyle_button_default": "solid",
-            "backgroundstyle_button_hover": "solid",
-            "backgroundstyle_button_pressed": "solid",
-            "backgroundstyle_button_disabled": "solid",
-
-            "bordercolor_button_default": (29, 11, 175),
-            "bordercolor_button_hover": (195, 15, 132),
-            "bordercolor_button_pressed": (48, 221, 224),
-            "bordercolor_button_disabled": (46, 31, 95),
-
-            "borderwidth_button_default": 1,
-            "borderwidth_button_hover": 2,
-            "borderwidth_button_pressed": 3,
-            "borderwidth_button_disabled": 4,
-
-            "borderstyle_button_default": "solid",
-            "borderstyle_button_hover": "solid",
-            "borderstyle_button_pressed": "solid",
-            "borderstyle_button_disabled": "solid",
-
-            "cornerradius_button_default": 10,
-            "cornerradius_button_hover": 10,
-            "cornerradius_button_pressed": 10,
-            "cornerradius_button_disabled": 10,
+            "mousecursor_disabled": "arrow",
 
             # -------------------- font attributes -------------------- #
 
@@ -95,30 +63,62 @@ class Main(wx.Frame):
             "fontweight_pressed": "normal",
             "fontweight_disabled": "normal",
 
+            # ------------------------- button ------------------------- #
+
+            "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "button_backgroundcolor_hover": (224, 203, 224),
+            "button_backgroundcolor_pressed": (124, 185, 182),
+            "button_backgroundcolor_disabled": (231, 1, 202),
+
+            "button_backgroundstyle_default": "solid",
+            "button_backgroundstyle_hover": "solid",
+            "button_backgroundstyle_pressed": "solid",
+            "button_backgroundstyle_disabled": "solid",
+
+            "button_bordercolor_default": (29, 11, 175),
+            "button_bordercolor_hover": (195, 15, 132),
+            "button_bordercolor_pressed": (48, 221, 224),
+            "button_bordercolor_disabled": (46, 31, 95),
+
+            "button_borderwidth_default": 1,
+            "button_borderwidth_hover": 2,
+            "button_borderwidth_pressed": 3,
+            "button_borderwidth_disabled": 4,
+
+            "button_borderstyle_default": "solid",
+            "button_borderstyle_hover": "solid",
+            "button_borderstyle_pressed": "solid",
+            "button_borderstyle_disabled": "solid",
+
+            "button_cornerradius_default": 10,
+            "button_cornerradius_hover": 10,
+            "button_cornerradius_pressed": 10,
+            "button_cornerradius_disabled": 10,
+
             # ------------------------- images ------------------------- #
 
-            "path_image_default": "images/example.png",
-            "path_image_hover": "images/example.png",
-            "path_image_pressed": "",
-            "path_image_disabled": "",
+            "image_path_default": "images/example.png",
+            "image_path_hover": "images/example.png",
+            "image_path_pressed": "",
+            "image_path_disabled": "",
 
-            "width_image_default": 70,
-            "width_image_hover": 70,
-            "width_image_pressed": 10,
-            "width_image_disabled": 10,
+            "image_width_default": 70,
+            "image_width_hover": 70,
+            "image_width_pressed": 10,
+            "image_width_disabled": 10,
 
-            "height_image_default": 70, 
-            "height_image_hover": 70,
-            "height_image_pressed": 10,
-            "height_image_disabled": 10,
+            "image_height_default": 70, 
+            "image_height_hover": 70,
+            "image_height_pressed": 10,
+            "image_height_disabled": 10,
 
-            "channels_image_default": (1.0, 1.0, 1.0, 1.0),
-            "channels_image_hover": (1.0, 1.0, 1.0, 0.5),
-            "channels_image_pressed": (1.0, 1.0, 1.0, 1.0),
-            "channels_image_disabled": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_default": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
+            "image_channels_pressed": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
 
-            "separation_image": 10,
-            "side_image": "right",
+            "image_separation": 10,
+            "image_side": "right",
         }
 
         checkbox_style = {
@@ -127,39 +127,7 @@ class Main(wx.Frame):
 
             "mousecursor_hover": "hand",
             "mousecursor_pressed": "cross",
-            "mousecursor_disabled": "arrow", 
-
-            # ------------------------ checkbox ------------------------ #
-
-            "backgroundcolor_checkbox_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "backgroundcolor_checkbox_hover": (224, 203, 224),
-            "backgroundcolor_checkbox_pressed": (124, 185, 182),
-            "backgroundcolor_checkbox_disabled": (231, 1, 202),
-
-            "backgroundstyle_checkbox_default": "solid",
-            "backgroundstyle_checkbox_hover": "solid",
-            "backgroundstyle_checkbox_pressed": "solid",
-            "backgroundstyle_checkbox_disabled": "solid",
-
-            "bordercolor_checkbox_default": (29, 11, 175),
-            "bordercolor_checkbox_hover": (195, 15, 132),
-            "bordercolor_checkbox_pressed": (48, 221, 224),
-            "bordercolor_checkbox_disabled": (46, 31, 95),
-
-            "borderwidth_checkbox_default": 1,
-            "borderwidth_checkbox_hover": 2,
-            "borderwidth_checkbox_pressed": 3,
-            "borderwidth_checkbox_disabled": 4,
-
-            "borderstyle_checkbox_default": "solid",
-            "borderstyle_checkbox_hover": "solid",
-            "borderstyle_checkbox_pressed": "solid",
-            "borderstyle_checkbox_disabled": "solid",
-
-            "cornerradius_checkbox_default": 3,
-            "cornerradius_checkbox_hover": 3,
-            "cornerradius_checkbox_pressed": 3,
-            "cornerradius_checkbox_disabled": 3,
+            "mousecursor_disabled": "arrow",
 
             # -------------------- font attributes -------------------- #
 
@@ -188,55 +156,84 @@ class Main(wx.Frame):
             "fontweight_pressed": "normal",
             "fontweight_disabled": "normal",
 
-            # ------------------------- images ------------------------- #
-            
-            "separation_image": 10,
-            "side_image": "right",
-
-            "path_image_default": "images/example.png",
-            "path_image_hover": "images/example.png",
-            "path_image_pressed": "",
-            "path_image_disabled": "",
-
-            "width_image_default": 70,
-            "width_image_hover": 70,
-            "width_image_pressed": 10,
-            "width_image_disabled": 10,
-
-            "height_image_default": 70, 
-            "height_image_hover": 70,
-            "height_image_pressed": 10,
-            "height_image_disabled": 10,
-
-            "channels_image_default": (1.0, 1.0, 1.0, 1.0),
-            "channels_image_hover": (1.0, 1.0, 1.0, 0.5),
-            "channels_image_pressed": (1.0, 1.0, 1.0, 1.0),
-            "channels_image_disabled": (1.0, 1.0, 1.0, 1.0),
-
             # ------------------------ checkbox ------------------------ #
 
-            "separation_checkbox": 10,
-            "side_checkbox": "top",
+            "checkbox_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "checkbox_backgroundcolor_hover": (224, 203, 224),
+            "checkbox_backgroundcolor_pressed": (124, 185, 182),
+            "checkbox_backgroundcolor_disabled": (231, 1, 202),
 
-            "width_checkbox": 20,
-            "height_checkbox": 20,
+            "checkbox_backgroundstyle_default": "solid",
+            "checkbox_backgroundstyle_hover": "solid",
+            "checkbox_backgroundstyle_pressed": "solid",
+            "checkbox_backgroundstyle_disabled": "solid",
 
-            # checkmark
+            "checkbox_bordercolor_default": (29, 11, 175),
+            "checkbox_bordercolor_hover": (195, 15, 132),
+            "checkbox_bordercolor_pressed": (48, 221, 224),
+            "checkbox_bordercolor_disabled": (46, 31, 95),
 
-            "bordercolor_checkmark_default": (255, 255, 255),
-            "bordercolor_checkmark_hover": (255, 255, 255),
-            "bordercolor_checkmark_pressed": (255, 255, 255),
-            "bordercolor_checkmark_disabled": (255, 255, 255),
+            "checkbox_borderwidth_default": 1,
+            "checkbox_borderwidth_hover": 2,
+            "checkbox_borderwidth_pressed": 3,
+            "checkbox_borderwidth_disabled": 4,
 
-            "borderwidth_checkmark_default": 2,
-            "borderwidth_checkmark_hover": 3,
-            "borderwidth_checkmark_pressed": 4,
-            "borderwidth_checkmark_disabled": 2,
+            "checkbox_borderstyle_default": "solid",
+            "checkbox_borderstyle_hover": "solid",
+            "checkbox_borderstyle_pressed": "solid",
+            "checkbox_borderstyle_disabled": "solid",
 
-            "borderstyle_checkmark_default": "solid",
-            "borderstyle_checkmark_hover": "solid",
-            "borderstyle_checkmark_pressed": "solid",
-            "borderstyle_checkmark_disabled": "solid",
+            "checkbox_cornerradius_default": 3,
+            "checkbox_cornerradius_hover": 3,
+            "checkbox_cornerradius_pressed": 3,
+            "checkbox_cornerradius_disabled": 3,
+
+            "checkbox_width": 20,
+            "checkbox_height": 20,
+            "checkbox_side": "left",
+            "checkbox_separation": 10,
+
+            # ------------------------- images ------------------------- #
+            
+            "image_separation": 10,
+            "image_side": "top",
+
+            "image_path_default": "images/example.png",
+            "image_path_hover": "images/example.png",
+            "image_path_pressed": "",
+            "image_path_disabled": "",
+
+            "image_width_default": 70,
+            "image_width_hover": 70,
+            "image_width_pressed": 10,
+            "image_width_disabled": 10,
+
+            "image_height_default": 70, 
+            "image_height_hover": 70,
+            "image_height_pressed": 10,
+            "image_height_disabled": 10,
+
+            "image_channels_default": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
+            "image_channels_pressed": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
+
+            # ----------------------- checkmark ----------------------- #
+
+            "checkmark_bordercolor_default": (255, 255, 255),
+            "checkmark_bordercolor_hover": (255, 255, 255),
+            "checkmark_bordercolor_pressed": (255, 255, 255),
+            "checkmark_bordercolor_disabled": (255, 255, 255),
+
+            "checkmark_borderwidth_default": 2,
+            "checkmark_borderwidth_hover": 3,
+            "checkmark_borderwidth_pressed": 4,
+            "checkmark_borderwidth_disabled": 2,
+
+            "checkmark_borderstyle_default": "solid",
+            "checkmark_borderstyle_hover": "solid",
+            "checkmark_borderstyle_pressed": "solid",
+            "checkmark_borderstyle_disabled": "solid",
         }
 
         b = cc.Button(self.main_panel, label="test", config=button_style)

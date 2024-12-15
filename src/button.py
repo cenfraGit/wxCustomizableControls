@@ -40,7 +40,7 @@ class Button(CustomizableWindow):
         button_rectangle = drawing_rect.Deflate(1, 1)
         gcdc.SetPen(self._get_pen_element("button", state))
         gc.SetBrush(self._get_brush_element("button", state, gc))
-        gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"cornerradius_button_{state}"])
+        gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"button_cornerradius_{state}"])
 
         # text
         text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
@@ -49,9 +49,10 @@ class Button(CustomizableWindow):
         bitmap, image_width, image_height = self._get_bitmap_and_dimensions(state)
 
         # draw
-        self._draw_text_and_bitmap(self._Label, text_width, text_height,
-                                   bitmap, image_width, image_height,
-                                   button_rectangle, state, gcdc)
+        self._draw_text_and_bitmap(self._Label, text_width,
+                                   text_height, bitmap, image_width,
+                                   image_height, button_rectangle,
+                                   gcdc)
 
         # set mouse cursor
         self._configure_cursor()
@@ -73,8 +74,8 @@ class Button(CustomizableWindow):
         image_height = self._get_max_value("height", "image")
         width, height = self._get_object_sides_dimensions(text_width, text_height,
                                                           image_width, image_height,
-                                                          self._config[f"separation_image"],
-                                                          self._config[f"side_image"])
+                                                          self._config[f"image_separation"],
+                                                          self._config[f"image_side"])
         # padding
         width += 2 * 10
         height += 2 * 5

@@ -115,16 +115,16 @@ class CustomizableObject:
             raise ValueError("Incorrect tool or style.")
 
     def _get_pen_element(self, element: str, state: str) -> wx.Pen:
-        return wx.Pen(wx.Colour(self._config[f"bordercolor_{element}_{state}"]),
-                      self._config[f"borderwidth_{element}_{state}"],
-                      self._get_tool_style("pen", self._config[f"borderstyle_{element}_{state}"]))
+        return wx.Pen(wx.Colour(self._config[f"{element}_bordercolor_{state}"]),
+                      self._config[f"{element}_borderwidth_{state}"],
+                      self._get_tool_style("pen", self._config[f"{element}_borderstyle_{state}"]))
 
     def _get_brush_element(self, element: str, state: str, gc: wx.GraphicsContext) -> wx.Brush:
         # the backgroundcolor can either be an rgb tuple or a linear
         # gradient tuple. if the length of the list is 3, use normal
         # brush. else, try to create a linear gradient brush
-        backgroundcolor = self._config[f"backgroundcolor_{element}_{state}"]
-        backgroundstyle = self._config[f"backgroundstyle_{element}_{state}"]
+        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
         if len(backgroundcolor) == 3:
             return wx.Brush(wx.Colour(backgroundcolor),
                             self._get_tool_style("brush", backgroundstyle))
@@ -161,27 +161,27 @@ class CustomizableObject:
         image_height = self._get_max_value("height", "image")
         bitmap = wx.Bitmap(1, 1)
 
-        image_path = self._config[f"path_image_{state}"]
+        image_path = self._config[f"image_path_{state}"]
         image_path = os.path.normpath(image_path)
         image_path = os.path.abspath(image_path)
         _, image_extension = os.path.splitext(image_path)
         # if the file indicated by the path exists
         if os.path.isfile(image_path) and image_extension in [".png", ".jpg", ".jpeg"]:
-            image_width = self._config[f"width_image_{state}"]
-            image_height = self._config[f"height_image_{state}"]
-            image: wx.Image = wx.Image(image_path).AdjustChannels(*self._config[f"channels_image_{state}"])
+            image_width = self._config[f"image_width_{state}"]
+            image_height = self._config[f"image_height_{state}"]
+            image: wx.Image = wx.Image(image_path).AdjustChannels(*self._config[f"image_channels_{state}"])
             image = image.Scale(image_width, image_height, wx.IMAGE_QUALITY_HIGH)
             bitmap: wx.Bitmap = image.ConvertToBitmap()
             #bitmap.SetSize(wx.Size(image_width, image_height))
         return bitmap, image_width, image_height            
 
-    def _get_max_value(self, property: str, element: str) -> int:
+    def _get_max_value(self, prop: str, element: str) -> int:
         """Returns the maximum value of an element's property for all
         its states. The property must be numeric.
         """
         values = []
         for state in ["default", "hover", "pressed", "disabled"]:
-            values.append(self._config[f"{property}_{element}_{state}"])
+            values.append(self._config[f"{element}_{prop}_{state}"])
         return max(*values)
 
     def _get_coords_object_sides(self, drawing_rectangle: wx.Rect,
@@ -250,7 +250,7 @@ class CustomizableObject:
 
     def _draw_text_and_bitmap(self, text: str, text_width: int, text_height: int,
                               bitmap: wx.Bitmap, image_width: int, image_height: int,
-                              rectangle: wx.Rect, state:str, gcdc: wx.GCDC) -> None:
+                              rectangle: wx.Rect, gcdc: wx.GCDC) -> None:
         """Draws text and a bitmap in the specified rectangle, taking
         into account the text side and the separation between the
         bitmap and the text.
@@ -258,8 +258,8 @@ class CustomizableObject:
         text_x, text_y, image_x, image_y = self._get_coords_object_sides(rectangle,
                                                                          text_width, text_height,
                                                                          image_width, image_height,
-                                                                         self._config[f"separation_image"],
-                                                                         self._config[f"side_image"])
+                                                                         self._config[f"image_separation"],
+                                                                         self._config[f"image_side"])
         if text.strip() != "":
             gcdc.DrawText(text, text_x, text_y)
         if (image_width != 0) and (image_height != 0):

@@ -5,7 +5,7 @@
 /* ---------------- controls to implement ---------------- */
 
 ** DONE button
-** TODO checkboxes
+** DONE checkboxes
 ** TODO radiobuttons
 ** TODO static text
 ** TODO static box
@@ -22,16 +22,15 @@
 /* ------------------------ notes ------------------------ */
 
 - create reusable dropdown popup to use in menubar and combobox
-- replace drawing area and propagate hover event to background?
   
 /* --------------- customizable attributes --------------- */
 
 the layout for customizing an attribute is
 
-| property | element | state |
+| element | property | state |
 
-for example: "backgroundcolor_drawingarea_default" refers to the
-drawing area's background when the object's state is default.
+for example: "checkbox_backgroundcolor_default" refers to the
+checkbox's background when the object's state is default.
 
 some properties will not have a particular element assigned to
 them. its value will be assigned to the object as a whole. for
@@ -74,55 +73,7 @@ background color every time the user hovers over a panel, but this is
 easily modifiable.
 
 the "elements" refer to a section that is drawn inside the object
-interface. for example, a checkbox has: its initial drawing area, the
-checkbox itself, a text label, and optionally an image. a user might
-denote these attributes like
+interface. for example, a checkbox has: the checkbox itself, a text
+label, and optionally an image.
 
-- drawingarea_border_color
-- drawingarea_border_width
-- checkbox_border_color
-- checkbox_border_width
-- checkbox_width
-- checkbox_height
-- image_width
-- image_height
-
-but in order to simplify the code implementation we could instead
-separate these attributes in different parts, being properties and
-elements. each element will denote the section that we are referring
-to.
-
-from solely the previous attribute examples, we could come up with
-only 4 properties and 3 elements, which would be:
-
-| property     |
-| border_color |
-| border_width |
-| width        |
-| height       |
-
-and the elements being:
-
-| element     |
-| drawingarea |
-| checkbox    |
-| image       |
-
-and in order to simplify the code implementation even more, we will
-use one-word properties without either camel or snake casing. add to
-these properties the object's state (when use_defaults is off) and our
-customizable attribute "specification" is done.
-
-| property | element | state |
-
-now we will use this specification to dynamically "parse" the
-attribute in the code.
-
-the elements might be different for each object (a button's drawing
-method will not have the need to look for a checkbox width), so all of
-these elements, as well as their properties (not all properties will
-work with all elements, and some properties will be particular to
-certain elements, like the radius of the circular selector in the
-radiobutton) will have to be clearly defined. the only guaranteed
-shared element between all objects is the drawing area.
 
