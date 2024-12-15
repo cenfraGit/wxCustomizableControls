@@ -40,6 +40,42 @@ class CustomizableObject:
         gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
         return gcdc, gc
 
+    def _get_cursor(self, cursor: str) -> wx.Cursor:
+        cursor_styles = {
+            "none": wx.CURSOR_NONE,
+            "arrow": wx.CURSOR_ARROW,
+            "right_arrow": wx.CURSOR_RIGHT_ARROW,
+            "bullseye": wx.CURSOR_BULLSEYE,
+            "char": wx.CURSOR_CHAR,
+            "cross": wx.CURSOR_CROSS,
+            "hand": wx.CURSOR_HAND,
+            "ibeam": wx.CURSOR_IBEAM,
+            "left_button": wx.CURSOR_LEFT_BUTTON,
+            "magnifier": wx.CURSOR_MAGNIFIER,
+            "middle_button": wx.CURSOR_MIDDLE_BUTTON,
+            "no_entry": wx.CURSOR_NO_ENTRY,
+            "paint_brush": wx.CURSOR_PAINT_BRUSH,
+            "pencil": wx.CURSOR_PENCIL,
+            "point_left": wx.CURSOR_POINT_LEFT,
+            "point_right": wx.CURSOR_POINT_RIGHT,
+            "question_arrow": wx.CURSOR_QUESTION_ARROW,
+            "right_button": wx.CURSOR_RIGHT_BUTTON,
+            "sizenesw": wx.CURSOR_SIZENESW,
+            "sizens": wx.CURSOR_SIZENS,
+            "sizenwse": wx.CURSOR_SIZENWSE,
+            "sizewe": wx.CURSOR_SIZEWE,
+            "sizing": wx.CURSOR_SIZING,
+            "spraycan": wx.CURSOR_SPRAYCAN,
+            "wait": wx.CURSOR_WAIT,
+            "watch": wx.CURSOR_WATCH,
+            "blank": wx.CURSOR_BLANK,
+            "default": wx.CURSOR_DEFAULT,
+            "copy_arrow": wx.CURSOR_COPY_ARROW,
+            "arrowwait": wx.CURSOR_ARROWWAIT,
+            "max": wx.CURSOR_MAX
+        }
+        return wx.Cursor(cursor_styles[cursor])
+
     def _get_tool_style(self, tool: Literal["pen", "brush"], style: str):
         pen_styles = {
             "solid": wx.PENSTYLE_SOLID,

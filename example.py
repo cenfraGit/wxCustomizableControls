@@ -30,30 +30,12 @@ class Main(wx.Frame):
         #self.main_panel.SetBackgroundColour(wx.WHITE)
 
         b_style = {
-            'backgroundcolor_drawingarea_default': (182, 30, 62),
-            'backgroundcolor_drawingarea_hover': (224, 203, 224),
-            'backgroundcolor_drawingarea_pressed': (124, 185, 182),
-            'backgroundcolor_drawingarea_disabled': (231, 1, 202),
 
-            'backgroundstyle_drawingarea_default': 'solid',
-            'backgroundstyle_drawingarea_hover': 'solid',
-            'backgroundstyle_drawingarea_pressed': 'solid',
-            'backgroundstyle_drawingarea_disabled': 'solid',
+            # ------------------------- cursor ------------------------- #
 
-            'bordercolor_drawingarea_default': (29, 11, 175),
-            'bordercolor_drawingarea_hover': (195, 15, 132),
-            'bordercolor_drawingarea_pressed': (48, 221, 224),
-            'bordercolor_drawingarea_disabled': (46, 31, 95),
-
-            'borderwidth_drawingarea_default': 1,
-            'borderwidth_drawingarea_hover': 2,
-            'borderwidth_drawingarea_pressed': 3,
-            'borderwidth_drawingarea_disabled': 4,
-
-            'borderstyle_drawingarea_default': 'solid',
-            'borderstyle_drawingarea_hover': 'solid',
-            'borderstyle_drawingarea_pressed': 'solid',
-            'borderstyle_drawingarea_disabled': 'solid',
+            "mousecursor_hover": "hand",
+            "mousecursor_pressed": "cross",
+            "mousecursor_disabled": "arrow", 
 
             # ------------------------- button ------------------------- #
 

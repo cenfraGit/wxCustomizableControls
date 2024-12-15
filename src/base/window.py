@@ -49,9 +49,15 @@ class CustomizableWindow(wx.Window, CustomizableObject):
 
         # ------------------------- events ------------------------- #
 
-        self.Bind(wx.EVT_ERASE_BACKGROUND, self.__on_erase_background)
-        self.Bind(wx.EVT_ENTER_WINDOW, self.__on_enter_window)
-        self.Bind(wx.EVT_LEAVE_WINDOW, self.__on_leave_window)
+        self.Bind(wx.EVT_PAINT, self._on_paint)
+
+        self.Bind(wx.EVT_ERASE_BACKGROUND, lambda _: None)
+        self.Bind(wx.EVT_ENTER_WINDOW, self._on_enter_window)
+        self.Bind(wx.EVT_LEAVE_WINDOW, self._on_leave_window)
+
+        self.Bind(wx.EVT_LEFT_DCLICK, self._on_left_down)
+        self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
+        self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
 
     def SetLabel(self, label: str) -> None:
         self._Label = label
@@ -76,18 +82,44 @@ class CustomizableWindow(wx.Window, CustomizableObject):
         else:
             return "default"
 
-    def __on_erase_background(self, event) -> None:
-        pass
+    def _configure_cursor(self):
+        state = self._get_state_as_string()
+        if state != "default":
+            self.SetCursor(self._get_cursor(self._config[f"mousecursor_{state}"]))
 
-    def __on_enter_window(self, event) -> None:
+    def _on_paint(self, event) -> None:
+        raise NotImplementedError("_on_paint")
+
+    def _on_enter_window(self, event) -> None:
         self._Hover = True
         self.Refresh()
         event.Skip()
 
-    def __on_leave_window(self, event) -> None:
+    def _on_leave_window(self, event) -> None:
         self._Hover = False
         self.Refresh()
         event.Skip()
+
+    def _on_left_down(self, event) -> None:
+        if not self._Pressed:
+            self.CaptureMouse()
+            self._Pressed = True
+            if self._ActOnPress:
+                self._handle_event()
+            self.Refresh()
+        event.Skip()
+
+    def _on_left_up(self, event) -> None:
+        if self._Pressed:
+            self.ReleaseMouse()
+            self._Pressed = False
+            if not self._ActOnPress:
+                self._handle_event()
+            self.Refresh()
+        event.Skip()
+
+    def _handle_event(self):
+        raise NotImplementedError("_handle_event")
 
     def Enable(self, enable:bool=True) -> None:
         self._Enabled = enable
