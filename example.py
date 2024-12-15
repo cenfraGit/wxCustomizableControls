@@ -215,8 +215,8 @@ class Main(wx.Frame):
 
             # ------------------------ checkbox ------------------------ #
 
-            "separation_checkbox": 20,
-            "side_checkbox": "left",
+            "separation_checkbox": 10,
+            "side_checkbox": "top",
 
             "width_checkbox": 20,
             "height_checkbox": 20,
@@ -242,7 +242,7 @@ class Main(wx.Frame):
         b = cc.Button(self.main_panel, label="test", config=button_style)
         b.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        c = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=(10, 50))
+        c = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=(10, 100))
         
 
 if __name__ == "__main__":

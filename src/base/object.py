@@ -188,7 +188,7 @@ class CustomizableObject:
                                  object1_width: int, object1_height: int,
                                  object2_width: int, object2_height: int,
                                  separation: int,
-                                 object2_side: Literal["left", "right", "up", "down"]) -> Tuple[int, int, int, int]:
+                                 object2_side: Literal["left", "right", "top", "bottom"]) -> Tuple[int, int, int, int]:
         """Returns the coordinates for two objects that are side by
         side, depending on their separation and the side of object2.
         """
@@ -219,12 +219,12 @@ class CustomizableObject:
                 object2_Y = r.GetY() + (r.GetHeight() // 2) - (object2_height // 2)
                 object1_X = object2_X + object2_width + separation
                 object1_Y = r.GetY() + (r.GetHeight() // 2) - (object1_height // 2)
-            elif (object2_side == "up"):
+            elif (object2_side == "top"):
                 object2_X = r.GetX() + (r.GetWidth() // 2) - (object2_width // 2)
                 object2_Y = r.GetY() + (r.GetHeight() // 2) - ((object1_height + separation + object2_height) // 2)
                 object1_X = r.GetX() + (r.GetWidth() // 2) - (object1_width // 2)
                 object1_Y = object2_Y + object2_height + separation
-            elif (object2_side == "down"):
+            elif (object2_side == "bottom"):
                 object1_X = r.GetX() + (r.GetWidth() // 2) - (object1_width // 2)
                 object1_Y = r.GetY() + (r.GetHeight() // 2) - ((object1_height + separation + object2_height) // 2)
                 object2_X = r.GetX() + (r.GetWidth() // 2) - (object2_width // 2)
@@ -234,7 +234,7 @@ class CustomizableObject:
     def _get_object_sides_dimensions(self, object1_width: int, object1_height: int,
                                      object2_width: int, object2_height: int,
                                      separation: int,
-                                     object2_side: Literal["left", "right", "up", "down"]) -> Tuple[int, int]:
+                                     object2_side: Literal["left", "right", "top", "bottom"]) -> Tuple[int, int]:
         """Returns the dimensions of an imaginary rectangle containing
         object1 and object2 depending on their arrangement. Used in
         images, checkboxes, radiobuttons.
@@ -243,7 +243,7 @@ class CustomizableObject:
         if (object2_side == "right" or object2_side == "left"):
             rectangle_width = object1_width + separation + object2_width
             rectangle_height = max(object1_height, object2_height)
-        elif (object2_side == "up" or object2_side == "down"):
+        elif (object2_side == "top" or object2_side == "bottom"):
             rectangle_width = max(object1_width, object2_width)
             rectangle_height = object1_height + separation + object2_height
         return int(rectangle_width), int(rectangle_height)

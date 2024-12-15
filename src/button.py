@@ -31,13 +31,13 @@ class Button(CustomizableWindow):
         gcdc.Clear()
 
         # drawing area
-        drawing_area: wx.Rect = self.GetClientRect()
+        drawing_rect: wx.Rect = self.GetClientRect()
         gcdc.SetPen(wx.TRANSPARENT_PEN)
         gcdc.SetBrush(wx.Brush(self.GetParent().GetBackgroundColour()))
-        gcdc.DrawRectangle(drawing_area)
+        gcdc.DrawRectangle(drawing_rect)
 
         # button
-        button_rectangle = drawing_area.Deflate(1, 1)
+        button_rectangle = drawing_rect.Deflate(1, 1)
         gcdc.SetPen(self._get_pen_element("button", state))
         gc.SetBrush(self._get_brush_element("button", state, gc))
         gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"cornerradius_button_{state}"])

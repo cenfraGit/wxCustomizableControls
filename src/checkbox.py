@@ -32,10 +32,10 @@ class CheckBox(CustomizableWindow):
         gcdc.Clear()
 
         # drawing area
-        drawing_area: wx.Rect = self.GetClientRect()
+        drawing_rect: wx.Rect = self.GetClientRect()
         gcdc.SetPen(wx.TRANSPARENT_PEN)
         gcdc.SetBrush(wx.Brush(self.GetParent().GetBackgroundColour()))
-        gcdc.DrawRectangle(drawing_area)
+        gcdc.DrawRectangle(drawing_rect)
 
         # text
         text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
@@ -53,10 +53,10 @@ class CheckBox(CustomizableWindow):
 
         # now we calculate the coordinates for the previous rectangle
         # and the checkbox itself
-        checkbox_x, checkbox_y, text_image_rectangle_x, text_image_rectangle_y = self._get_coords_object_sides(
-            drawing_area,
-            self._config["width_checkbox"], self._config["height_checkbox"],
+        text_image_rectangle_x, text_image_rectangle_y, checkbox_x, checkbox_y = self._get_coords_object_sides(
+            drawing_rect,
             text_image_rectangle_width, text_image_rectangle_height,
+            self._config["width_checkbox"], self._config["height_checkbox"],
             self._config["separation_checkbox"],
             self._config["side_checkbox"])
 
@@ -64,16 +64,17 @@ class CheckBox(CustomizableWindow):
         checkbox_rectangle = wx.Rect(checkbox_x, checkbox_y,
                                      self._config["width_checkbox"],
                                      self._config["height_checkbox"])
-        text_image_rectangle = wx.Rect(text_image_rectangle_x,
-                                       text_image_rectangle_y,
-                                       text_image_rectangle_width,
-                                       text_image_rectangle_height)
-
-        # draw rectangles
+        text_image_rectangle = wx.Rect(
+            text_image_rectangle_x,
+            text_image_rectangle_y,
+            text_image_rectangle_width,
+            text_image_rectangle_height)
+        
+        # draw text label and image 
         self._draw_text_and_bitmap(self._Label, text_width, text_height,
                                    bitmap, image_width, image_height,
-                                   drawing_area, state, gcdc)
-
+                                   text_image_rectangle, state, gcdc)
+        # draw checkbox rectangle
         gcdc.SetPen(self._get_pen_element("checkbox", state))
         gc.SetBrush(self._get_brush_element("checkbox", state, gc))
         gcdc.DrawRoundedRectangle(checkbox_rectangle,
@@ -101,6 +102,25 @@ class CheckBox(CustomizableWindow):
             wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_CHECKBOX.typeId, self.GetId()))
 
     def DoGetBestClientSize(self) -> wx.Size:
-       return wx.Size(300, 60)
-                                          
-                                          
+        # get contexts
+        dc = wx.ClientDC(self)
+        gcdc = wx.GCDC(dc)
+        gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
+        # get max dimensions
+        state = "default" if self._UseDefaults else self._get_state_as_string()
+        # state = "default"
+        text_width, text_height = self._get_text_dimensions(self._Label, state, gc)
+        image_width = self._get_max_value("width", "image")
+        image_height = self._get_max_value("height", "image")
+        text_image_width, text_image_height = self._get_object_sides_dimensions(text_width, text_height,
+                                                                                image_width, image_height,
+                                                                                self._config[f"separation_image"],
+                                                                                self._config[f"side_image"])
+        width, height = self._get_object_sides_dimensions(text_image_width, text_image_height,
+                                                          self._config["width_checkbox"], self._config["height_checkbox"],
+                                                          self._config["separation_checkbox"],
+                                                          self._config["side_checkbox"])
+        # padding
+        width += 2 * 10
+        height += 2 * 5
+        return wx.Size(int(width), int(height))
