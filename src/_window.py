@@ -14,6 +14,7 @@ cenfra
 
 
 from copy import copy
+import math
 import os
 from typing import Tuple, Literal
 import wx
@@ -66,7 +67,7 @@ class Window(wx.Window):
 
         self._timer_ms = 20
         
-        self._timer_paint_steps = 50
+        self._timer_paint_steps = 200
         self._timer_paint_steps_counter = 0
 
         self._timer_hover = wx.Timer(self)
@@ -98,13 +99,15 @@ class Window(wx.Window):
         return (end - start) / self._timer_paint_steps
 
     def _get_easing_t(self, t: float) -> float:
-        return t * t
-        # return 1 - math.cos((t * math.pi) / 2)
+        # return t
+        # return t * t
+        return 1 - math.cos((t * math.pi) / 2)
         # return t * t * (3.0 - 2.0 * t)
 
     def _on_timer_hover(self, event: wx.TimerEvent) -> None:
+        print("timer running", self._timer_paint_steps_counter)
         if self._timer_paint_steps_counter < self._timer_paint_steps:
-            # use easing functions
+            # use easing functions 
             t = self._timer_paint_steps_counter / self._timer_paint_steps
             easing_t = self._get_easing_t(t)
             self._color_current = self._color_current + (self._color_target - self._color_current) * easing_t
@@ -166,13 +169,17 @@ class Window(wx.Window):
         if self._UseDefaults:
             event.Skip()
             return None
-        if not self._timer_hover.IsRunning():
-            # set color target
-            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"])
-            # calculate increments
-            self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+        # reset counter
+        self._timer_paint_steps_counter = 0
+        # set color target
+        self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"])
+        # calculate increments
+        self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+        
+        if not self._timer_hover.IsRunning():            
             # start transition
             self._timer_hover.Start(self._timer_ms)
+        
         self._Hover = True
         self.Refresh()
         event.Skip()
@@ -181,11 +188,13 @@ class Window(wx.Window):
         if self._UseDefaults:
             event.Skip()
             return None
-        if not self._timer_hover.IsRunning():
-            # set target color
-            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_default"])
-            # calculate increments
-            self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+        # set target color
+        self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_default"])
+        # calculate increments
+        self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+        # reset counter
+        self._timer_paint_steps_counter = 0
+        if not self._timer_hover.IsRunning():            
             # start transition
             self._timer_hover.Start(self._timer_ms)
         self._Hover = False
