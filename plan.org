@@ -6,18 +6,19 @@
 
 ** DONE button
 ** DONE checkboxes
-** TODO radiobuttons
-** TODO static text
-** TODO static box
-** TODO text control
-** TODO combobox (choice)
-** TODO scrolledwindow
-** TODO sliders
-** TODO progress bar7
+** DONE radiobuttons
 ** TODO panels
-** TODO frame top bar
-** TODO menubar
+** TODO static box
+** TODO scrolledwindow
+** TODO combobox (choice)
 ** TODO static lines
+** TODO sliders
+** TODO progress bar
+** TODO static text with wrap
+** TODO text control
+** TODO frame top bar
+** TODO menubara
+** TODO switch (checkbox functionality)
 
 /* ------------------------ notes ------------------------ */
 

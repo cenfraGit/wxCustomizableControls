@@ -68,6 +68,7 @@ class CustomizableWindow(wx.Window, CustomizableObject):
 
     def SetValue(self, state: bool) -> None:
         self._Value = state
+        self.Refresh()
 
     def GetValue(self):
         return self._Value

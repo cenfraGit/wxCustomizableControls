@@ -1,23 +1,28 @@
-"""checkbox.py
+"""radiobutton.py
 
-A customizable checkbox.
+A customizable radiobutton.
 
 wxCustomizableControls
-14/dec/2024
+15/dec/2024
 cenfra
 """
 
 
+
+import builtins
 from copy import copy
 from .base.window import CustomizableWindow
 import wx
 
 
-class CheckBox(CustomizableWindow):
+class RadioButton(CustomizableWindow):
+
+    groups = {} # used to keep track of radiobutton grups
+    
     def __init__(self, parent, id=wx.ID_ANY, label="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize, style=0,
-                 validator=wx.DefaultValidator, name=wx.CheckBoxNameStr, config={},
-                 **kwargs):
+                 validator=wx.DefaultValidator,
+                 name=wx.RadioButtonNameStr, config={}, **kwargs):
 
         # control attributes
         kwargs["label"] = label
@@ -25,6 +30,16 @@ class CheckBox(CustomizableWindow):
 
         # initialize window
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
+
+        # check if starts a new group
+        if style & wx.RB_GROUP or not RadioButton.groups:
+            # start new group
+            self.group_id = builtins.id(self)
+            RadioButton.groups[self.group_id] = []
+        else:
+            self.group_id = list(RadioButton.groups.keys())[-1]
+
+        RadioButton.groups[self.group_id].append(self)
 
     def _on_paint(self, event: wx.Event) -> None:
         state = "default" if self._UseDefaults else self._get_state_as_string()
@@ -54,17 +69,17 @@ class CheckBox(CustomizableWindow):
 
         # now we calculate the coordinates for the previous rectangle
         # and the checkbox itself
-        text_image_rectangle_x, text_image_rectangle_y, checkbox_x, checkbox_y = self._get_coords_object_sides(
+        text_image_rectangle_x, text_image_rectangle_y, radiobutton_x, radiobutton_y = self._get_coords_object_sides(
             drawing_rect,
             text_image_rectangle_width, text_image_rectangle_height,
-            self._config["checkbox_width"], self._config["checkbox_height"],
-            self._config["checkbox_separation"],
-            self._config["checkbox_side"])
+            self._config["radiobutton_diameter"], self._config["radiobutton_diameter"],
+            self._config["radiobutton_separation"],
+            self._config["radiobutton_side"])
 
         # create rectangles
-        checkbox_rectangle = wx.Rect(checkbox_x, checkbox_y,
-                                     self._config["checkbox_width"],
-                                     self._config["checkbox_height"])
+        radiobutton_rectangle = wx.Rect(radiobutton_x, radiobutton_y,
+                                        self._config["radiobutton_diameter"],
+                                        self._config["radiobutton_diameter"])
         text_image_rectangle = wx.Rect(
             text_image_rectangle_x,
             text_image_rectangle_y,
@@ -75,35 +90,42 @@ class CheckBox(CustomizableWindow):
         self._draw_text_and_bitmap(self._Label, text_width, text_height,
                                    bitmap, image_width, image_height,
                                    text_image_rectangle, gcdc)
-        # draw checkbox rectangle
-        gcdc.SetPen(self._get_pen_element("checkbox", state))
-        gc.SetBrush(self._get_brush_element("checkbox", state, gc))
-        gcdc.DrawRoundedRectangle(checkbox_rectangle,
-                                  self._config[f"checkbox_cornerradius_{state}"])
+        # draw radiobutton circle
+        gcdc.SetPen(self._get_pen_element("radiobutton", state))
+        gc.SetBrush(self._get_brush_element("radiobutton", state, gc))
 
-        # draw checkmark if checkbox is active
+        radiobutton_center_x = radiobutton_rectangle.GetX() + radiobutton_rectangle.GetWidth() // 2
+        radiobutton_center_y = radiobutton_rectangle.GetY() + radiobutton_rectangle.GetHeight() // 2
+        gcdc.DrawCircle(radiobutton_center_x, radiobutton_center_y, self._config[f"radiobutton_diameter"] // 2)
+        
+        # draw selection marker if radiobutton is selected
         if self._Value:
-            # create smaller rectangle to represent checkmark area
-            selection_rectangle: wx.Rect = copy(checkbox_rectangle).Deflate(int(self._config["checkbox_width"] * 0.3),
-                                                                            int(self._config["checkbox_height"] * 0.3))
-            # draw the selection
-            gcdc.SetPen(self._get_pen_element("selectionmarker", state))
-            gcdc.SetBrush(wx.TRANSPARENT_BRUSH)
-            path: wx.GraphicsPath = gc.CreatePath()
-            path.MoveToPoint(selection_rectangle.GetX(),
-                             selection_rectangle.GetY() + (selection_rectangle.GetHeight() // 1.5))
-            path.AddLineToPoint(selection_rectangle.GetX() + (selection_rectangle.GetWidth() // 2.5),
-                                selection_rectangle.GetY() + selection_rectangle.GetHeight())
-            path.AddLineToPoint(*selection_rectangle.GetTopRight())
-            gc.StrokePath(path)
+            gcdc.SetPen(wx.TRANSPARENT_PEN)
+            gc.SetBrush(self._get_brush_element("selectionmarker", state, gc))
+            gcdc.DrawCircle(radiobutton_center_x, radiobutton_center_y, self._config[f"selectionmarker_diameter_{state}"] // 2)
 
         # set mouse cursor
         self._configure_cursor()
-                          
+
+    def SetValue(self, state: bool) -> None:
+        """Overriding this method was necessary because we need to
+        update the currently active radiobutton in the group.
+        """
+        if state == True: # explicit
+            self._deselect_radiobuttons_in_group()
+        self._Value = state
+        self.Refresh()
+
+    def _deselect_radiobuttons_in_group(self):
+        for rb in RadioButton.groups[self.group_id]:
+            if rb.GetValue():
+                rb.SetValue(False)
+    
     def _handle_event(self):
         if self._Hover:
-            self._Value = not self._Value
-            wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_CHECKBOX.typeId, self.GetId()))
+            self._deselect_radiobuttons_in_group()
+            self.SetValue(True)
+            wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_RADIOBUTTON.typeId, self.GetId()))
 
     def DoGetBestClientSize(self) -> wx.Size:
         # get contexts
@@ -121,9 +143,9 @@ class CheckBox(CustomizableWindow):
                                                                                 self._config[f"image_separation"],
                                                                                 self._config[f"image_side"])
         width, height = self._get_object_sides_dimensions(text_image_width, text_image_height,
-                                                          self._config["checkbox_width"], self._config["checkbox_height"],
-                                                          self._config["checkbox_separation"],
-                                                          self._config["checkbox_side"])
+                                                          self._config["radiobutton_diameter"], self._config["radiobutton_diameter"],
+                                                          self._config["radiobutton_separation"],
+                                                          self._config["radiobutton_side"])
         # padding
         width += 2 * 10
         height += 2 * 5
