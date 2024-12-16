@@ -10,7 +10,6 @@ cenfra
 
 
 import builtins
-from copy import copy
 from .base.window import CustomizableWindow
 import wx
 
@@ -116,12 +115,12 @@ class RadioButton(CustomizableWindow):
         self._Value = state
         self.Refresh()
 
-    def _deselect_radiobuttons_in_group(self):
+    def _deselect_radiobuttons_in_group(self) -> None:
         for rb in RadioButton.groups[self.group_id]:
             if rb.GetValue():
                 rb.SetValue(False)
     
-    def _handle_event(self):
+    def _handle_event(self) -> None:
         if self._Hover:
             self._deselect_radiobuttons_in_group()
             self.SetValue(True)

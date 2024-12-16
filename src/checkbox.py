@@ -100,7 +100,7 @@ class CheckBox(CustomizableWindow):
         # set mouse cursor
         self._configure_cursor()
                           
-    def _handle_event(self):
+    def _handle_event(self) -> None:
         if self._Hover:
             self._Value = not self._Value
             wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_CHECKBOX.typeId, self.GetId()))

@@ -15,10 +15,10 @@
 ** TODO sliders
 ** TODO progress bar
 ** TODO static text with wrap
-** TODO text control
 ** TODO frame top bar
 ** TODO menubara
 ** TODO switch (checkbox functionality)
+** TODO text control
 
 /* ------------------------ notes ------------------------ */
 

@@ -88,20 +88,20 @@ class CustomizableWindow(wx.Window, CustomizableObject):
         if state != "default":
             self.SetCursor(self._get_cursor(self._config[f"mousecursor_{state}"]))
 
-    def _on_paint(self, event) -> None:
+    def _on_paint(self, event: wx.Event) -> None:
         raise NotImplementedError("_on_paint")
 
-    def _on_enter_window(self, event) -> None:
+    def _on_enter_window(self, event: wx.Event) -> None:
         self._Hover = True
         self.Refresh()
         event.Skip()
 
-    def _on_leave_window(self, event) -> None:
+    def _on_leave_window(self, event: wx.Event) -> None:
         self._Hover = False
         self.Refresh()
         event.Skip()
 
-    def _on_left_down(self, event) -> None:
+    def _on_left_down(self, event: wx.Event) -> None:
         if not self._Pressed:
             self.CaptureMouse()
             self._Pressed = True
@@ -110,7 +110,7 @@ class CustomizableWindow(wx.Window, CustomizableObject):
             self.Refresh()
         event.Skip()
 
-    def _on_left_up(self, event) -> None:
+    def _on_left_up(self, event: wx.Event) -> None:
         if self._Pressed:
             self.ReleaseMouse()
             self._Pressed = False
@@ -119,7 +119,7 @@ class CustomizableWindow(wx.Window, CustomizableObject):
             self.Refresh()
         event.Skip()
 
-    def _handle_event(self):
+    def _handle_event(self) -> None:
         raise NotImplementedError("_handle_event")
 
     def Enable(self, enable:bool=True) -> None:

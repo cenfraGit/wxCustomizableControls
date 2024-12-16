@@ -32,8 +32,8 @@ class Main(wx.Frame):
 
             # ------------------------- cursor ------------------------- #
 
-            "mousecursor_hover": "hand",
-            "mousecursor_pressed": "cross",
+            "mousecursor_hover": "cross",
+            "mousecursor_pressed": "arrow",
             "mousecursor_disabled": "arrow",
 
             # -------------------- font attributes -------------------- #
@@ -65,7 +65,8 @@ class Main(wx.Frame):
 
             # ------------------------- button ------------------------- #
 
-            "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            #"button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "button_backgroundcolor_default": (50, 10, 20),
             "button_backgroundcolor_hover": (224, 203, 224),
             "button_backgroundcolor_pressed": (124, 185, 182),
             "button_backgroundcolor_disabled": (231, 1, 202),
@@ -350,6 +351,47 @@ class Main(wx.Frame):
             "selectionmarker_backgroundstyle_disabled": "solid",
         }
 
+        panel_style = {
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "hand",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # ------------------------- panel ------------------------- #
+
+            "panel_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "panel_backgroundcolor_hover": (224, 203, 224),
+            "panel_backgroundcolor_pressed": (124, 185, 182),
+            "panel_backgroundcolor_disabled": (231, 1, 202),
+
+            "panel_backgroundstyle_default": "solid",
+            "panel_backgroundstyle_hover": "solid",
+            "panel_backgroundstyle_pressed": "solid",
+            "panel_backgroundstyle_disabled": "solid",
+
+            "panel_bordercolor_default": (29, 11, 175),
+            "panel_bordercolor_hover": (195, 15, 132),
+            "panel_bordercolor_pressed": (48, 221, 224),
+            "panel_bordercolor_disabled": (46, 31, 95),
+
+            "panel_borderwidth_default": 1,
+            "panel_borderwidth_hover": 2,
+            "panel_borderwidth_pressed": 3,
+            "panel_borderwidth_disabled": 4,
+
+            "panel_borderstyle_default": "solid",
+            "panel_borderstyle_hover": "solid",
+            "panel_borderstyle_pressed": "solid",
+            "panel_borderstyle_disabled": "solid",
+
+            "panel_cornerradius_default": 10,
+            "panel_cornerradius_hover": 10,
+            "panel_cornerradius_pressed": 10,
+            "panel_cornerradius_disabled": 10,
+        }
+
         button = cc.Button(self.main_panel, label="test", config=button_style)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
@@ -365,10 +407,13 @@ class Main(wx.Frame):
         button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250))
         button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
 
-        
-        
-        
+        panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False)
+        button2 = cc.Button(panel, label="inside panel", config=button_style, pos=wx.Point(10, 10))
+        button2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
+        button2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
 
+
+        
 if __name__ == "__main__":
     app = wx.App()
     instance = Main(None)
