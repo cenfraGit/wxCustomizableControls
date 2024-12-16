@@ -88,6 +88,19 @@ class Window(wx.Window):
         self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
         self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
 
+    def _calculate_rgb_steps(self, rgb_start, rgb_end) -> list:
+        """Returns the increments per rgb channel in order to get a
+        color transition for all three channels in the same steps.
+        """
+        def get_increment(start: int, end: int, steps: int):
+            range = end - start
+            return range / steps
+        return [
+            get_increment(rgb_end[0], rgb_start[0], self._timer_paint_steps),
+            get_increment(rgb_end[1], rgb_start[1], self._timer_paint_steps),
+            get_increment(rgb_end[2], rgb_start[2], self._timer_paint_steps)
+        ]
+
     def _on_timer_hover(self, event):
         if self._timer_paint_steps_counter <= self._timer_paint_steps:
             print("test")
