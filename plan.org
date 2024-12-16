@@ -11,7 +11,7 @@
 ** DONE static box
 ** TODO scrolledwindow
 ** TODO combobox (choice)
-** TODO static lines
+** DONE static lines
 ** TODO sliders
 ** TODO progress bar
 ** TODO static text with wrap

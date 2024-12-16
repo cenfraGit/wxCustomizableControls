@@ -60,6 +60,22 @@ class Window(wx.Window):
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self.SetInitialSize(size)
 
+        # -------------- timers and color transitions -------------- #
+
+        self._timer_ms = 50
+        
+        self._timer_paint_steps = 10
+        self._timer_paint_steps_counter = 0
+
+        self._timer_hover = wx.Timer(self)
+        self._timer_pressed = wx.Timer(self)
+
+        self.Bind(wx.EVT_TIMER, self._on_timer_hover, self._timer_hover)
+        self.Bind(wx.EVT_TIMER, self._on_timer_pressed, self._timer_pressed)
+
+        self._color_current = ()
+        self._color_target = ()
+
         # ------------------------- events ------------------------- #
 
         self.Bind(wx.EVT_PAINT, self._on_paint)
@@ -71,6 +87,17 @@ class Window(wx.Window):
         self.Bind(wx.EVT_LEFT_DCLICK, self._on_left_down)
         self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
         self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
+
+    def _on_timer_hover(self, event):
+        if self._timer_paint_steps_counter <= self._timer_paint_steps:
+            print("test")
+            self._timer_paint_steps_counter += 1
+        else:
+            self._timer_paint_steps_counter = 0
+            self._timer_hover.Stop()
+    
+    def _on_timer_pressed(self, event):
+        pass
 
     # ------------------------- public ------------------------- #
 
@@ -117,11 +144,23 @@ class Window(wx.Window):
     # ------------------------- events ------------------------- #
 
     def _on_enter_window(self, event: wx.Event) -> None:
+        if self._UseDefaults:
+            event.Skip()
+            return None
+        if not self._timer_hover.IsRunning():
+            self._timer_hover.Start(self._timer_ms)
+            self._color_target = self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"]
         self._Hover = True
         self.Refresh()
         event.Skip()
 
     def _on_leave_window(self, event: wx.Event) -> None:
+        if self._UseDefaults:
+            event.Skip()
+            return None
+        if not self._timer_hover.IsRunning():
+            self._timer_hover.Start(self._timer_ms)
+            self._color_target = self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_default"]
         self._Hover = False
         self.Refresh()
         event.Skip()
