@@ -8,7 +8,7 @@
 ** DONE checkboxes
 ** DONE radiobuttons
 ** DONE panels
-** TODO static box
+** DONE static box
 ** TODO scrolledwindow
 ** TODO combobox (choice)
 ** TODO static lines

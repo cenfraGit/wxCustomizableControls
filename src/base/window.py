@@ -79,7 +79,11 @@ class CustomizableWindow(wx.Window, CustomizableObject):
         """
         state = "default" if self._UseDefaults else self._get_state_as_string()
         window_type = self.__class__.__name__
-        return wx.Colour(*self._config[f"{window_type.lower()}_backgroundcolor_{state}"])
+        color = self._config[f"{window_type.lower()}_backgroundcolor_{state}"]
+        if len(color) == 3:
+            return wx.Colour(*color)
+        else:
+            return wx.BLACK # a gradient
 
     def _get_state_as_string(self) -> str:
         if not self._Enabled:

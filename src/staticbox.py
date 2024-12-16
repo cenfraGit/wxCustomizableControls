@@ -8,7 +8,6 @@ cenfra
 """
 
 
-from .panel import Panel
 from .base.window import CustomizableWindow
 import wx
 
@@ -40,9 +39,8 @@ class StaticBox(CustomizableWindow):
         _, self._text_height = dc.GetTextExtent(self._Label)
 
         # create content panel
-        self.__Panel = Panel(self)
+        self.__Panel = wx.Panel(self)
         self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
-        self.__Panel.SetBackgroundColour(wx.YELLOW)
 
         # create a sizer to outselves and then add the content panel
         # with paddings
@@ -50,6 +48,60 @@ class StaticBox(CustomizableWindow):
         self.__Sizer.AddSpacer(self._text_height)
         self.__Sizer.Add(self.__Panel, proportion=1,
                          flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT,
-                         border=self._get_pen_element("staticbox", "default").GetWidth() * 2)
+                         border=self._get_pen_element("staticbox", "default").GetWidth() * 10)
         self.SetSizer(self.__Sizer)
+
+    def GetPanel(self) -> wx.Panel:
+        """Returns the reference to the staticbox's content panel.
+        """
+        return self.__Panel
+
+    def _handle_event(self) -> None:
+        return None
+
+    def _on_paint(self, event: wx.Event) -> None:
+        state = "default" if self._UseDefaults else self._get_state_as_string()
+
+        gcdc, gc = self._get_drawing_contexts(self)
+        gcdc.Clear()
+
+        # drawing area
+        drawing_rect: wx.Rect = self.GetClientRect()
+        gcdc.SetPen(wx.TRANSPARENT_PEN)
+        gcdc.SetBrush(wx.Brush(self.GetParent().GetBackgroundColour()))
+        gcdc.DrawRectangle(drawing_rect)
+
+        # draw the staticbox rectangle
+        gcdc.SetPen(self._get_pen_element("staticbox", state))
+        gc.SetBrush(wx.TRANSPARENT_BRUSH)
         
+        padding_sides = self._config[f"staticbox_borderwidth_{state}"]
+        padding_top = self._text_height // 2
+
+        gcdc.DrawRoundedRectangle(drawing_rect.GetX() + padding_sides,
+                                  drawing_rect.GetY() + padding_top,
+                                  drawing_rect.GetWidth() - 2 * padding_sides,
+                                  drawing_rect.GetHeight() - padding_top - padding_sides,
+                                  self._config[f"staticbox_cornerradius_{state}"])
+
+        # label
+        gcdc.SetPen(wx.TRANSPARENT_PEN)
+        gc.SetBrush(wx.Brush(self.GetParent().GetBackgroundColour()))
+        gcdc.SetFont(self._get_font(state))
+
+        text_width, text_height = gcdc.GetTextExtent(self._Label)
+
+        text_center_x = drawing_rect.GetWidth() // 2 - (text_width // 2)
+        text_center_y = padding_top - text_height // 2
+
+        # draw label background
+        text_lateral_offset = 7
+        gcdc.DrawRectangle(text_center_x - text_lateral_offset,
+                           text_center_y,
+                           text_width + 2 * text_lateral_offset,
+                           text_height)
+        # draw text label
+        gcdc.DrawText(self._Label, text_center_x, text_center_y)
+        
+        # make panel update size
+        self.Layout()

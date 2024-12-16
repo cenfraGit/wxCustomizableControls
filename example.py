@@ -392,6 +392,64 @@ class Main(wx.Frame):
             "panel_cornerradius_disabled": 10,
         }
 
+        staticbox_style = {
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "hand",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # -------------------- font attributes -------------------- #
+
+            "fontfacename_default": "Verdana",
+            "fontfacename_hover": "Verdana",
+            "fontfacename_pressed": "Verdana",
+            "fontfacename_disabled": "Verdana",
+
+            "fontcolor_default": (0, 0, 0),
+            "fontcolor_hover": (0, 0, 0),
+            "fontcolor_pressed": (0, 0, 0),
+            "fontcolor_disabled": (0, 0, 0),
+
+            "fontsize_default": 12,
+            "fontsize_hover": 12,
+            "fontsize_pressed": 12,
+            "fontsize_disabled": 12,
+
+            "fontstyle_default": "normal",
+            "fontstyle_hover": "italic",
+            "fontstyle_pressed": "normal",
+            "fontstyle_disabled": "normal",
+
+            "fontweight_default": "normal",
+            "fontweight_hover": "bold",
+            "fontweight_pressed": "normal",
+            "fontweight_disabled": "normal",
+
+            # ----------------------- staticbox ----------------------- #
+
+            "staticbox_bordercolor_default": (29, 11, 175),
+            "staticbox_bordercolor_hover": (195, 15, 132),
+            "staticbox_bordercolor_pressed": (48, 221, 224),
+            "staticbox_bordercolor_disabled": (46, 31, 95),
+
+            "staticbox_borderwidth_default": 1,
+            "staticbox_borderwidth_hover": 2,
+            "staticbox_borderwidth_pressed": 3,
+            "staticbox_borderwidth_disabled": 4,
+
+            "staticbox_borderstyle_default": "solid",
+            "staticbox_borderstyle_hover": "solid",
+            "staticbox_borderstyle_pressed": "solid",
+            "staticbox_borderstyle_disabled": "solid",
+
+            "staticbox_cornerradius_default": 10,
+            "staticbox_cornerradius_hover": 10,
+            "staticbox_cornerradius_pressed": 10,
+            "staticbox_cornerradius_disabled": 10,
+        }
+
         button = cc.Button(self.main_panel, label="test", config=button_style)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
@@ -411,6 +469,10 @@ class Main(wx.Frame):
         button2 = cc.Button(panel, label="inside panel", config=button_style, pos=wx.Point(10, 10))
         button2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
         button2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
+
+        staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200))
+        staticbox_panel = staticbox.GetPanel()
+        staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
 
 
         
