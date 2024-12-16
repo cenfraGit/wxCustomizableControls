@@ -65,9 +65,9 @@ class Window(wx.Window):
 
         # -------------- timers and color transitions -------------- #
 
-        self._timer_ms = 20
+        self._timer_ms = 15
         
-        self._timer_paint_steps = 200
+        self._timer_paint_steps = 120
         self._timer_paint_steps_counter = 0
 
         self._timer_hover = wx.Timer(self)
@@ -98,14 +98,21 @@ class Window(wx.Window):
     def _calculate_rgb_increments(self, start: VectorRGB, end: VectorRGB) -> VectorRGB:
         return (end - start) / self._timer_paint_steps
 
+    def cubic_bezier(self, t, p0, p1, p2, p3):
+        """Calculate the cubic Bézier value at time t."""
+        return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
+
+
     def _get_easing_t(self, t: float) -> float:
         # return t
         # return t * t
-        return 1 - math.cos((t * math.pi) / 2)
+        # return 1 - math.cos((t * math.pi) / 2)
         # return t * t * (3.0 - 2.0 * t)
+        p0, p3 = 0, 1  # Start and end points
+        p1, p2 = 0.42, 0.58  # Control points for ease-in-out
+        return self.cubic_bezier(t, p0, p1, p2, p3)
 
     def _on_timer_hover(self, event: wx.TimerEvent) -> None:
-        print("timer running", self._timer_paint_steps_counter)
         if self._timer_paint_steps_counter < self._timer_paint_steps:
             # use easing functions 
             t = self._timer_paint_steps_counter / self._timer_paint_steps
@@ -203,6 +210,14 @@ class Window(wx.Window):
 
     def _on_left_down(self, event: wx.Event) -> None:
         if not self._Pressed:
+            # set target color
+            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_pressed"])
+            # calculate increments
+            self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+            # reset counter
+            self._timer_paint_steps_counter = 0
+            if not self._timer_hover.IsRunning():
+                self._timer_hover.Start(self._timer_ms)
             self.CaptureMouse()
             self._Pressed = True
             if self._ActOnPress:
@@ -212,6 +227,14 @@ class Window(wx.Window):
 
     def _on_left_up(self, event: wx.Event) -> None:
         if self._Pressed:
+            # set target color
+            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"])
+            # calculate increments
+            self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
+            # reset counter
+            self._timer_paint_steps_counter = 0
+            if not self._timer_hover.IsRunning():
+                self._timer_hover.Start(self._timer_ms)
             self.ReleaseMouse()
             self._Pressed = False
             if not self._ActOnPress:
@@ -261,6 +284,9 @@ class Window(wx.Window):
 
     def _get_pen_element(self, element: str) -> wx.Pen:
         state = self._get_state()
+        pen_width = self._config[f"{element}_borderwidth_{state}"]
+        if (pen_width == 0):
+            return wx.TRANSPARENT_PEN
         return wx.Pen(wx.Colour(self._config[f"{element}_bordercolor_{state}"]),
                       self._config[f"{element}_borderwidth_{state}"],
                       self._get_tool_style("pen", self._config[f"{element}_borderstyle_{state}"]))
