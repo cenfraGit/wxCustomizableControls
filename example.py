@@ -450,6 +450,32 @@ class Main(wx.Frame):
             "staticbox_cornerradius_disabled": 10,
         }
 
+        staticline_style = {
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "hand",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # ----------------------- staticline ----------------------- #
+
+            "staticline_bordercolor_default": (255, 255, 255),
+            "staticline_bordercolor_hover": (195, 15, 132),
+            "staticline_bordercolor_pressed": (48, 221, 224),
+            "staticline_bordercolor_disabled": (46, 31, 95),
+
+            "staticline_borderwidth_default": 3,
+            "staticline_borderwidth_hover": 2,
+            "staticline_borderwidth_pressed": 3,
+            "staticline_borderwidth_disabled": 4,
+
+            "staticline_borderstyle_default": "solid",
+            "staticline_borderstyle_hover": "solid",
+            "staticline_borderstyle_pressed": "solid",
+            "staticline_borderstyle_disabled": "solid",
+        }
+
         button = cc.Button(self.main_panel, label="test", config=button_style)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
@@ -473,6 +499,10 @@ class Main(wx.Frame):
         staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200))
         staticbox_panel = staticbox.GetPanel()
         staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
+
+        staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70)) 
+
+        
 
 
         
