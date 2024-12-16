@@ -23,6 +23,7 @@
 /* ------------------------ notes ------------------------ */
 
 - create reusable dropdown popup to use in menubar and combobox
+- interpolate between colors using timer?
   
 /* --------------- customizable attributes --------------- */
 

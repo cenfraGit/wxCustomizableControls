@@ -1,35 +1,179 @@
-"""object.py
+"""_window.py
 
-The CustomizableObject class will be inherited from all of the
-customizable objects in the library (both controls and other windows
-which are not controls, like panels). This class will keep track of
-the object's configuration data and also include methods to modify
-this data.
+The base class for all customizable windows.
 
-The CustomizableObject class will also include useful methods used
-during the drawing process.
+This class will be inherited from all of the customizable objects in
+the library (both controls and other windows which are not controls,
+like panels). This class will keep track of the object's configuration
+data and also include methods used during the drawing process.
 
 wxCustomizableControls
-13/dec/2024
+16/dec/2024
 cenfra
 """
 
 
 from copy import copy
-from typing import Tuple, Literal
 import os
+from typing import Tuple, Literal
 import wx
 
 
-class CustomizableObject:
-    def __init__(self, config: dict):
+class Window(wx.Window):
+    def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
+                 size=wx.DefaultSize, style=0, name=wx.PanelNameStr,
+                 config={}, **kwargs):
+
+        super().__init__(parent, id, pos, size, style|wx.NO_BORDER, name)
+
+        # --------------------- window states --------------------- #
+
+        # these states are used to keep track of user input and window
+        # behavior.
+
+        self._Enabled = True
+        self._Pressed = False
+        self._Hover = False
+
+        # ------------------- control attributes ------------------- #
+
+        # these attributes are used when creating controls. you must
+        # pass them to this class via the kwargs dictionary before
+        # initializing this class.
+
+        self._Label = kwargs.get("label", None)
+        self._Value = kwargs.get("value", None)
+        self._Choices = kwargs.get("choices", None)
+
+        self._ActOnPress = kwargs.get("act_on_press", False)
+        self._UseDefaults = kwargs.get("use_defaults", False)
+
+        # ------------------- configuration data ------------------- #
+
+        # the _config attribute holds the configuration data in
+        # dictionary format for convenient key manipulation.
+
         self._config = copy(config)
 
-    def SetConfig(self, config: dict):
-        self._config = config
+        # ---------------------- window setup ---------------------- #
 
-    def GetConfig(self):
+        self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+        self.SetInitialSize(size)
+
+        # ------------------------- events ------------------------- #
+
+        self.Bind(wx.EVT_PAINT, self._on_paint)
+        self.Bind(wx.EVT_ERASE_BACKGROUND, lambda _: None)
+        
+        self.Bind(wx.EVT_ENTER_WINDOW, self._on_enter_window)
+        self.Bind(wx.EVT_LEAVE_WINDOW, self._on_leave_window)
+
+        self.Bind(wx.EVT_LEFT_DCLICK, self._on_left_down)
+        self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
+        self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
+
+    # ------------------------- public ------------------------- #
+
+    def SetConfig(self, config: dict) -> None:
+        self._config = config
+        self.Refresh()
+
+    def GetConfig(self) -> dict:
         return self._config
+
+    def SetLabel(self, label: str) -> None:
+        self._Label = label
+        self.Refresh()
+
+    def GetLabel(self) -> str:
+        return self._Label
+
+    def SetValue(self, state: bool) -> None:
+        self._Value = state
+        self.Refresh()
+
+    def GetValue(self):
+        return self._Value
+
+    def GetBackgroundColour(self) -> wx.Colour:
+        """Returns the current background color of the customizable
+        window.
+        """
+        window_type = self.__class__.__name__
+        color = self._config[f"{window_type.lower()}_backgroundcolor_{self._get_state()}"]
+        if len(color) == 3:
+            return wx.Colour(*color)
+        else:
+            return wx.BLACK # a gradient
+
+    def Enable(self, enable:bool=True) -> None:
+        self._Enabled = enable
+        super().Enable(enable)
+        self.Refresh()
+
+    def Disable(self) -> None:
+        self.Enable(False)
+
+    # ------------------------- events ------------------------- #
+
+    def _on_enter_window(self, event: wx.Event) -> None:
+        self._Hover = True
+        self.Refresh()
+        event.Skip()
+
+    def _on_leave_window(self, event: wx.Event) -> None:
+        self._Hover = False
+        self.Refresh()
+        event.Skip()
+
+    def _on_left_down(self, event: wx.Event) -> None:
+        if not self._Pressed:
+            self.CaptureMouse()
+            self._Pressed = True
+            if self._ActOnPress:
+                self._handle_event()
+            self.Refresh()
+        event.Skip()
+
+    def _on_left_up(self, event: wx.Event) -> None:
+        if self._Pressed:
+            self.ReleaseMouse()
+            self._Pressed = False
+            if not self._ActOnPress:
+                self._handle_event()
+            self.Refresh()
+        event.Skip()
+
+    def _handle_event(self) -> None:
+        raise NotImplementedError("_handle_event")
+    
+    def _on_paint(self, event: wx.Event) -> None:
+        raise NotImplementedError("_on_paint")
+
+    # --------------------- useful methods --------------------- #
+
+    def _configure_cursor(self) -> None:
+        state = self._get_state()
+        if state != "default":
+            self.SetCursor(self._get_cursor(self._config[f"mousecursor_{state}"]))
+
+    # ---------------------- get methods ---------------------- #
+
+    def _get_state(self) -> str:
+        """Returns the state of the window. Will return "default" if
+        self._UseDefaults is True.
+        """
+        if self._UseDefaults:
+            return "default"
+        
+        if not self._Enabled:
+            return "disabled"
+        elif self._Pressed:
+            return "pressed"
+        elif self._Hover:
+            return "hover"
+        else:
+            return "default"
 
     def _get_drawing_contexts(self, window) -> Tuple[wx.GCDC, wx.GraphicsContext]:
         """Creates the BufferedPaintDC and returns the GCDC with its
@@ -39,6 +183,47 @@ class CustomizableObject:
         gcdc = wx.GCDC(dc)
         gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
         return gcdc, gc
+
+    def _get_pen_element(self, element: str) -> wx.Pen:
+        state = self._get_state()
+        return wx.Pen(wx.Colour(self._config[f"{element}_bordercolor_{state}"]),
+                      self._config[f"{element}_borderwidth_{state}"],
+                      self._get_tool_style("pen", self._config[f"{element}_borderstyle_{state}"]))
+
+    def _get_brush_element(self, element: str, gc: wx.GraphicsContext) -> wx.Brush:
+        # the backgroundcolor can either be an rgb tuple or a linear
+        # gradient tuple. if the length of the list is 3, use normal
+        # brush. else, try to create a linear gradient brush
+        state = self._get_state()
+        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
+        if len(backgroundcolor) == 3:
+            return wx.Brush(wx.Colour(backgroundcolor),
+                            self._get_tool_style("brush", backgroundstyle))
+        else:
+            return gc.CreateLinearGradientBrush(*backgroundcolor)
+
+    def _get_brush_parent_background(self) -> wx.Brush:
+        return wx.Brush(self.GetParent().GetBackgroundColour())
+
+    def _get_font(self) -> wx.Font:
+        state = self._get_state()
+        fontfacename = self._config[f"fontfacename_{state}"]
+        fontsize = self._config[f"fontsize_{state}"]
+        fontstyle = self._config[f"fontstyle_{state}"]
+        fontweight = self._config[f"fontweight_{state}"]
+        
+        if fontstyle == "normal":
+            fontstyle = wx.FONTSTYLE_NORMAL
+        elif fontstyle == "italic":
+            fontstyle = wx.FONTSTYLE_ITALIC
+
+        if fontweight == "normal":
+            fontweight = wx.FONTWEIGHT_NORMAL
+        elif fontweight == "bold":
+            fontweight = wx.FONTWEIGHT_BOLD
+
+        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle, fontweight, faceName=fontfacename)
 
     def _get_cursor(self, cursor: str) -> wx.Cursor:
         cursor_styles = {
@@ -113,50 +298,16 @@ class CustomizableObject:
             return brush_styles[style]
         else:
             raise ValueError("Incorrect tool or style.")
-
-    def _get_pen_element(self, element: str, state: str) -> wx.Pen:
-        return wx.Pen(wx.Colour(self._config[f"{element}_bordercolor_{state}"]),
-                      self._config[f"{element}_borderwidth_{state}"],
-                      self._get_tool_style("pen", self._config[f"{element}_borderstyle_{state}"]))
-
-    def _get_brush_element(self, element: str, state: str, gc: wx.GraphicsContext) -> wx.Brush:
-        # the backgroundcolor can either be an rgb tuple or a linear
-        # gradient tuple. if the length of the list is 3, use normal
-        # brush. else, try to create a linear gradient brush
-        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
-        backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
-        if len(backgroundcolor) == 3:
-            return wx.Brush(wx.Colour(backgroundcolor),
-                            self._get_tool_style("brush", backgroundstyle))
-        else:
-            return gc.CreateLinearGradientBrush(*backgroundcolor)
-
-    def _get_font(self, state) -> wx.Font:
-        fontfacename = self._config[f"fontfacename_{state}"]
-        fontsize = self._config[f"fontsize_{state}"]
-        fontstyle = self._config[f"fontstyle_{state}"]
-        fontweight = self._config[f"fontweight_{state}"]
-        
-        if fontstyle == "normal":
-            fontstyle = wx.FONTSTYLE_NORMAL
-        elif fontstyle == "italic":
-            fontstyle = wx.FONTSTYLE_ITALIC
-
-        if fontweight == "normal":
-            fontweight = wx.FONTWEIGHT_NORMAL
-        elif fontweight == "bold":
-            fontweight = wx.FONTWEIGHT_BOLD
-
-        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle, fontweight, faceName=fontfacename)
     
-    def _get_text_dimensions(self, text: str, state: str, gc: wx.GraphicsContext) -> Tuple[int, int]:
+    def _get_text_dimensions(self, text: str, gc: wx.GraphicsContext) -> Tuple[int, int]:
         text_width, text_height = 0, 0
         if (text.strip() != ""):
-            gc.SetFont(self._get_font(state), wx.WHITE)
+            gc.SetFont(self._get_font(), wx.WHITE)
             text_width, text_height, _, _ = gc.GetFullTextExtent(text)
         return text_width, text_height
 
-    def _get_bitmap_and_dimensions(self, state) -> Tuple[wx.Bitmap, int, int]:
+    def _get_bitmap_and_dimensions(self) -> Tuple[wx.Bitmap, int, int]:
+        state = state = self._get_state()
         image_width = self._get_max_value("width", "image")
         image_height = self._get_max_value("height", "image")
         bitmap = wx.Bitmap(1, 1)
@@ -248,6 +399,8 @@ class CustomizableObject:
             rectangle_height = object1_height + separation + object2_height
         return int(rectangle_width), int(rectangle_height)
 
+    # -------------------- drawing methods -------------------- #
+
     def _draw_text_and_bitmap(self, text: str, text_width: int, text_height: int,
                               bitmap: wx.Bitmap, image_width: int, image_height: int,
                               rectangle: wx.Rect, gcdc: wx.GCDC) -> None:
@@ -264,4 +417,4 @@ class CustomizableObject:
             gcdc.DrawText(text, text_x, text_y)
         if (image_width != 0) and (image_height != 0):
             gcdc.DrawBitmap(bitmap, image_x, image_y)
-
+    
