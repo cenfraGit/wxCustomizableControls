@@ -18,6 +18,8 @@ import os
 from typing import Tuple, Literal
 import wx
 
+from ._utils import VectorRGB
+
 
 class Window(wx.Window):
     def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
@@ -64,7 +66,7 @@ class Window(wx.Window):
 
         self._timer_ms = 20
         
-        self._timer_paint_steps = 10
+        self._timer_paint_steps = 50
         self._timer_paint_steps_counter = 0
 
         self._timer_hover = wx.Timer(self)
@@ -72,13 +74,13 @@ class Window(wx.Window):
 
         backgroundcolor = f"{self.__class__.__name__.lower()}_backgroundcolor_default"
         if backgroundcolor in self._config.keys() and len(self._config[backgroundcolor]) == 3:
-            self._color_current = list(self._config[backgroundcolor])
+            self._color_current = VectorRGB(*self._config[backgroundcolor])
             self.Bind(wx.EVT_TIMER, self._on_timer_hover, self._timer_hover)
             self.Bind(wx.EVT_TIMER, self._on_timer_pressed, self._timer_pressed)
         else:
-            self._color_current = [0, 0, 0]
-        self._color_target = []
-        self._color_increment = [0, 0, 0]
+            self._color_current = VectorRGB(0, 0, 0)
+        self._color_target = VectorRGB(0, 0, 0)
+        self._color_increment = VectorRGB(0, 0, 0)
 
         # ------------------------- events ------------------------- #
 
@@ -92,24 +94,20 @@ class Window(wx.Window):
         self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
         self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
 
-    def _calculate_rgb_increments(self, rgb_start, rgb_end) -> Tuple[int, int, int]:
-        """Returns the increments per rgb channel in order to get a
-        color transition for all three channels in the same steps.
-        """
-        def get_increment(start: int, end: int, steps: int):
-            value_range = end - start
-            return value_range / steps
-        r = get_increment(rgb_start[0], rgb_end[0], self._timer_paint_steps)
-        g = get_increment(rgb_start[1], rgb_end[1], self._timer_paint_steps)
-        b = get_increment(rgb_start[2], rgb_end[2], self._timer_paint_steps)
-        return int(r), int(g), int(b)
+    def _calculate_rgb_increments(self, start: VectorRGB, end: VectorRGB) -> VectorRGB:
+        return (end - start) / self._timer_paint_steps
 
-    def _on_timer_hover(self, event):
-        if self._timer_paint_steps_counter <= self._timer_paint_steps:
-            print("_on_timer_hover", self._color_current, self._timer_paint_steps_counter)
-            self._color_current[0] += self._color_increment[0]
-            self._color_current[1] += self._color_increment[1]
-            self._color_current[2] += self._color_increment[2]
+    def _get_easing_t(self, t: float) -> float:
+        return t * t
+        # return 1 - math.cos((t * math.pi) / 2)
+        # return t * t * (3.0 - 2.0 * t)
+
+    def _on_timer_hover(self, event: wx.TimerEvent) -> None:
+        if self._timer_paint_steps_counter < self._timer_paint_steps:
+            # use easing functions
+            t = self._timer_paint_steps_counter / self._timer_paint_steps
+            easing_t = self._get_easing_t(t)
+            self._color_current = self._color_current + (self._color_target - self._color_current) * easing_t
             self._timer_paint_steps_counter += 1
         else:
             self._timer_paint_steps_counter = 0
@@ -170,7 +168,7 @@ class Window(wx.Window):
             return None
         if not self._timer_hover.IsRunning():
             # set color target
-            self._color_target = self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"]
+            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_hover"])
             # calculate increments
             self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
             # start transition
@@ -185,7 +183,7 @@ class Window(wx.Window):
             return None
         if not self._timer_hover.IsRunning():
             # set target color
-            self._color_target = self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_default"]
+            self._color_target = VectorRGB(*self._config[f"{self.__class__.__name__.lower()}_backgroundcolor_default"])
             # calculate increments
             self._color_increment = self._calculate_rgb_increments(self._color_current, self._color_target)
             # start transition
