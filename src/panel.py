@@ -28,14 +28,14 @@ class Panel(CustomizableWindow):
         the other customizable controls (they need to access the
         parent's background color in their painting method).
         """
-        return wx.BLACK
+        state = "default" if self._UseDefaults else self._get_state_as_string()
+        return wx.Colour(*self._config[f"panel_background_{state}"])
 
     def _handle_event(self) -> None:
         return None
 
     def _on_paint(self, event: wx.Event) -> None:
         state = "default" if self._UseDefaults else self._get_state_as_string()
-        print(state)
 
         gcdc, gc = self._get_drawing_contexts(self)
         gcdc.Clear()
