@@ -23,14 +23,6 @@ class Panel(CustomizableWindow):
         # initialize window
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
-    def GetBackgroundColour(self) -> wx.Colour:
-        """Overriding this method was necessary to make it work with
-        the other customizable controls (they need to access the
-        parent's background color in their painting method).
-        """
-        state = "default" if self._UseDefaults else self._get_state_as_string()
-        return wx.Colour(*self._config[f"panel_background_{state}"])
-
     def _handle_event(self) -> None:
         return None
 

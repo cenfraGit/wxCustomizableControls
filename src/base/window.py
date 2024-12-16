@@ -73,6 +73,14 @@ class CustomizableWindow(wx.Window, CustomizableObject):
     def GetValue(self):
         return self._Value
 
+    def GetBackgroundColour(self) -> wx.Colour:
+        """Returns the current background color of the customizable
+        window.
+        """
+        state = "default" if self._UseDefaults else self._get_state_as_string()
+        window_type = self.__class__.__name__
+        return wx.Colour(*self._config[f"{window_type.lower()}_backgroundcolor_{state}"])
+
     def _get_state_as_string(self) -> str:
         if not self._Enabled:
             return "disabled"
