@@ -64,7 +64,7 @@ class Window(wx.Window):
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self.SetInitialSize(size)
 
-        # -------------- timers and color transitions -------------- #
+        # -------------- timers and colour transitions -------------- #
 
         self._timer_ms = 15
         self._timer_paint_steps_counter = 0
@@ -72,24 +72,24 @@ class Window(wx.Window):
         self._timer_smoothing = wx.Timer(self)
 
         # these attributes will store the element (key), and a new
-        # dict containing its current rgb color and its target rgb
-        # color. used for color smoothing for all elements which need
+        # dict containing its current rgb colour and its target rgb
+        # colour. used for colour smoothing for all elements which need
         # them        
         # {"button": {"current": VectorRGB(0, 0, 0), "target": VectorRGB(0, 0, 0)}}
-        self._color_smoothing_brushes = {} # using backgroundcolor attributes
-        self._color_smoothing_pens    = {} # using bordercolor attributes
+        self._colour_smoothing_brushes = {} # using backgroundcolour attributes
+        self._colour_smoothing_pens    = {} # using bordercolour attributes
 
-        # save initial color data
+        # save initial colour data
         for key in self._config.keys():
-            if "backgroundcolor_default" in key:
+            if "backgroundcolour_default" in key:
                 attribute_parts = key.split('_')
                 backgroundtype = self._get_background_type(attribute_parts[0])
                 current = VectorRGB(*self._config[key]) if (backgroundtype == "solid") else VectorRGB(127, 127, 127)
-                self._color_smoothing_brushes[attribute_parts[0]] = {"current": current,
+                self._colour_smoothing_brushes[attribute_parts[0]] = {"current": current,
                                                                      "target": VectorRGB(0, 0, 0)}
-            elif "bordercolor_default" in key:
+            elif "bordercolour_default" in key:
                 attribute_parts = key.split('_')
-                self._color_smoothing_pens[attribute_parts[0]] = {"current": VectorRGB(*self._config[key]),
+                self._colour_smoothing_pens[attribute_parts[0]] = {"current": VectorRGB(*self._config[key]),
                                                                   "target": VectorRGB(0, 0, 0)}
 
         # ------------------------- events ------------------------- #
@@ -130,15 +130,15 @@ class Window(wx.Window):
         return self._Value
 
     def GetBackgroundColour(self) -> wx.Colour:
-        """Returns the current background color of the customizable
+        """Returns the current background colour of the customizable
         window.
         """
         window_type = self.__class__.__name__
-        color_attribute = f"{window_type.lower()}_backgroundcolor_default"
-        if color_attribute in self._config:
-            color = self._config[color_attribute]
-            if len(color) == 3:
-                return wx.Colour(*color)
+        colour_attribute = f"{window_type.lower()}_backgroundcolour_default"
+        if colour_attribute in self._config:
+            colour = self._config[colour_attribute]
+            if len(colour) == 3:
+                return wx.Colour(*colour)
             else:
                 return wx.BLACK
         else:
@@ -160,7 +160,7 @@ class Window(wx.Window):
             return None
 
         self._Hover = True
-        self._handle_color_transition()
+        self._handle_colour_transition()
             
         self.Refresh()
         event.Skip()
@@ -171,7 +171,7 @@ class Window(wx.Window):
             return None
 
         self._Hover = False
-        self._handle_color_transition()
+        self._handle_colour_transition()
             
         self.Refresh()
         event.Skip()
@@ -180,7 +180,7 @@ class Window(wx.Window):
         if not self._Pressed:
 
             self._Pressed = True
-            self._handle_color_transition()
+            self._handle_colour_transition()
                 
             self.CaptureMouse()
             if self._ActOnPress:
@@ -192,7 +192,7 @@ class Window(wx.Window):
         if self._Pressed:
 
             self._Pressed = False
-            self._handle_color_transition()
+            self._handle_colour_transition()
                 
             self.ReleaseMouse()
             if not self._ActOnPress:
@@ -201,8 +201,8 @@ class Window(wx.Window):
         event.Skip()
 
     def _on_timer_smoothing(self, event: wx.TimerEvent) -> None:
-        """Uses easing functions so smooth out the color transition
-        between states. Updates the current color for all pens and
+        """Uses easing functions so smooth out the colour transition
+        between states. Updates the current colour for all pens and
         brushes.
         """
         # get last valid state
@@ -211,19 +211,19 @@ class Window(wx.Window):
             self._last_state = state
         else:
             self._last_state = "hover"
-        timer_paint_steps = int(self._config[f"colortransition_ms_{self._last_state}"] / self._timer_ms)
+        timer_paint_steps = int(self._config[f"colourtransition_ms_{self._last_state}"] / self._timer_ms)
         if self._timer_paint_steps_counter < timer_paint_steps:
             
             t = self._timer_paint_steps_counter / timer_paint_steps
             easing_t = self._get_easing_t(t)
 
-            for color_values in self._color_smoothing_brushes.values():
-                if isinstance(color_values["current"], VectorRGB) and isinstance(color_values["target"], VectorRGB):
-                    color_values["current"] = color_values["current"] + (color_values["target"] - color_values["current"]) * easing_t
+            for colour_values in self._colour_smoothing_brushes.values():
+                if isinstance(colour_values["current"], VectorRGB) and isinstance(colour_values["target"], VectorRGB):
+                    colour_values["current"] = colour_values["current"] + (colour_values["target"] - colour_values["current"]) * easing_t
                 else:
-                    color_values["current"] = color_values["target"]
-            for color_values in self._color_smoothing_pens.values():
-                color_values["current"] = color_values["current"] + (color_values["target"] - color_values["current"]) * easing_t
+                    colour_values["current"] = colour_values["target"]
+            for colour_values in self._colour_smoothing_pens.values():
+                colour_values["current"] = colour_values["current"] + (colour_values["target"] - colour_values["current"]) * easing_t
 
             self._timer_paint_steps_counter += 1
         else:
@@ -238,38 +238,38 @@ class Window(wx.Window):
     def _handle_event(self) -> None:
         raise NotImplementedError("_handle_event")
     
-    # -------------------- color smoothing -------------------- #
+    # -------------------- colour smoothing -------------------- #
 
-    def _handle_color_transition(self) -> None:
+    def _handle_colour_transition(self) -> None:
         if self._UseSmoothTransitions:
-            self._update_color_targets()
+            self._update_colour_targets()
             self._timer_paint_steps_counter = 0
             if not self._timer_smoothing.IsRunning():
                 self._timer_smoothing.Start(self._timer_ms)
         else:
-            self._update_color_currents()
+            self._update_colour_currents()
 
-    def _update_color_targets(self) -> None:
-        """Updates the color targets for all brushes and pens
+    def _update_colour_targets(self) -> None:
+        """Updates the colour targets for all brushes and pens
         depending on the state of the window.
         """
-        for element, color_values in self._color_smoothing_brushes.items():
+        for element, colour_values in self._colour_smoothing_brushes.items():
             if self._get_background_type(element) == "solid":
-                color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
+                colour_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
             else: # if gradient
-                color_values["target"] = VectorRGB(0, 0, 0)
-        for element, color_values in self._color_smoothing_pens.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_{self._get_state()}"])
+                colour_values["target"] = VectorRGB(0, 0, 0)
+        for element, colour_values in self._colour_smoothing_pens.items():
+            colour_values["target"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
 
-    def _update_color_currents(self) -> None:
-        """Updates the color currents for all brushes and pens
+    def _update_colour_currents(self) -> None:
+        """Updates the colour currents for all brushes and pens
         depending on the state of the window. Used for non-smooth
-        color transitioning.
+        colour transitioning.
         """
-        for element, color_values in self._color_smoothing_brushes.items():
-            color_values["current"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
-        for element, color_values in self._color_smoothing_pens.items():
-            color_values["current"] = VectorRGB(*self._config[f"{element}_bordercolor_{self._get_state()}"])
+        for element, colour_values in self._colour_smoothing_brushes.items():
+            colour_values["current"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
+        for element, colour_values in self._colour_smoothing_pens.items():
+            colour_values["current"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
 
     def _cubic_bezier(self, t, p0, p1, p2, p3) -> float:
         return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
@@ -312,41 +312,41 @@ class Window(wx.Window):
         penstyle = self._config[f"{element}_borderstyle_{state}"]
         if (penwidth == 0):
             return wx.TRANSPARENT_PEN
-        return wx.Pen(self._color_smoothing_pens[element]["current"].GetValue(),
+        return wx.Pen(self._colour_smoothing_pens[element]["current"].GetValue(),
                       penwidth,
                       self._get_tool_style("pen", penstyle))
 
     def _get_brush_current(self, element: str, gc: wx.GraphicsContext) -> wx.Brush:
         state = self._get_state()
-        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        backgroundcolour = self._config[f"{element}_backgroundcolour_{state}"]
         backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
-        if len(backgroundcolor) == 3:
-            return wx.Brush(self._color_smoothing_brushes[element]["current"].GetValue(),
+        if len(backgroundcolour) == 3:
+            return wx.Brush(self._colour_smoothing_brushes[element]["current"].GetValue(),
                             self._get_tool_style("brush", backgroundstyle))
         else:
-            return gc.CreateLinearGradientBrush(*backgroundcolor)
+            return gc.CreateLinearGradientBrush(*backgroundcolour)
 
     def _get_pen_element(self, element: str) -> wx.Pen:
         state = self._get_state()
         pen_width = self._config[f"{element}_borderwidth_{state}"]
         if (pen_width == 0):
             return wx.TRANSPARENT_PEN
-        return wx.Pen(wx.Colour(self._config[f"{element}_bordercolor_{state}"]),
+        return wx.Pen(wx.Colour(self._config[f"{element}_bordercolour_{state}"]),
                       self._config[f"{element}_borderwidth_{state}"],
                       self._get_tool_style("pen", self._config[f"{element}_borderstyle_{state}"]))
 
     def _get_brush_element(self, element: str, gc: wx.GraphicsContext) -> wx.Brush:
-        # the backgroundcolor can either be an rgb tuple or a linear
+        # the backgroundcolour can either be an rgb tuple or a linear
         # gradient tuple. if the length of the list is 3, use normal
         # brush. else, try to create a linear gradient brush
         state = self._get_state()
-        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        backgroundcolour = self._config[f"{element}_backgroundcolour_{state}"]
         backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
-        if len(backgroundcolor) == 3:
-            return wx.Brush(wx.Colour(backgroundcolor),
+        if len(backgroundcolour) == 3:
+            return wx.Brush(wx.Colour(backgroundcolour),
                             self._get_tool_style("brush", backgroundstyle))
         else:
-            return gc.CreateLinearGradientBrush(*backgroundcolor)
+            return gc.CreateLinearGradientBrush(*backgroundcolour)
 
     def _get_brush_parent_background(self) -> wx.Brush:
         return wx.Brush(self.GetParent().GetBackgroundColour())
@@ -549,8 +549,8 @@ class Window(wx.Window):
         type of background of the element.
         """
         state = self._get_state()
-        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
-        if len(backgroundcolor) == 3:
+        backgroundcolour = self._config[f"{element}_backgroundcolour_{state}"]
+        if len(backgroundcolour) == 3:
             return "solid"
         else:
             return "gradient"

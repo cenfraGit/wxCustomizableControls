@@ -30,10 +30,10 @@ class Main(wx.Frame):
 
         button_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -48,10 +48,10 @@ class Main(wx.Frame):
             "fontfacename_pressed": "Verdana",
             "fontfacename_disabled": "Verdana",
 
-            "fontcolor_default": (0, 0, 0),
-            "fontcolor_hover": (0, 0, 0),
-            "fontcolor_pressed": (0, 0, 0),
-            "fontcolor_disabled": (0, 0, 0),
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
 
             "fontsize_default": 12,
             "fontsize_hover": 12,
@@ -70,21 +70,21 @@ class Main(wx.Frame):
 
             # ------------------------- button ------------------------- #
 
-            #"button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "button_backgroundcolor_default": (0, 0, 0),
-            "button_backgroundcolor_hover": (0, 0, 0),
-            "button_backgroundcolor_pressed": (0, 0, 0),
-            "button_backgroundcolor_disabled": (231, 1, 202),
+            #"button_backgroundcolour_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "button_backgroundcolour_default": (0, 0, 0),
+            "button_backgroundcolour_hover": (0, 0, 0),
+            "button_backgroundcolour_pressed": (0, 0, 0),
+            "button_backgroundcolour_disabled": (231, 1, 202),
 
             "button_backgroundstyle_default": "solid",
             "button_backgroundstyle_hover": "solid",
             "button_backgroundstyle_pressed": "solid",
             "button_backgroundstyle_disabled": "solid",
 
-            "button_bordercolor_default": (255, 0, 0),
-            "button_bordercolor_hover": (0, 255, 0),
-            "button_bordercolor_pressed": (0, 0, 255),
-            "button_bordercolor_disabled": (46, 31, 95),
+            "button_bordercolour_default": (255, 0, 0),
+            "button_bordercolour_hover": (0, 255, 0),
+            "button_bordercolour_pressed": (0, 0, 255),
+            "button_bordercolour_disabled": (46, 31, 95),
 
             "button_borderwidth_default": 2,
             "button_borderwidth_hover": 3,
@@ -129,10 +129,10 @@ class Main(wx.Frame):
 
         checkbox_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -147,10 +147,10 @@ class Main(wx.Frame):
             "fontfacename_pressed": "Verdana",
             "fontfacename_disabled": "Verdana",
 
-            "fontcolor_default": (0, 0, 0),
-            "fontcolor_hover": (0, 0, 0),
-            "fontcolor_pressed": (0, 0, 0),
-            "fontcolor_disabled": (0, 0, 0),
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
 
             "fontsize_default": 12,
             "fontsize_hover": 12,
@@ -169,21 +169,21 @@ class Main(wx.Frame):
 
             # ------------------------ checkbox ------------------------ #
 
-            # "checkbox_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "checkbox_backgroundcolor_default": (0, 0, 0),
-            "checkbox_backgroundcolor_hover": (0, 0, 0),
-            "checkbox_backgroundcolor_pressed": (0, 0, 0),
-            "checkbox_backgroundcolor_disabled": (231, 1, 202),
+            # "checkbox_backgroundcolour_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "checkbox_backgroundcolour_default": (0, 0, 0),
+            "checkbox_backgroundcolour_hover": (0, 0, 0),
+            "checkbox_backgroundcolour_pressed": (0, 0, 0),
+            "checkbox_backgroundcolour_disabled": (231, 1, 202),
 
             "checkbox_backgroundstyle_default": "solid",
             "checkbox_backgroundstyle_hover": "solid",
             "checkbox_backgroundstyle_pressed": "solid",
             "checkbox_backgroundstyle_disabled": "solid",
 
-            "checkbox_bordercolor_default": (255, 0, 0),
-            "checkbox_bordercolor_hover": (0, 255, 0),
-            "checkbox_bordercolor_pressed": (0, 0, 255),
-            "checkbox_bordercolor_disabled": (46, 31, 95),
+            "checkbox_bordercolour_default": (255, 0, 0),
+            "checkbox_bordercolour_hover": (0, 255, 0),
+            "checkbox_bordercolour_pressed": (0, 0, 255),
+            "checkbox_bordercolour_disabled": (46, 31, 95),
 
             "checkbox_borderwidth_default": 2,
             "checkbox_borderwidth_hover": 2,
@@ -247,10 +247,10 @@ class Main(wx.Frame):
 
             # -------------------- selection marker -------------------- #
 
-            "selectionmarker_bordercolor_default": (255, 0, 0),
-            "selectionmarker_bordercolor_hover": (0, 255, 0),
-            "selectionmarker_bordercolor_pressed": (0, 0, 255),
-            "selectionmarker_bordercolor_disabled": (255, 255, 255),
+            "selectionmarker_bordercolour_default": (255, 0, 0),
+            "selectionmarker_bordercolour_hover": (0, 255, 0),
+            "selectionmarker_bordercolour_pressed": (0, 0, 255),
+            "selectionmarker_bordercolour_disabled": (255, 255, 255),
 
             "selectionmarker_borderwidth_default": 2,
             "selectionmarker_borderwidth_hover": 2,
@@ -265,10 +265,10 @@ class Main(wx.Frame):
 
         radiobutton_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -283,10 +283,10 @@ class Main(wx.Frame):
             "fontfacename_pressed": "Verdana",
             "fontfacename_disabled": "Verdana",
 
-            "fontcolor_default": (0, 0, 0),
-            "fontcolor_hover": (0, 0, 0),
-            "fontcolor_pressed": (0, 0, 0),
-            "fontcolor_disabled": (0, 0, 0),
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
 
             "fontsize_default": 12,
             "fontsize_hover": 12,
@@ -305,21 +305,21 @@ class Main(wx.Frame):
 
             # ---------------------- radiobutton ---------------------- #
 
-            # "radiobutton_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "radiobutton_backgroundcolor_default": (0, 0, 0),
-            "radiobutton_backgroundcolor_hover": (0, 0, 0),
-            "radiobutton_backgroundcolor_pressed": (0, 0, 0),
-            "radiobutton_backgroundcolor_disabled": (0, 0, 0),
+            # "radiobutton_backgroundcolour_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "radiobutton_backgroundcolour_default": (0, 0, 0),
+            "radiobutton_backgroundcolour_hover": (0, 0, 0),
+            "radiobutton_backgroundcolour_pressed": (0, 0, 0),
+            "radiobutton_backgroundcolour_disabled": (0, 0, 0),
 
             "radiobutton_backgroundstyle_default": "solid",
             "radiobutton_backgroundstyle_hover": "solid",
             "radiobutton_backgroundstyle_pressed": "solid",
             "radiobutton_backgroundstyle_disabled": "solid",
 
-            "radiobutton_bordercolor_default": (255, 0, 0),
-            "radiobutton_bordercolor_hover": (0, 255, 0),
-            "radiobutton_bordercolor_pressed": (0, 0, 255),
-            "radiobutton_bordercolor_disabled": (0, 0, 0),
+            "radiobutton_bordercolour_default": (255, 0, 0),
+            "radiobutton_bordercolour_hover": (0, 255, 0),
+            "radiobutton_bordercolour_pressed": (0, 0, 255),
+            "radiobutton_bordercolour_disabled": (0, 0, 0),
 
             "radiobutton_borderwidth_default": 2,
             "radiobutton_borderwidth_hover": 2,
@@ -367,10 +367,10 @@ class Main(wx.Frame):
             "selectionmarker_diameter_pressed": 8,
             "selectionmarker_diameter_disabled": 7,
 
-            "selectionmarker_backgroundcolor_default": (255, 0, 0),
-            "selectionmarker_backgroundcolor_hover": (0, 255, 0),
-            "selectionmarker_backgroundcolor_pressed": (0, 0, 255),
-            "selectionmarker_backgroundcolor_disabled": (255, 255, 255),
+            "selectionmarker_backgroundcolour_default": (255, 0, 0),
+            "selectionmarker_backgroundcolour_hover": (0, 255, 0),
+            "selectionmarker_backgroundcolour_pressed": (0, 0, 255),
+            "selectionmarker_backgroundcolour_disabled": (255, 255, 255),
 
             "selectionmarker_backgroundstyle_default": "solid",
             "selectionmarker_backgroundstyle_hover": "solid",
@@ -380,10 +380,10 @@ class Main(wx.Frame):
 
         panel_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -393,21 +393,21 @@ class Main(wx.Frame):
 
             # ------------------------- panel ------------------------- #
 
-            #"panel_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "panel_backgroundcolor_default": (0, 0, 0),
-            "panel_backgroundcolor_hover": (0, 0, 0),
-            "panel_backgroundcolor_pressed": (0, 0, 0),
-            "panel_backgroundcolor_disabled": (231, 1, 202),
+            #"panel_backgroundcolour_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "panel_backgroundcolour_default": (0, 0, 0),
+            "panel_backgroundcolour_hover": (0, 0, 0),
+            "panel_backgroundcolour_pressed": (0, 0, 0),
+            "panel_backgroundcolour_disabled": (231, 1, 202),
 
             "panel_backgroundstyle_default": "solid",
             "panel_backgroundstyle_hover": "solid",
             "panel_backgroundstyle_pressed": "solid",
             "panel_backgroundstyle_disabled": "solid",
 
-            "panel_bordercolor_default": (255, 0, 0),
-            "panel_bordercolor_hover": (0, 255, 0),
-            "panel_bordercolor_pressed": (0, 0, 255),
-            "panel_bordercolor_disabled": (46, 31, 95),
+            "panel_bordercolour_default": (255, 0, 0),
+            "panel_bordercolour_hover": (0, 255, 0),
+            "panel_bordercolour_pressed": (0, 0, 255),
+            "panel_bordercolour_disabled": (46, 31, 95),
 
             "panel_borderwidth_default": 2,
             "panel_borderwidth_hover": 2,
@@ -427,10 +427,10 @@ class Main(wx.Frame):
 
         staticbox_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -445,10 +445,10 @@ class Main(wx.Frame):
             "fontfacename_pressed": "Verdana",
             "fontfacename_disabled": "Verdana",
 
-            "fontcolor_default": (0, 0, 0),
-            "fontcolor_hover": (0, 0, 0),
-            "fontcolor_pressed": (0, 0, 0),
-            "fontcolor_disabled": (0, 0, 0),
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
 
             "fontsize_default": 12,
             "fontsize_hover": 12,
@@ -467,10 +467,10 @@ class Main(wx.Frame):
 
             # ----------------------- staticbox ----------------------- #
 
-            "staticbox_bordercolor_default": (255, 0, 0),
-            "staticbox_bordercolor_hover": (0, 255, 0),
-            "staticbox_bordercolor_pressed": (0, 0, 255),
-            "staticbox_bordercolor_disabled": (46, 31, 95),
+            "staticbox_bordercolour_default": (255, 0, 0),
+            "staticbox_bordercolour_hover": (0, 255, 0),
+            "staticbox_bordercolour_pressed": (0, 0, 255),
+            "staticbox_bordercolour_disabled": (46, 31, 95),
 
             "staticbox_borderwidth_default": 2,
             "staticbox_borderwidth_hover": 2,
@@ -490,10 +490,10 @@ class Main(wx.Frame):
 
         staticline_style = {
 
-            # -------------------- color transition -------------------- #
+            # -------------------- colour transition -------------------- #
 
-            "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 400,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -503,10 +503,10 @@ class Main(wx.Frame):
 
             # ----------------------- staticline ----------------------- #
 
-            "staticline_bordercolor_default": (255, 0, 0),
-            "staticline_bordercolor_hover": (0, 255, 0),
-            "staticline_bordercolor_pressed": (0, 0, 255),
-            "staticline_bordercolor_disabled": (46, 31, 95),
+            "staticline_bordercolour_default": (255, 0, 0),
+            "staticline_bordercolour_hover": (0, 255, 0),
+            "staticline_bordercolour_pressed": (0, 0, 255),
+            "staticline_bordercolour_disabled": (46, 31, 95),
 
             "staticline_borderwidth_default": 2,
             "staticline_borderwidth_hover": 2,
