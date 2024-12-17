@@ -108,6 +108,14 @@ class VectorRGB:
     def GetRGB(self) -> Tuple[int, int, int]:
         return self.r, self.g, self.b
 
+    def SetValue(self,
+                 r: Union[int, float],
+                 g: Union[int, float],
+                 b: Union[int, float]) -> None:
+        self.r = self._check_legal(r)
+        self.g = self._check_legal(g)
+        self.b = self._check_legal(b)
+
     def GetValue(self) -> wx.Colour:
         return wx.Colour(self.r, self.g, self.b)
     

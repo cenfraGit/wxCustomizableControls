@@ -66,8 +66,9 @@ class Main(wx.Frame):
             # ------------------------- button ------------------------- #
 
             # "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            # "button_backgroundcolor_default": (50, 10, 20),
-            # "button_backgroundcolor_hover": (224, 203, 224),
+            # "button_backgroundcolor_default": (255, 0, 0),
+            # "button_backgroundcolor_hover": (0, 255, 0),
+            # "button_backgroundcolor_pressed": (0, 0, 255),
             "button_backgroundcolor_default": (255, 0, 0),
             "button_backgroundcolor_hover": (0, 255, 0),
             "button_backgroundcolor_pressed": (0, 0, 255),
@@ -78,14 +79,14 @@ class Main(wx.Frame):
             "button_backgroundstyle_pressed": "solid",
             "button_backgroundstyle_disabled": "solid",
 
-            "button_bordercolor_default": (29, 11, 175),
-            "button_bordercolor_hover": (195, 15, 132),
-            "button_bordercolor_pressed": (48, 221, 224),
+            "button_bordercolor_default": (255, 0, 0),
+            "button_bordercolor_hover": (0, 255, 0),
+            "button_bordercolor_pressed": (0, 0, 255),
             "button_bordercolor_disabled": (46, 31, 95),
 
-            "button_borderwidth_default": 0,
-            "button_borderwidth_hover": 0,
-            "button_borderwidth_pressed": 0,
+            "button_borderwidth_default": 2,
+            "button_borderwidth_hover": 2,
+            "button_borderwidth_pressed": 2,
             "button_borderwidth_disabled": 4,
 
             "button_borderstyle_default": "solid",
@@ -481,28 +482,28 @@ class Main(wx.Frame):
         button = cc.Button(self.main_panel, label="test", config=button_style)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100))
-        checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
+        # checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100))
+        # checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
 
-        radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP)
-        radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
-        radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250))
-        radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
-        radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250))
-        radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
-        button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250))
-        button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
+        # radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP)
+        # radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
+        # radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250))
+        # radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
+        # radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250))
+        # radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
+        # button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250))
+        # button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
 
-        panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False)
-        button2 = cc.Button(panel, label="inside panel", config=button_style, pos=wx.Point(10, 10))
-        button2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
-        button2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
+        # panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False)
+        # button2 = cc.Button(panel, label="inside panel", config=button_style, pos=wx.Point(10, 10))
+        # button2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
+        # button2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
 
-        staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200))
-        staticbox_panel = staticbox.GetPanel()
-        staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
+        # staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200))
+        # staticbox_panel = staticbox.GetPanel()
+        # staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
 
-        staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70)) 
+        # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70)) 
 
         
 

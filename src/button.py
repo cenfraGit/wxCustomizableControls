@@ -42,8 +42,8 @@ class Button(Window):
 
         button_rectangle = drawing_rect.Deflate(1, 1)
         gcdc.SetPen(self._get_pen_element("button"))
-        #gc.SetBrush(self._get_brush_element("button", gc))
-        gc.SetBrush(wx.Brush(self._color_current.GetValue()))
+        #gc.SetBrush(wx.Brush(self._color_brush_current.GetValue()))
+        gc.SetBrush(wx.Brush(self._color_smoothing_brushes["button"]["current"].GetValue()))
         gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"button_cornerradius_{self._get_state()}"])
 
         # --------------------- text and image --------------------- #
