@@ -70,11 +70,8 @@ class Main(wx.Frame):
 
             # ------------------------- button ------------------------- #
 
-            # "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
             # "button_backgroundcolor_default": (255, 0, 0),
-            # "button_backgroundcolor_hover": (0, 255, 0),
-            # "button_backgroundcolor_pressed": (0, 0, 255),
-            "button_backgroundcolor_default": (255, 0, 0),
             "button_backgroundcolor_hover": (0, 255, 0),
             "button_backgroundcolor_pressed": (0, 0, 255),
             "button_backgroundcolor_disabled": (231, 1, 202),
@@ -90,8 +87,8 @@ class Main(wx.Frame):
             "button_bordercolor_disabled": (46, 31, 95),
 
             "button_borderwidth_default": 2,
-            "button_borderwidth_hover": 2,
-            "button_borderwidth_pressed": 2,
+            "button_borderwidth_hover": 3,
+            "button_borderwidth_pressed": 4,
             "button_borderwidth_disabled": 4,
 
             "button_borderstyle_default": "solid",

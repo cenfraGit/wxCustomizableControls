@@ -83,7 +83,9 @@ class Window(wx.Window):
         for key in self._config.keys():
             if "backgroundcolor_default" in key:
                 attribute_parts = key.split('_')
-                self._color_smoothing_brushes[attribute_parts[0]] = {"current": VectorRGB(*self._config[key]),
+                backgroundtype = self._get_background_type(attribute_parts[0])
+                current = VectorRGB(*self._config[key]) if (backgroundtype == "solid") else VectorRGB(127, 127, 127)
+                self._color_smoothing_brushes[attribute_parts[0]] = {"current": current,
                                                                      "target": VectorRGB(0, 0, 0)}
             elif "bordercolor_default" in key:
                 attribute_parts = key.split('_')
@@ -132,7 +134,7 @@ class Window(wx.Window):
         window.
         """
         window_type = self.__class__.__name__
-        color_attribute = f"{window_type.lower()}_backgroundcolor_{self._get_state()}"
+        color_attribute = f"{window_type.lower()}_backgroundcolor_default"
         if color_attribute in self._config:
             color = self._config[color_attribute]
             if len(color) == 3:
@@ -214,7 +216,10 @@ class Window(wx.Window):
             easing_t = self._get_easing_t(t)
 
             for color_values in self._color_smoothing_brushes.values():
-                color_values["current"] = color_values["current"] + (color_values["target"] - color_values["current"]) * easing_t
+                if isinstance(color_values["current"], VectorRGB) and isinstance(color_values["target"], VectorRGB):
+                    color_values["current"] = color_values["current"] + (color_values["target"] - color_values["current"]) * easing_t
+                else:
+                    color_values["current"] = color_values["target"]
             for color_values in self._color_smoothing_pens.values():
                 color_values["current"] = color_values["current"] + (color_values["target"] - color_values["current"]) * easing_t
 
@@ -247,7 +252,10 @@ class Window(wx.Window):
         depending on the state of the window.
         """
         for element, color_values in self._color_smoothing_brushes.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
+            if self._get_background_type(element) == "solid":
+                color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
+            else: # if gradient
+                color_values["target"] = VectorRGB(0, 0, 0)
         for element, color_values in self._color_smoothing_pens.items():
             color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_{self._get_state()}"])
 
@@ -295,6 +303,26 @@ class Window(wx.Window):
         gcdc = wx.GCDC(dc)
         gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
         return gcdc, gc
+
+    def _get_pen_current(self, element: str) -> wx.Pen:
+        state = self._get_state()
+        penwidth = self._config[f"{element}_borderwidth_{state}"]
+        penstyle = self._config[f"{element}_borderstyle_{state}"]
+        if (penwidth == 0):
+            return wx.TRANSPARENT_PEN
+        return wx.Pen(self._color_smoothing_pens[element]["current"].GetValue(),
+                      penwidth,
+                      self._get_tool_style("pen", penstyle))
+
+    def _get_brush_current(self, element: str, gc: wx.GraphicsContext) -> wx.Brush:
+        state = self._get_state()
+        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
+        if len(backgroundcolor) == 3:
+            return wx.Brush(self._color_smoothing_brushes[element]["current"].GetValue(),
+                            self._get_tool_style("brush", backgroundstyle))
+        else:
+            return gc.CreateLinearGradientBrush(*backgroundcolor)
 
     def _get_pen_element(self, element: str) -> wx.Pen:
         state = self._get_state()
@@ -513,6 +541,17 @@ class Window(wx.Window):
             rectangle_width = max(object1_width, object2_width)
             rectangle_height = object1_height + separation + object2_height
         return int(rectangle_width), int(rectangle_height)
+
+    def _get_background_type(self, element: str) -> str:
+        """Returns a string ("solid" or "gradient") indicating the
+        type of background of the element.
+        """
+        state = self._get_state()
+        backgroundcolor = self._config[f"{element}_backgroundcolor_{state}"]
+        if len(backgroundcolor) == 3:
+            return "solid"
+        else:
+            return "gradient"
 
     # --------------------- useful methods --------------------- #
 
