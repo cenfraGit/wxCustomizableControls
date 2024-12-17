@@ -33,7 +33,7 @@ class Main(wx.Frame):
             # -------------------- color transition -------------------- #
 
             "colortransition_ms_hover": 1500,
-            "colortransition_ms_pressed": 100,
+            "colortransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -129,6 +129,11 @@ class Main(wx.Frame):
 
         checkbox_style = {
 
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 400,
+
             # ------------------------- cursor ------------------------- #
 
             "mousecursor_hover": "hand",
@@ -164,9 +169,10 @@ class Main(wx.Frame):
 
             # ------------------------ checkbox ------------------------ #
 
-            "checkbox_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "checkbox_backgroundcolor_hover": (224, 203, 224),
-            "checkbox_backgroundcolor_pressed": (124, 185, 182),
+            # "checkbox_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "checkbox_backgroundcolor_default": (0, 0, 0),
+            "checkbox_backgroundcolor_hover": (0, 0, 0),
+            "checkbox_backgroundcolor_pressed": (0, 0, 0),
             "checkbox_backgroundcolor_disabled": (231, 1, 202),
 
             "checkbox_backgroundstyle_default": "solid",
@@ -174,14 +180,14 @@ class Main(wx.Frame):
             "checkbox_backgroundstyle_pressed": "solid",
             "checkbox_backgroundstyle_disabled": "solid",
 
-            "checkbox_bordercolor_default": (29, 11, 175),
-            "checkbox_bordercolor_hover": (195, 15, 132),
-            "checkbox_bordercolor_pressed": (48, 221, 224),
+            "checkbox_bordercolor_default": (255, 0, 0),
+            "checkbox_bordercolor_hover": (0, 255, 0),
+            "checkbox_bordercolor_pressed": (0, 0, 255),
             "checkbox_bordercolor_disabled": (46, 31, 95),
 
-            "checkbox_borderwidth_default": 1,
+            "checkbox_borderwidth_default": 2,
             "checkbox_borderwidth_hover": 2,
-            "checkbox_borderwidth_pressed": 3,
+            "checkbox_borderwidth_pressed": 2,
             "checkbox_borderwidth_disabled": 4,
 
             "checkbox_borderstyle_default": "solid",
@@ -226,14 +232,14 @@ class Main(wx.Frame):
 
             # -------------------- selection marker -------------------- #
 
-            "selectionmarker_bordercolor_default": (255, 255, 255),
-            "selectionmarker_bordercolor_hover": (255, 255, 255),
-            "selectionmarker_bordercolor_pressed": (255, 255, 255),
+            "selectionmarker_bordercolor_default": (255, 0, 0),
+            "selectionmarker_bordercolor_hover": (0, 255, 0),
+            "selectionmarker_bordercolor_pressed": (0, 0, 255),
             "selectionmarker_bordercolor_disabled": (255, 255, 255),
 
             "selectionmarker_borderwidth_default": 2,
-            "selectionmarker_borderwidth_hover": 3,
-            "selectionmarker_borderwidth_pressed": 4,
+            "selectionmarker_borderwidth_hover": 2,
+            "selectionmarker_borderwidth_pressed": 2,
             "selectionmarker_borderwidth_disabled": 2,
 
             "selectionmarker_borderstyle_default": "solid",
@@ -243,6 +249,11 @@ class Main(wx.Frame):
         }
 
         radiobutton_style = {
+
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -358,6 +369,11 @@ class Main(wx.Frame):
 
         panel_style = {
 
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 400,
+
             # ------------------------- cursor ------------------------- #
 
             "mousecursor_hover": "hand",
@@ -398,6 +414,11 @@ class Main(wx.Frame):
         }
 
         staticbox_style = {
+
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 400,
 
             # ------------------------- cursor ------------------------- #
 
@@ -457,6 +478,11 @@ class Main(wx.Frame):
 
         staticline_style = {
 
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 400,
+
             # ------------------------- cursor ------------------------- #
 
             "mousecursor_hover": "hand",
@@ -484,8 +510,8 @@ class Main(wx.Frame):
         button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=True)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        # checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100))
-        # checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
+        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100), use_smooth_transitions=True)
+        checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
 
         # radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP)
         # radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))

@@ -82,8 +82,8 @@ class CheckBox(Window):
                                    bitmap, image_width, image_height,
                                    text_image_rectangle, gcdc)
         # draw checkbox rectangle
-        gcdc.SetPen(self._get_pen_element("checkbox"))
-        gc.SetBrush(self._get_brush_element("checkbox", gc))
+        gcdc.SetPen(self._get_pen_current("checkbox"))
+        gc.SetBrush(self._get_brush_current("checkbox", gc))
         gcdc.DrawRoundedRectangle(checkbox_rectangle,
                                   self._config[f"checkbox_cornerradius_{self._get_state()}"])
 
@@ -94,7 +94,7 @@ class CheckBox(Window):
             selection_rectangle: wx.Rect = copy(checkbox_rectangle).Deflate(int(self._config["checkbox_width"] * 0.3),
                                                                             int(self._config["checkbox_height"] * 0.3))
             # draw the selection marker
-            gcdc.SetPen(self._get_pen_element("selectionmarker"))
+            gcdc.SetPen(self._get_pen_current("selectionmarker"))
             gc.SetBrush(wx.TRANSPARENT_BRUSH)
             path: wx.GraphicsPath = gc.CreatePath()
             path.MoveToPoint(selection_rectangle.GetX(),
