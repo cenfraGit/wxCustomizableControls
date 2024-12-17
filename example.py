@@ -69,9 +69,9 @@ class Main(wx.Frame):
             # "button_backgroundcolor_default": (255, 0, 0),
             # "button_backgroundcolor_hover": (0, 255, 0),
             # "button_backgroundcolor_pressed": (0, 0, 255),
-            "button_backgroundcolor_default": (0, 0, 0),
-            "button_backgroundcolor_hover": (0, 0, 0),
-            "button_backgroundcolor_pressed": (0, 0, 0),
+            "button_backgroundcolor_default": (255, 0, 0),
+            "button_backgroundcolor_hover": (0, 255, 0),
+            "button_backgroundcolor_pressed": (0, 0, 255),
             "button_backgroundcolor_disabled": (231, 1, 202),
 
             "button_backgroundstyle_default": "solid",
@@ -79,9 +79,9 @@ class Main(wx.Frame):
             "button_backgroundstyle_pressed": "solid",
             "button_backgroundstyle_disabled": "solid",
 
-            "button_bordercolor_default": (255, 0, 0),
-            "button_bordercolor_hover": (0, 255, 0),
-            "button_bordercolor_pressed": (0, 0, 255),
+            "button_bordercolor_default": (100, 0, 0),
+            "button_bordercolor_hover": (0, 100, 0),
+            "button_bordercolor_pressed": (0, 0, 100),
             "button_bordercolor_disabled": (46, 31, 95),
 
             "button_borderwidth_default": 2,
@@ -479,7 +479,7 @@ class Main(wx.Frame):
             "staticline_borderstyle_disabled": "solid",
         }
 
-        button = cc.Button(self.main_panel, label="test", config=button_style)
+        button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=True)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
         # checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100))

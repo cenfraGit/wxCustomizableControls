@@ -50,6 +50,7 @@ class Window(wx.Window):
 
         self._ActOnPress = kwargs.get("act_on_press", False)
         self._UseDefaults = kwargs.get("use_defaults", False)
+        self._UseSmoothTransitions = kwargs.get("use_smooth_transitions", True)
 
         # ------------------- configuration data ------------------- #
 
@@ -157,17 +158,9 @@ class Window(wx.Window):
             event.Skip()
             return None
 
-        for element, color_values in self._color_smoothing_brushes.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_hover"])
-        for element, color_values in self._color_smoothing_pens.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_hover"])
-
-        self._timer_paint_steps_counter = 0
-        
-        if not self._timer_smoothing.IsRunning():            
-            self._timer_smoothing.Start(self._timer_ms)
-            
         self._Hover = True
+        self._handle_color_transition()
+            
         self.Refresh()
         event.Skip()
 
@@ -176,35 +169,19 @@ class Window(wx.Window):
             event.Skip()
             return None
 
-        for element, color_values in self._color_smoothing_brushes.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_default"])
-        for element, color_values in self._color_smoothing_pens.items():
-            color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_default"])
-        
-        self._timer_paint_steps_counter = 0
-        
-        if not self._timer_smoothing.IsRunning():            
-            self._timer_smoothing.Start(self._timer_ms)
-            
         self._Hover = False
+        self._handle_color_transition()
+            
         self.Refresh()
         event.Skip()
 
     def _on_left_down(self, event: wx.Event) -> None:
         if not self._Pressed:
 
-            for element, color_values in self._color_smoothing_brushes.items():
-                color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_pressed"])
-            for element, color_values in self._color_smoothing_pens.items():
-                color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_pressed"])
-
-            self._timer_paint_steps_counter = 0
-            
-            if not self._timer_smoothing.IsRunning():
-                self._timer_smoothing.Start(self._timer_ms)
+            self._Pressed = True
+            self._handle_color_transition()
                 
             self.CaptureMouse()
-            self._Pressed = True
             if self._ActOnPress:
                 self._handle_event()
             self.Refresh()
@@ -213,18 +190,10 @@ class Window(wx.Window):
     def _on_left_up(self, event: wx.Event) -> None:
         if self._Pressed:
 
-            for element, color_values in self._color_smoothing_brushes.items():
-                color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_hover"])
-            for element, color_values in self._color_smoothing_pens.items():
-                color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_hover"])
-                
-            self._timer_paint_steps_counter = 0
-            
-            if not self._timer_smoothing.IsRunning():
-                self._timer_smoothing.Start(self._timer_ms)
+            self._Pressed = False
+            self._handle_color_transition()
                 
             self.ReleaseMouse()
-            self._Pressed = False
             if not self._ActOnPress:
                 self._handle_event()
             self.Refresh()
@@ -232,7 +201,8 @@ class Window(wx.Window):
 
     def _on_timer_smoothing(self, event: wx.TimerEvent) -> None:
         """Uses easing functions so smooth out the color transition
-        between states.
+        between states. Updates the current color for all pens and
+        brushes.
         """
         if self._timer_paint_steps_counter < self._timer_paint_steps:
             
@@ -259,7 +229,35 @@ class Window(wx.Window):
     
     # -------------------- color smoothing -------------------- #
 
-    def _cubic_bezier(self, t, p0, p1, p2, p3):
+    def _handle_color_transition(self) -> None:
+        if self._UseSmoothTransitions:
+            self._update_color_targets()
+            self._timer_paint_steps_counter = 0
+            if not self._timer_smoothing.IsRunning():
+                self._timer_smoothing.Start(self._timer_ms)
+        else:
+            self._update_color_currents()
+
+    def _update_color_targets(self) -> None:
+        """Updates the color targets for all brushes and pens
+        depending on the state of the window.
+        """
+        for element, color_values in self._color_smoothing_brushes.items():
+            color_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
+        for element, color_values in self._color_smoothing_pens.items():
+            color_values["target"] = VectorRGB(*self._config[f"{element}_bordercolor_{self._get_state()}"])
+
+    def _update_color_currents(self) -> None:
+        """Updates the color currents for all brushes and pens
+        depending on the state of the window. Used for non-smooth
+        color transitioning.
+        """
+        for element, color_values in self._color_smoothing_brushes.items():
+            color_values["current"] = VectorRGB(*self._config[f"{element}_backgroundcolor_{self._get_state()}"])
+        for element, color_values in self._color_smoothing_pens.items():
+            color_values["current"] = VectorRGB(*self._config[f"{element}_bordercolor_{self._get_state()}"])
+
+    def _cubic_bezier(self, t, p0, p1, p2, p3) -> float:
         return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
 
     def _get_easing_t(self, t: float) -> float:
