@@ -92,8 +92,8 @@ class Main(wx.Frame):
             "button_bordercolour_pressed": (0, 0, 255),
             "button_bordercolour_disabled": (46, 31, 95),
 
-            "button_borderwidth_default": 2,
-            "button_borderwidth_hover": 3,
+            "button_borderwidth_default": 40,
+            "button_borderwidth_hover": 8,
             "button_borderwidth_pressed": 4,
             "button_borderwidth_disabled": 4,
 

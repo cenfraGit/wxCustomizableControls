@@ -9,14 +9,14 @@
 ** DONE radiobuttons
 ** DONE panels
 ** DONE static box
+** DONE static lines
 ** TODO scrolledwindow
 ** TODO combobox (choice)
-** DONE static lines
+** TODO menubar
+** TODO frame top bar
 ** TODO sliders
 ** TODO progress bar
 ** TODO static text with wrap
-** TODO frame top bar
-** TODO menubar
 ** TODO switch (checkbox functionality)
 ** TODO text control
 
