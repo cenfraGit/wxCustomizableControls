@@ -112,8 +112,8 @@ class RadioButton(Window):
                                    bitmap, image_width, image_height,
                                    text_image_rectangle, gcdc)
         # draw radiobutton circle
-        gcdc.SetPen(self._get_pen_element("radiobutton"))
-        gc.SetBrush(self._get_brush_element("radiobutton", gc))
+        gcdc.SetPen(self._get_pen_current("radiobutton"))
+        gc.SetBrush(self._get_brush_current("radiobutton", gc))
         radiobutton_center_x = radiobutton_rectangle.GetX() + radiobutton_rectangle.GetWidth() // 2
         radiobutton_center_y = radiobutton_rectangle.GetY() + radiobutton_rectangle.GetHeight() // 2
         gcdc.DrawCircle(radiobutton_center_x, radiobutton_center_y, self._config[f"radiobutton_diameter"] // 2)
@@ -122,7 +122,7 @@ class RadioButton(Window):
 
         if self._Value:
             gcdc.SetPen(wx.TRANSPARENT_PEN)
-            gc.SetBrush(self._get_brush_element("selectionmarker", gc))
+            gc.SetBrush(self._get_brush_current("selectionmarker", gc))
             gcdc.DrawCircle(radiobutton_center_x, radiobutton_center_y, self._config[f"selectionmarker_diameter_{self._get_state()}"] // 2)
 
         # ---------------------- mouse cursor ---------------------- #

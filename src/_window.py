@@ -209,6 +209,8 @@ class Window(wx.Window):
         state = self._get_state()
         if state in ["hover", "pressed"]:
             self._last_state = state
+        else:
+            self._last_state = "hover"
         timer_paint_steps = int(self._config[f"colortransition_ms_{self._last_state}"] / self._timer_ms)
         if self._timer_paint_steps_counter < timer_paint_steps:
             

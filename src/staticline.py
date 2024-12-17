@@ -45,9 +45,7 @@ class StaticLine(Window):
 
         # ----------------------- staticline ----------------------- #
 
-        gcdc.SetPen(self._get_pen_element("staticline"))
-        #gc.SetBrush(wx.TRANSPARENT_BRUSH)
-        gc.SetBrush(wx.WHITE_BRUSH)
+        gcdc.SetPen(self._get_pen_current("staticline"))
 
         vertical_midpoint = drawing_rect.GetX() + drawing_rect.GetHeight() // 2
         horizontal_midpoint = drawing_rect.GetX() + drawing_rect.GetWidth() // 2

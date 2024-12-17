@@ -70,10 +70,10 @@ class Main(wx.Frame):
 
             # ------------------------- button ------------------------- #
 
-            "button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            # "button_backgroundcolor_default": (255, 0, 0),
-            "button_backgroundcolor_hover": (0, 255, 0),
-            "button_backgroundcolor_pressed": (0, 0, 255),
+            #"button_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "button_backgroundcolor_default": (0, 0, 0),
+            "button_backgroundcolor_hover": (0, 0, 0),
+            "button_backgroundcolor_pressed": (0, 0, 0),
             "button_backgroundcolor_disabled": (231, 1, 202),
 
             "button_backgroundstyle_default": "solid",
@@ -81,9 +81,9 @@ class Main(wx.Frame):
             "button_backgroundstyle_pressed": "solid",
             "button_backgroundstyle_disabled": "solid",
 
-            "button_bordercolor_default": (100, 0, 0),
-            "button_bordercolor_hover": (0, 100, 0),
-            "button_bordercolor_pressed": (0, 0, 100),
+            "button_bordercolor_default": (255, 0, 0),
+            "button_bordercolor_hover": (0, 255, 0),
+            "button_bordercolor_pressed": (0, 0, 255),
             "button_bordercolor_disabled": (46, 31, 95),
 
             "button_borderwidth_default": 2,
@@ -210,20 +210,35 @@ class Main(wx.Frame):
             "image_separation": 10,
             "image_side": "top",
 
-            "image_path_default": "images/example.png",
-            "image_path_hover": "images/example.png",
+            # "image_path_default": "images/example.png",
+            # "image_path_hover": "images/example.png",
+            # "image_path_pressed": "",
+            # "image_path_disabled": "",
+
+            # "image_width_default": 70,
+            # "image_width_hover": 70,
+            # "image_width_pressed": 10,
+            # "image_width_disabled": 10,
+
+            # "image_height_default": 70, 
+            # "image_height_hover": 70,
+            # "image_height_pressed": 10,
+            # "image_height_disabled": 10,
+
+            "image_path_default": "",
+            "image_path_hover": "",
             "image_path_pressed": "",
             "image_path_disabled": "",
 
-            "image_width_default": 70,
-            "image_width_hover": 70,
-            "image_width_pressed": 10,
-            "image_width_disabled": 10,
+            "image_width_default": 0,
+            "image_width_hover": 0,
+            "image_width_pressed": 0,
+            "image_width_disabled": 0,
 
-            "image_height_default": 70, 
-            "image_height_hover": 70,
-            "image_height_pressed": 10,
-            "image_height_disabled": 10,
+            "image_height_default": 0, 
+            "image_height_hover": 0,
+            "image_height_pressed": 0,
+            "image_height_disabled": 0,
 
             "image_channels_default": (1.0, 1.0, 1.0, 1.0),
             "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
@@ -290,35 +305,31 @@ class Main(wx.Frame):
 
             # ---------------------- radiobutton ---------------------- #
 
-            "radiobutton_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "radiobutton_backgroundcolor_hover": (224, 203, 224),
-            "radiobutton_backgroundcolor_pressed": (124, 185, 182),
-            "radiobutton_backgroundcolor_disabled": (231, 1, 202),
+            # "radiobutton_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "radiobutton_backgroundcolor_default": (0, 0, 0),
+            "radiobutton_backgroundcolor_hover": (0, 0, 0),
+            "radiobutton_backgroundcolor_pressed": (0, 0, 0),
+            "radiobutton_backgroundcolor_disabled": (0, 0, 0),
 
             "radiobutton_backgroundstyle_default": "solid",
             "radiobutton_backgroundstyle_hover": "solid",
             "radiobutton_backgroundstyle_pressed": "solid",
             "radiobutton_backgroundstyle_disabled": "solid",
 
-            "radiobutton_bordercolor_default": (29, 11, 175),
-            "radiobutton_bordercolor_hover": (195, 15, 132),
-            "radiobutton_bordercolor_pressed": (48, 221, 224),
-            "radiobutton_bordercolor_disabled": (46, 31, 95),
+            "radiobutton_bordercolor_default": (255, 0, 0),
+            "radiobutton_bordercolor_hover": (0, 255, 0),
+            "radiobutton_bordercolor_pressed": (0, 0, 255),
+            "radiobutton_bordercolor_disabled": (0, 0, 0),
 
-            "radiobutton_borderwidth_default": 1,
+            "radiobutton_borderwidth_default": 2,
             "radiobutton_borderwidth_hover": 2,
-            "radiobutton_borderwidth_pressed": 3,
+            "radiobutton_borderwidth_pressed": 2,
             "radiobutton_borderwidth_disabled": 4,
 
-            "radiobutton_borderstyle_default": "solid",
+            "radiobutton_borderstyle_default": "long_dash",
             "radiobutton_borderstyle_hover": "solid",
             "radiobutton_borderstyle_pressed": "solid",
             "radiobutton_borderstyle_disabled": "solid",
-
-            "radiobutton_cornerradius_default": 3,
-            "radiobutton_cornerradius_hover": 3,
-            "radiobutton_cornerradius_pressed": 3,
-            "radiobutton_cornerradius_disabled": 3,
 
             "radiobutton_diameter": 20,
             "radiobutton_side": "left",
@@ -352,13 +363,13 @@ class Main(wx.Frame):
             # -------------------- selection marker -------------------- #
 
             "selectionmarker_diameter_default": 8,
-            "selectionmarker_diameter_hover": 6,
-            "selectionmarker_diameter_pressed": 4,
+            "selectionmarker_diameter_hover": 8,
+            "selectionmarker_diameter_pressed": 8,
             "selectionmarker_diameter_disabled": 7,
 
-            "selectionmarker_backgroundcolor_default": (120, 120, 120),
-            "selectionmarker_backgroundcolor_hover": (170, 60, 60),
-            "selectionmarker_backgroundcolor_pressed": (255, 0, 0),
+            "selectionmarker_backgroundcolor_default": (255, 0, 0),
+            "selectionmarker_backgroundcolor_hover": (0, 255, 0),
+            "selectionmarker_backgroundcolor_pressed": (0, 0, 255),
             "selectionmarker_backgroundcolor_disabled": (255, 255, 255),
 
             "selectionmarker_backgroundstyle_default": "solid",
@@ -382,9 +393,10 @@ class Main(wx.Frame):
 
             # ------------------------- panel ------------------------- #
 
-            "panel_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
-            "panel_backgroundcolor_hover": (224, 203, 224),
-            "panel_backgroundcolor_pressed": (124, 185, 182),
+            #"panel_backgroundcolor_default": (50, 10, 20, 30, (255, 0, 0), (0, 255, 255)),
+            "panel_backgroundcolor_default": (0, 0, 0),
+            "panel_backgroundcolor_hover": (0, 0, 0),
+            "panel_backgroundcolor_pressed": (0, 0, 0),
             "panel_backgroundcolor_disabled": (231, 1, 202),
 
             "panel_backgroundstyle_default": "solid",
@@ -392,14 +404,14 @@ class Main(wx.Frame):
             "panel_backgroundstyle_pressed": "solid",
             "panel_backgroundstyle_disabled": "solid",
 
-            "panel_bordercolor_default": (29, 11, 175),
-            "panel_bordercolor_hover": (195, 15, 132),
-            "panel_bordercolor_pressed": (48, 221, 224),
+            "panel_bordercolor_default": (255, 0, 0),
+            "panel_bordercolor_hover": (0, 255, 0),
+            "panel_bordercolor_pressed": (0, 0, 255),
             "panel_bordercolor_disabled": (46, 31, 95),
 
-            "panel_borderwidth_default": 1,
+            "panel_borderwidth_default": 2,
             "panel_borderwidth_hover": 2,
-            "panel_borderwidth_pressed": 3,
+            "panel_borderwidth_pressed": 2,
             "panel_borderwidth_disabled": 4,
 
             "panel_borderstyle_default": "solid",
@@ -455,14 +467,14 @@ class Main(wx.Frame):
 
             # ----------------------- staticbox ----------------------- #
 
-            "staticbox_bordercolor_default": (29, 11, 175),
-            "staticbox_bordercolor_hover": (195, 15, 132),
-            "staticbox_bordercolor_pressed": (48, 221, 224),
+            "staticbox_bordercolor_default": (255, 0, 0),
+            "staticbox_bordercolor_hover": (0, 255, 0),
+            "staticbox_bordercolor_pressed": (0, 0, 255),
             "staticbox_bordercolor_disabled": (46, 31, 95),
 
-            "staticbox_borderwidth_default": 1,
+            "staticbox_borderwidth_default": 2,
             "staticbox_borderwidth_hover": 2,
-            "staticbox_borderwidth_pressed": 3,
+            "staticbox_borderwidth_pressed": 2,
             "staticbox_borderwidth_disabled": 4,
 
             "staticbox_borderstyle_default": "solid",
@@ -491,14 +503,14 @@ class Main(wx.Frame):
 
             # ----------------------- staticline ----------------------- #
 
-            "staticline_bordercolor_default": (255, 255, 255),
-            "staticline_bordercolor_hover": (195, 15, 132),
-            "staticline_bordercolor_pressed": (48, 221, 224),
+            "staticline_bordercolor_default": (255, 0, 0),
+            "staticline_bordercolor_hover": (0, 255, 0),
+            "staticline_bordercolor_pressed": (0, 0, 255),
             "staticline_bordercolor_disabled": (46, 31, 95),
 
-            "staticline_borderwidth_default": 3,
+            "staticline_borderwidth_default": 2,
             "staticline_borderwidth_hover": 2,
-            "staticline_borderwidth_pressed": 3,
+            "staticline_borderwidth_pressed": 2,
             "staticline_borderwidth_disabled": 4,
 
             "staticline_borderstyle_default": "solid",
@@ -507,31 +519,33 @@ class Main(wx.Frame):
             "staticline_borderstyle_disabled": "solid",
         }
 
-        button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=True)
+        smooth = True
+
+        button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100), use_smooth_transitions=True)
+        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100), use_smooth_transitions=smooth)
         checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
 
-        # radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP)
-        # radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
-        # radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250))
-        # radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
-        # radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250))
-        # radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
-        # button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250))
-        # button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
+        radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP, use_smooth_transitions=smooth)
+        radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
+        radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250), use_smooth_transitions=smooth)
+        radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
+        radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250), use_smooth_transitions=smooth)
+        radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
+        button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250), use_smooth_transitions=smooth)
+        button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
 
-        # panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False)
-        # button2 = cc.Button(panel, label="inside panel", config=button_style, pos=wx.Point(10, 10))
-        # button2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
-        # button2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
+        panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False, use_smooth_transitions=smooth)
+        checkbox2 = cc.CheckBox(panel, label="inside panel", config=checkbox_style, pos=wx.Point(10, 10), use_smooth_transitions=smooth)
+        checkbox2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
+        checkbox2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
 
-        # staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200))
-        # staticbox_panel = staticbox.GetPanel()
-        # staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
+        staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200), use_smooth_transitions=smooth, use_defaults=False)
+        staticbox_panel = staticbox.GetPanel()
+        staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
 
-        # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70)) 
+        staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
 
         
 

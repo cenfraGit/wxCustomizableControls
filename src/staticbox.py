@@ -45,6 +45,11 @@ class StaticBox(Window):
         # create content panel
         self.__Panel = wx.Panel(self)
         self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
+        # redirect panel events to ourselves
+        self.__Panel.Bind(wx.EVT_ENTER_WINDOW, self._on_enter_window)
+        self.__Panel.Bind(wx.EVT_LEAVE_WINDOW, self._on_leave_window)
+        self.__Panel.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
+        self.__Panel.Bind(wx.EVT_LEFT_UP, self._on_left_up)
 
         # create a sizer to outselves and then add the content panel
         # with paddings
@@ -77,7 +82,7 @@ class StaticBox(Window):
 
         # ------------------ staticbox rectangle ------------------ #
 
-        gcdc.SetPen(self._get_pen_element("staticbox"))
+        gcdc.SetPen(self._get_pen_current("staticbox"))
         gc.SetBrush(wx.TRANSPARENT_BRUSH)
         
         padding_sides = self._config[f"staticbox_borderwidth_{self._get_state()}"]
