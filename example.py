@@ -30,6 +30,11 @@ class Main(wx.Frame):
 
         button_style = {
 
+            # -------------------- color transition -------------------- #
+
+            "colortransition_ms_hover": 1500,
+            "colortransition_ms_pressed": 100,
+
             # ------------------------- cursor ------------------------- #
 
             "mousecursor_hover": "cross",

@@ -67,7 +67,6 @@ class Window(wx.Window):
         # -------------- timers and color transitions -------------- #
 
         self._timer_ms = 15
-        self._timer_paint_steps = 50 # 120
         self._timer_paint_steps_counter = 0
 
         self._timer_smoothing = wx.Timer(self)
@@ -204,9 +203,14 @@ class Window(wx.Window):
         between states. Updates the current color for all pens and
         brushes.
         """
-        if self._timer_paint_steps_counter < self._timer_paint_steps:
+        # get last valid state
+        state = self._get_state()
+        if state in ["hover", "pressed"]:
+            self._last_state = state
+        timer_paint_steps = int(self._config[f"colortransition_ms_{self._last_state}"] / self._timer_ms)
+        if self._timer_paint_steps_counter < timer_paint_steps:
             
-            t = self._timer_paint_steps_counter / self._timer_paint_steps
+            t = self._timer_paint_steps_counter / timer_paint_steps
             easing_t = self._get_easing_t(t)
 
             for color_values in self._color_smoothing_brushes.values():
@@ -261,10 +265,6 @@ class Window(wx.Window):
         return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
 
     def _get_easing_t(self, t: float) -> float:
-        # return t
-        # return t * t
-        # return 1 - math.cos((t * math.pi) / 2)
-        # return t * t * (3.0 - 2.0 * t)
         p0, p3 = 0, 1
         p1, p2 = 0.42, 0.58
         return self._cubic_bezier(t, p0, p1, p2, p3)
