@@ -7,8 +7,14 @@ cenfra
 """
 
 
+import platform
 import src as cc
 import wx
+
+
+if platform.system() == "Windows":
+    import ctypes
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 
 class Main(wx.Frame):
