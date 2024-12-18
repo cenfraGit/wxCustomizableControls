@@ -29,6 +29,12 @@ class Gauge(Window):
         
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
+    def SetValue(self, value:int) -> None:
+        if value < 0 or value > self._Range:
+            raise ValueError("SetValue out of range.")
+        else:
+            self._Value = value
+
     def IsVertical(self) -> bool:
         return (self._Style == wx.GA_VERTICAL)
 
@@ -54,6 +60,10 @@ class Gauge(Window):
 
         # ------------------- gauge progress bar ------------------- #
 
+        # the _get_progressbar_rectangle takes into account the range,
+        # value, orientation, progressbar_startfrom value, and
+        # borderwidths of both the outer frame and progressbar to
+        # calculate the dimensions of the rectangle.
         progress_rectangle = self._get_progressbar_rectangle()
         
         gcdc.SetPen(self._get_pen_current("progress"))
@@ -64,7 +74,10 @@ class Gauge(Window):
 
         self._configure_cursor()
 
-    def _get_progressbar_rectangle(self):
+    def _get_progressbar_rectangle(self) -> wx.Rect:
+        """Returns the rectangle representing the progressbar.
+        """
+        # get both gauge and progressbar info
         gauge_range = self.GetRange()
         gauge_value = self.GetValue()
         gauge_size = self.GetSize()
@@ -72,6 +85,10 @@ class Gauge(Window):
         padding = (self._config[f"progress_padding_{self._get_state()}"] +
                    self._get_pen_current("progress").GetWidth() // 2 +
                    self._get_pen_current("gauge").GetWidth())
+
+        # if the gauge style is vertical, we will use its height to
+        # perform the value calculations. if its horizontal, use the
+        # width.
         if gauge_vertical:
             gauge_length = gauge_size[1]
             gauge_width_sides = gauge_size[0]
@@ -79,11 +96,19 @@ class Gauge(Window):
             gauge_length = gauge_size[0]
             gauge_width_sides = gauge_size[1]
 
+        # the progressbar_length is the value transformation
         progressbar_length = gauge_value * (gauge_length - 2 * padding) / gauge_range
+        # the progressbar_width_sides is the width of the side of the
+        # progressbar, regardless of its orientation.
         progressbar_width_sides = gauge_width_sides - 2 * padding
 
+        # now we determine the orientation for the previous calculations
         progressbar_width = progressbar_width_sides if gauge_vertical else progressbar_length
         progressbar_height = progressbar_length if gauge_vertical else progressbar_width_sides
+
+        # addionally, the user can specify if the progressbar starts
+        # from the top or bottom (if the gauge is vertical) or left or
+        # right (if the gauge is horizontal)
 
         if gauge_vertical:
             if self._config["progress_startfrom"] == "top":
@@ -93,7 +118,7 @@ class Gauge(Window):
                 progressbar_x = padding
                 progressbar_y = gauge_length - progressbar_length - padding
             else:
-                raise ValueError("progress_startfrom: invalid value. check orientation")
+                raise ValueError("progress_startfrom: invalid value for vertical orientation.")
         else:
             if self._config["progress_startfrom"] == "left":
                 progressbar_x = padding
@@ -102,7 +127,7 @@ class Gauge(Window):
                 progressbar_x = gauge_length - progressbar_width - padding
                 progressbar_y = padding
             else:
-                raise ValueError("progress_startfrom: invalid value. check orientation")
+                raise ValueError("progress_startfrom: invalid value for horizontal orientation")
 
         return wx.Rect(int(progressbar_x), int(progressbar_y),
                        int(progressbar_width), int(progressbar_height))

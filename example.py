@@ -642,9 +642,9 @@ class Main(wx.Frame):
 
         # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
 
-        gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 300), config=gauge_style, use_smooth_transitions=smooth, style=wx.GA_HORIZONTAL)
+        gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 60), config=gauge_style, use_smooth_transitions=smooth, style=wx.GA_HORIZONTAL)
         gauge.SetRange(200)
-        gauge.SetValue(40)
+        gauge.SetValue(60)
         
 
         
