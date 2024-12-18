@@ -11,10 +11,14 @@ import platform
 import src as cc
 import wx
 
+# --------------------- platform setup --------------------- #
 
 if platform.system() == "Windows":
     import ctypes
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
+elif platform.system() == "Linux":
+    import os
+    os.environ["GDK_BACKEND"] = "x11"
 
 
 class Main(wx.Frame):
@@ -525,33 +529,123 @@ class Main(wx.Frame):
             "staticline_borderstyle_disabled": "solid",
         }
 
+        gauge_style = {
+
+            # -------------------- colour transition -------------------- #
+
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "cross",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # ------------------------- gauge ------------------------- #
+
+            "gauge_backgroundcolour_default": (255, 255, 255),
+            "gauge_backgroundcolour_hover": (255, 255, 255),
+            "gauge_backgroundcolour_pressed": (255, 255, 255),
+            "gauge_backgroundcolour_disabled": (231, 1, 202),
+
+            "gauge_backgroundstyle_default": "solid",
+            "gauge_backgroundstyle_hover": "solid",
+            "gauge_backgroundstyle_pressed": "solid",
+            "gauge_backgroundstyle_disabled": "solid",
+
+            "gauge_bordercolour_default": (0, 0, 0),
+            "gauge_bordercolour_hover": (0, 0, 0),
+            "gauge_bordercolour_pressed": (0, 0, 0),
+            "gauge_bordercolour_disabled": (46, 31, 95),
+
+            "gauge_borderwidth_default": 2,
+            "gauge_borderwidth_hover": 2,
+            "gauge_borderwidth_pressed": 2,
+            "gauge_borderwidth_disabled": 4,
+
+            "gauge_borderstyle_default": "solid",
+            "gauge_borderstyle_hover": "solid",
+            "gauge_borderstyle_pressed": "solid",
+            "gauge_borderstyle_disabled": "solid",
+
+            "gauge_cornerradius_default": 3,
+            "gauge_cornerradius_hover": 3,
+            "gauge_cornerradius_pressed": 3,
+            "gauge_cornerradius_disabled": 10,
+
+            # ------------------------ progress ------------------------ #
+
+            "progress_padding_default": 3,
+            "progress_padding_hover": 3,
+            "progress_padding_pressed": 3,
+            "progress_padding_disabled": 3,
+
+            "progress_startfrom": "left",
+
+            "progress_backgroundcolour_default": (0, 255, 0),
+            "progress_backgroundcolour_hover": (0, 255, 0),
+            "progress_backgroundcolour_pressed": (0, 255, 0),
+            "progress_backgroundcolour_disabled": (231, 1, 202),
+
+            "progress_backgroundstyle_default": "solid",
+            "progress_backgroundstyle_hover": "solid",
+            "progress_backgroundstyle_pressed": "solid",
+            "progress_backgroundstyle_disabled": "solid",
+
+            "progress_bordercolour_default": (255, 0, 0),
+            "progress_bordercolour_hover": (0, 255, 0),
+            "progress_bordercolour_pressed": (0, 0, 255),
+            "progress_bordercolour_disabled": (46, 31, 95),
+
+            "progress_borderwidth_default": 2,
+            "progress_borderwidth_hover": 2,
+            "progress_borderwidth_pressed": 2,
+            "progress_borderwidth_disabled": 4,
+
+            "progress_borderstyle_default": "solid",
+            "progress_borderstyle_hover": "solid",
+            "progress_borderstyle_pressed": "solid",
+            "progress_borderstyle_disabled": "solid",
+
+            "progress_cornerradius_default": 3,
+            "progress_cornerradius_hover": 3,
+            "progress_cornerradius_pressed": 3,
+            "progress_cornerradius_disabled": 10,
+        }
+
         smooth = True
 
-        button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
-        button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
+        # button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
+        # button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(600, 0), use_smooth_transitions=smooth)
-        checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
+        # checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(600, 0), use_smooth_transitions=smooth)
+        # checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
 
-        radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP, use_smooth_transitions=smooth)
-        radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
-        radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250), use_smooth_transitions=smooth)
-        radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
-        radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250), use_smooth_transitions=smooth)
-        radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
-        button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250), use_smooth_transitions=smooth)
-        button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
+        # radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP, use_smooth_transitions=smooth)
+        # radiobutton.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton pressed"))
+        # radiobutton1 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(210, 250), use_smooth_transitions=smooth)
+        # radiobutton1.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton1 pressed"))
+        # radiobutton2 = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(410, 250), use_smooth_transitions=smooth)
+        # radiobutton2.Bind(wx.EVT_RADIOBUTTON, lambda e: print("radiobutton2 pressed"))
+        # button1 = cc.Button(self.main_panel, label="change radiobutton value", config=button_style, pos=wx.Point(610, 250), use_smooth_transitions=smooth)
+        # button1.Bind(wx.EVT_BUTTON, lambda e: radiobutton1.SetValue(True))
 
-        panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False, use_smooth_transitions=smooth)
-        checkbox2 = cc.CheckBox(panel, label="inside panel", config=checkbox_style, pos=wx.Point(10, 10), use_smooth_transitions=smooth)
-        checkbox2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
-        checkbox2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
+        # panel = cc.Panel(self.main_panel, config=panel_style, pos=wx.Point(10, 380), size=wx.Size(300, 110), use_defaults=False, use_smooth_transitions=smooth)
+        # checkbox2 = cc.CheckBox(panel, label="inside panel", config=checkbox_style, pos=wx.Point(10, 10), use_smooth_transitions=smooth)
+        # checkbox2.Bind(wx.EVT_ENTER_WINDOW, panel._on_enter_window)
+        # checkbox2.Bind(wx.EVT_LEAVE_WINDOW, panel._on_leave_window)
 
-        staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200), use_smooth_transitions=smooth, use_defaults=False)
-        staticbox_panel = staticbox.GetPanel()
-        staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
+        # staticbox = cc.StaticBox(self.main_panel, label="test", config=staticbox_style, pos=wx.Point(200, 10), size=wx.Size(200, 200), use_smooth_transitions=smooth, use_defaults=False)
+        # staticbox_panel = staticbox.GetPanel()
+        # staticbox_button = wx.Button(staticbox_panel, label="staticbox content")
 
-        staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
+        # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
+
+        gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 300), config=gauge_style, use_smooth_transitions=smooth, style=wx.GA_HORIZONTAL)
+        gauge.SetRange(200)
+        gauge.SetValue(40)
+        
 
         
 

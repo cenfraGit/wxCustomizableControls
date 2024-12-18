@@ -47,6 +47,7 @@ class Window(wx.Window):
         self._Label = kwargs.get("label", None)
         self._Value = kwargs.get("value", None)
         self._Choices = kwargs.get("choices", None)
+        self._Range = kwargs.get("range", None)
 
         self._ActOnPress = kwargs.get("act_on_press", False)
         self._UseDefaults = kwargs.get("use_defaults", False)
@@ -122,12 +123,19 @@ class Window(wx.Window):
     def GetLabel(self) -> str:
         return self._Label
 
-    def SetValue(self, state: bool) -> None:
-        self._Value = state
+    def SetValue(self, value) -> None:
+        self._Value = value
         self.Refresh()
 
     def GetValue(self):
         return self._Value
+
+    def SetRange(self, value: int) -> None:
+        self._Range = value
+        self.Refresh()
+
+    def GetRange(self):
+        return self._Range
 
     def GetBackgroundColour(self) -> wx.Colour:
         """Returns the current background colour of the customizable

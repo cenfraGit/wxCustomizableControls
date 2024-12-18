@@ -10,20 +10,21 @@
 ** DONE panels
 ** DONE static box
 ** DONE static lines
+** TODO gauge
+** TODO static text with wrap
 ** TODO scrolledwindow
 ** TODO combobox (choice)
 ** TODO menubar
-** TODO frame top bar
-** TODO sliders
-** TODO progress bar
-** TODO static text with wrap
-** TODO switch (checkbox functionality)
 ** TODO text control
+** TODO plotting graphs?
+** TODO switch (checkbox functionality)
+** TODO custom frame
 
 /* ------------------------ notes ------------------------ */
 
 - create reusable dropdown popup to use in menubar and combobox
-- interpolate between colors using timer?
+- interpolate between gradient pixels and target color/gradient in
+  memorydc?
   
 /* --------------- customizable attributes --------------- */
 
