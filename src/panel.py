@@ -43,7 +43,8 @@ class Panel(Window):
 
         # ------------------------- panel ------------------------- #
 
-        panel_rectangle = drawing_rect.Deflate(1, 1)
+        panel_rectangle = drawing_rect.Deflate(self._get_pen_current("panel").GetWidth() // 2 + 1,
+                                               self._get_pen_current("panel").GetWidth() // 2 + 1)
         gcdc.SetPen(self._get_pen_current("panel"))
         gc.SetBrush(self._get_brush_current("panel", gc))
         gcdc.DrawRoundedRectangle(panel_rectangle, self._config[f"panel_cornerradius_{self._get_state()}"])

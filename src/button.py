@@ -40,9 +40,8 @@ class Button(Window):
 
         # ------------------------- button ------------------------- #
 
-        #button_rectangle = drawing_rect.Deflate(20, 20)
-        button_rectangle = drawing_rect.Deflate(self._get_max_value("borderwidth", "button") // 2 + 2,
-                                                self._get_max_value("borderwidth", "button") // 2 + 2)
+        button_rectangle = drawing_rect.Deflate(self._get_pen_current("button").GetWidth() // 2 + 1,
+                                                self._get_pen_current("button").GetWidth() // 2 + 1)
         gcdc.SetPen(self._get_pen_current("button"))
         gc.SetBrush(self._get_brush_current("button", gc))
         gcdc.DrawRoundedRectangle(button_rectangle, self._config[f"button_cornerradius_{self._get_state()}"])

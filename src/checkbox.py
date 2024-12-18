@@ -46,9 +46,7 @@ class CheckBox(Window):
 
         bitmap, image_width, image_height = self._get_bitmap_and_dimensions()
 
-        # in order to draw the checkbox, the text label and the image
-        # we need to calculate the dimensions of an imaginary
-        # rectangle containing both the text label and the image first
+        # first we calculate the text label and image area dimensions
         text_image_rectangle_width, text_image_rectangle_height = self._get_object_sides_dimensions(
             text_width, text_height,
             image_width, image_height,
@@ -56,19 +54,28 @@ class CheckBox(Window):
             self._config["image_side"])
 
         # now we calculate the coordinates for the previous rectangle
-        # and the checkbox itself
+        # and the checkbox itself. we will take into consideration the
+        # width of the checkbox border.
         text_image_rectangle_x, text_image_rectangle_y, checkbox_x, checkbox_y = self._get_coords_object_sides(
             drawing_rect,
             text_image_rectangle_width, text_image_rectangle_height,
-            self._config["checkbox_width"], self._config["checkbox_height"],
+            self._config["checkbox_width"] + self._get_max_value("borderwidth", "checkbox"),
+            self._config["checkbox_height"] + self._get_max_value("borderwidth", "checkbox"),
             self._config["checkbox_separation"],
             self._config["checkbox_side"])
 
         # ----------------------- rectangles ----------------------- #
-        
-        checkbox_rectangle = wx.Rect(checkbox_x, checkbox_y,
-                                     self._config["checkbox_width"],
-                                     self._config["checkbox_height"])
+
+        checkbox_rectangle = wx.Rect(checkbox_x,
+                                     checkbox_y,
+                                     self._config["checkbox_width"] + self._get_max_value("borderwidth", "checkbox"),
+                                     self._config["checkbox_height"] + self._get_max_value("borderwidth", "checkbox"))
+        # we use deflate to automatically calculate the new top left
+        # rectangle coordinates instead of doing it manually. this new
+        # rectangle is the actual checkbox, without border width
+        # consideration.
+        checkbox_rectangle = checkbox_rectangle.Deflate(self._get_max_value("borderwidth", "checkbox") // 2 + 1,
+                                                        self._get_max_value("borderwidth", "checkbox") // 2 + 1)
         text_image_rectangle = wx.Rect(
             text_image_rectangle_x,
             text_image_rectangle_y,
@@ -76,8 +83,8 @@ class CheckBox(Window):
             text_image_rectangle_height)
 
         # ------------------- drawing rectangles ------------------- #
-        
-        # draw text label and image 
+
+        # draw text label and image
         self._draw_text_and_bitmap(self._Label, text_width, text_height,
                                    bitmap, image_width, image_height,
                                    text_image_rectangle, gcdc)
@@ -122,15 +129,19 @@ class CheckBox(Window):
         text_width, text_height = self._get_text_dimensions(self._Label, gc)
         image_width = self._get_max_value("width", "image")
         image_height = self._get_max_value("height", "image")
-        text_image_width, text_image_height = self._get_object_sides_dimensions(text_width, text_height,
-                                                                                image_width, image_height,
-                                                                                self._config[f"image_separation"],
-                                                                                self._config[f"image_side"])
-        width, height = self._get_object_sides_dimensions(text_image_width, text_image_height,
-                                                          self._config["checkbox_width"], self._config["checkbox_height"],
-                                                          self._config["checkbox_separation"],
-                                                          self._config["checkbox_side"])
+        text_image_width, text_image_height = self._get_object_sides_dimensions(
+            text_width, text_height,
+            image_width, image_height,
+            self._config[f"image_separation"],
+            self._config[f"image_side"])
+        width, height = self._get_object_sides_dimensions(
+            text_image_width, text_image_height,
+            self._config["checkbox_width"] + self._get_max_value("borderwidth", "checkbox"),
+            self._config["checkbox_height"] + self._get_max_value("borderwidth", "checkbox"),
+            self._config["checkbox_separation"],
+            self._config["checkbox_side"])
         # padding
-        width += 2 * 10
-        height += 2 * 5
+        width += 5
+        height += 5
         return wx.Size(int(width), int(height))
+    

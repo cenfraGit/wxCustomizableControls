@@ -44,7 +44,8 @@ class StaticBox(Window):
 
         # create content panel
         self.__Panel = wx.Panel(self)
-        self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
+        # self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
+        self.__Panel.SetBackgroundColour(wx.YELLOW)
         # redirect panel events to ourselves
         self.__Panel.Bind(wx.EVT_ENTER_WINDOW, self._on_enter_window)
         self.__Panel.Bind(wx.EVT_LEAVE_WINDOW, self._on_leave_window)
@@ -57,7 +58,7 @@ class StaticBox(Window):
         self.__Sizer.AddSpacer(self._text_height)
         self.__Sizer.Add(self.__Panel, proportion=1,
                          flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT,
-                         border=self._get_pen_element("staticbox").GetWidth() * 10)
+                         border=self._get_max_value("borderwidth", "staticbox") * 2)
         self.SetSizer(self.__Sizer)
 
     def GetPanel(self) -> wx.Panel:

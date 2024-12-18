@@ -29,7 +29,7 @@ class Main(wx.Frame):
         """Initializes the user interface."""
 
         self.SetTitle("wxCustomizableControls Examples")
-        self.SetMinClientSize(wx.Size(600, 300))
+        self.SetMinClientSize(wx.Size(1200, 600))
 
         self.main_panel = wx.Panel(self)
         self.SetBackgroundColour(wx.Colour(60, 60, 60))
@@ -92,8 +92,8 @@ class Main(wx.Frame):
             "button_bordercolour_pressed": (0, 0, 255),
             "button_bordercolour_disabled": (46, 31, 95),
 
-            "button_borderwidth_default": 40,
-            "button_borderwidth_hover": 8,
+            "button_borderwidth_default": 4,
+            "button_borderwidth_hover": 30,
             "button_borderwidth_pressed": 4,
             "button_borderwidth_disabled": 4,
 
@@ -191,9 +191,9 @@ class Main(wx.Frame):
             "checkbox_bordercolour_pressed": (0, 0, 255),
             "checkbox_bordercolour_disabled": (46, 31, 95),
 
-            "checkbox_borderwidth_default": 2,
-            "checkbox_borderwidth_hover": 2,
-            "checkbox_borderwidth_pressed": 2,
+            "checkbox_borderwidth_default": 1,
+            "checkbox_borderwidth_hover": 30,
+            "checkbox_borderwidth_pressed": 3,
             "checkbox_borderwidth_disabled": 4,
 
             "checkbox_borderstyle_default": "solid",
@@ -209,7 +209,7 @@ class Main(wx.Frame):
             "checkbox_width": 20,
             "checkbox_height": 20,
             "checkbox_side": "left",
-            "checkbox_separation": 10,
+            "checkbox_separation": 4,
 
             # ------------------------- images ------------------------- #
             
@@ -416,7 +416,7 @@ class Main(wx.Frame):
             "panel_bordercolour_disabled": (46, 31, 95),
 
             "panel_borderwidth_default": 2,
-            "panel_borderwidth_hover": 2,
+            "panel_borderwidth_hover": 30,
             "panel_borderwidth_pressed": 2,
             "panel_borderwidth_disabled": 4,
 
@@ -479,7 +479,7 @@ class Main(wx.Frame):
             "staticbox_bordercolour_disabled": (46, 31, 95),
 
             "staticbox_borderwidth_default": 2,
-            "staticbox_borderwidth_hover": 2,
+            "staticbox_borderwidth_hover": 8,
             "staticbox_borderwidth_pressed": 2,
             "staticbox_borderwidth_disabled": 4,
 
@@ -530,7 +530,7 @@ class Main(wx.Frame):
         button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
         button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
 
-        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(10, 100), use_smooth_transitions=smooth)
+        checkbox = cc.CheckBox(self.main_panel, label="test checkbox", config=checkbox_style, pos=wx.Point(600, 0), use_smooth_transitions=smooth)
         checkbox.Bind(wx.EVT_CHECKBOX, lambda e: print("checkbox pressed"))
 
         radiobutton = cc.RadioButton(self.main_panel, label="test radiobutton", config=radiobutton_style, pos=wx.Point(10, 250), style=wx.RB_GROUP, use_smooth_transitions=smooth)
