@@ -577,11 +577,12 @@ class Window(wx.Window):
         into account the text side and the separation between the
         bitmap and the text.
         """
-        text_x, text_y, image_x, image_y = self._get_coords_object_sides(rectangle,
-                                                                         text_width, text_height,
-                                                                         image_width, image_height,
-                                                                         self._config[f"image_separation"],
-                                                                         self._config[f"image_side"])
+        text_x, text_y, image_x, image_y = self._get_coords_object_sides(
+            rectangle,
+            text_width, text_height,
+            image_width, image_height,
+            self._config[f"image_separation"],
+            self._config[f"image_side"])
         if text.strip() != "":
             gcdc.DrawText(text, text_x, text_y)
         if (image_width != 0) and (image_height != 0):

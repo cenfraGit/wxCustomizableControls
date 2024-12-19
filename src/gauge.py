@@ -7,6 +7,7 @@ cenfra
 
 
 from ._window import Window
+from ._utils import Animation
 import wx
 
 
@@ -29,14 +30,35 @@ class Gauge(Window):
         
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
+        self._current_value = 0
+        self._animation_ms = 15
+        self._animation_steps = 200
+        self._animation_steps_counter = 0
+        self._timer_animation = wx.Timer(self)
+        self.Bind(wx.EVT_TIMER, self._on_timer_animation, self._timer_animation)
+
     def SetValue(self, value:int) -> None:
         if value < 0 or value > self._Range:
             raise ValueError("SetValue out of range.")
         else:
             self._Value = value
+        self._timer_animation.Start(self._animation_ms)
+        self.Refresh()
 
     def IsVertical(self) -> bool:
         return (self._Style == wx.GA_VERTICAL)
+
+    def _on_timer_animation(self, event):
+        # get progress
+        if self._animation_steps_counter < self._animation_steps:
+            t = self._animation_steps_counter / self._animation_steps
+            self._current_value = Animation.transition(self._current_value, self._Value, t)
+            self._animation_steps_counter += 1
+        else:
+            self._animation_steps_counter = 0
+            self._timer_animation.Stop()
+        self.Refresh()
+        event.Skip()
 
     def _on_paint(self, event: wx.Event) -> None:
 
@@ -74,12 +96,15 @@ class Gauge(Window):
 
         self._configure_cursor()
 
+    
+
     def _get_progressbar_rectangle(self) -> wx.Rect:
         """Returns the rectangle representing the progressbar.
         """
         # get both gauge and progressbar info
         gauge_range = self.GetRange()
-        gauge_value = self.GetValue()
+        # gauge_value = self.GetValue()
+        gauge_value = self._current_value
         gauge_size = self.GetSize()
         gauge_vertical = self.IsVertical()
         padding = (self._config[f"progress_padding_{self._get_state()}"] +

@@ -119,3 +119,29 @@ class VectorRGB:
     def GetValue(self) -> wx.Colour:
         return wx.Colour(self.r, self.g, self.b)
     
+
+class Animation:
+
+    @staticmethod
+    def cubic_bezier(t, p0, p1, p2, p3) -> float:
+        return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
+
+    @staticmethod
+    def easing_function(t: float) -> float:
+        # start and end points
+        p0, p3 = 0, 1
+        # control points
+        p1, p2 = 0.65, 0.35
+        return Animation.cubic_bezier(t, p0, p1, p2, p3)
+
+    @staticmethod
+    def transition(start, end, t: float) -> float:
+        """Interpolates between start and end using t, which ranges
+        from 0 to 1 (true progress).
+        Whatever the "start" and "end" object types are, they must
+        have implemented the __add__, __sub__ and __mul__ (this one
+        with floats) methods. Examples: int, VectorRGB
+        """
+        x = Animation.easing_function(t)
+        return start + (end - start) * x
+    
