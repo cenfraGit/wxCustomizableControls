@@ -128,10 +128,8 @@ class Animation:
 
     @staticmethod
     def easing_function(t: float) -> float:
-        # start and end points
         p0, p3 = 0, 1
-        # control points
-        p1, p2 = 0.65, 0.35
+        p1, p2 = 0, 1
         return Animation.cubic_bezier(t, p0, p1, p2, p3)
 
     @staticmethod

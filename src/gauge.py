@@ -31,8 +31,8 @@ class Gauge(Window):
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
         self._current_value = 0
-        self._animation_ms = 15
-        self._animation_steps = 200
+        self._animation_ms = 16
+        self._animation_steps = 40
         self._animation_steps_counter = 0
         self._timer_animation = wx.Timer(self)
         self.Bind(wx.EVT_TIMER, self._on_timer_animation, self._timer_animation)
@@ -42,21 +42,26 @@ class Gauge(Window):
             raise ValueError("SetValue out of range.")
         else:
             self._Value = value
-        self._timer_animation.Start(self._animation_ms)
-        self.Refresh()
+            
+        if not self._timer_animation.IsRunning():
+            self._timer_animation.Start(self._animation_ms)
+            
+        self._animation_steps_counter = 0
+        self._start_value = self._current_value
 
     def IsVertical(self) -> bool:
         return (self._Style == wx.GA_VERTICAL)
 
     def _on_timer_animation(self, event):
-        # get progress
         if self._animation_steps_counter < self._animation_steps:
+            # get progress
             t = self._animation_steps_counter / self._animation_steps
-            self._current_value = Animation.transition(self._current_value, self._Value, t)
+            self._current_value = Animation.transition(self._start_value, self._Value, t)
             self._animation_steps_counter += 1
         else:
-            self._animation_steps_counter = 0
             self._timer_animation.Stop()
+            self._animation_steps_counter = 0
+            self._current_value = self._Value
         self.Refresh()
         event.Skip()
 
@@ -95,9 +100,7 @@ class Gauge(Window):
         # ---------------------- mouse cursor ---------------------- #
 
         self._configure_cursor()
-
-    
-
+        
     def _get_progressbar_rectangle(self) -> wx.Rect:
         """Returns the rectangle representing the progressbar.
         """

@@ -643,14 +643,14 @@ class Main(wx.Frame):
         # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
 
         gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 60), config=gauge_style, use_smooth_transitions=smooth, use_defaults=False, style=wx.GA_HORIZONTAL)
-        gauge.SetRange(200)
+        gauge.SetRange(100)
 
         self.val = 0
         
         def test(event):
-            if self.val < 200 and self.val + 30 < 200:
-                self.val += 30
-            else:
+
+            self.val += 30
+            if self.val > 100:
                 self.val = 0
             gauge.SetValue(self.val)
 
