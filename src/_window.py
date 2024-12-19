@@ -51,7 +51,6 @@ class Window(wx.Window):
 
         self._ActOnPress = kwargs.get("act_on_press", False)
         self._UseDefaults = kwargs.get("use_defaults", False)
-        self._UseSmoothTransitions = kwargs.get("use_smooth_transitions", True)
 
         # ------------------- configuration data ------------------- #
 
@@ -68,9 +67,12 @@ class Window(wx.Window):
         # -------------- timers and colour transitions -------------- #
 
         self._timer_ms = 15
-        self._timer_paint_steps_counter = 0
+        
+        self._timer_colour_steps_counter = 0
+        self._timer_animation_steps_counter = 0
 
-        self._timer_smoothing = wx.Timer(self)
+        self._timer_colour = wx.Timer(self)
+        self._timer_animation = wx.Timer(self)
 
         # these attributes will store the element (key), and a new
         # dict containing its current rgb colour and its target rgb
@@ -105,7 +107,8 @@ class Window(wx.Window):
         self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
         self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
 
-        self.Bind(wx.EVT_TIMER, self._on_timer_smoothing)
+        self.Bind(wx.EVT_TIMER, self._on_timer_colour, self._timer_colour)
+        self.Bind(wx.EVT_TIMER, self._on_timer_animation, self._timer_animation)
 
     # ------------------------- public ------------------------- #
 
@@ -208,21 +211,15 @@ class Window(wx.Window):
             self.Refresh()
         event.Skip()
 
-    def _on_timer_smoothing(self, event: wx.TimerEvent) -> None:
+    def _on_timer_colour(self, event: wx.TimerEvent) -> None:
         """Uses easing functions so smooth out the colour transition
         between states. Updates the current colour for all pens and
         brushes.
         """
-        # get last valid state
-        state = self._get_state()
-        if state in ["hover", "pressed"]:
-            self._last_state = state
-        else:
-            self._last_state = "hover"
-        timer_paint_steps = int(self._config[f"colourtransition_ms_{self._last_state}"] / self._timer_ms)
-        if self._timer_paint_steps_counter < timer_paint_steps:
+        timer_paint_steps = int(self._config[f"colourtransition_ms_{self._get_state()}"] / self._timer_ms)
+        if self._timer_colour_steps_counter < timer_paint_steps:
             
-            t = self._timer_paint_steps_counter / timer_paint_steps
+            t = self._timer_colour_steps_counter / timer_paint_steps
             easing_t = self._get_easing_t(t)
 
             for colour_values in self._colour_smoothing_brushes.values():
@@ -233,12 +230,15 @@ class Window(wx.Window):
             for colour_values in self._colour_smoothing_pens.values():
                 colour_values["current"] = colour_values["current"] + (colour_values["target"] - colour_values["current"]) * easing_t
 
-            self._timer_paint_steps_counter += 1
+            self._timer_colour_steps_counter += 1
         else:
-            self._timer_paint_steps_counter = 0
-            self._timer_smoothing.Stop()
+            self._timer_colour_steps_counter = 0
+            self._timer_colour.Stop()
         self.Refresh()
         event.Skip()
+
+    def _on_timer_animation(self, event):
+        pass
 
     def _on_paint(self, event: wx.Event) -> None:
         raise NotImplementedError("_on_paint")
@@ -249,11 +249,11 @@ class Window(wx.Window):
     # -------------------- colour smoothing -------------------- #
 
     def _handle_colour_transition(self) -> None:
-        if self._UseSmoothTransitions:
+        if self._config[f"colourtransition_ms_{self._get_state()}"] != 0:
             self._update_colour_targets()
-            self._timer_paint_steps_counter = 0
-            if not self._timer_smoothing.IsRunning():
-                self._timer_smoothing.Start(self._timer_ms)
+            self._timer_colour_steps_counter = 0
+            if not self._timer_colour.IsRunning():
+                self._timer_colour.Start(self._timer_ms)
         else:
             self._update_colour_currents()
 

@@ -31,11 +31,6 @@ class Gauge(Window):
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
         self._current_value = 0
-        self._animation_ms = 16
-        self._animation_steps = 40
-        self._animation_steps_counter = 0
-        self._timer_animation = wx.Timer(self)
-        self.Bind(wx.EVT_TIMER, self._on_timer_animation, self._timer_animation)
 
     def SetValue(self, value:int) -> None:
         if value < 0 or value > self._Range:
@@ -44,23 +39,24 @@ class Gauge(Window):
             self._Value = value
             
         if not self._timer_animation.IsRunning():
-            self._timer_animation.Start(self._animation_ms)
+            self._timer_animation.Start(self._timer_ms)
             
-        self._animation_steps_counter = 0
+        self._timer_animation_steps_counter = 0
         self._start_value = self._current_value
 
     def IsVertical(self) -> bool:
         return (self._Style == wx.GA_VERTICAL)
 
     def _on_timer_animation(self, event):
-        if self._animation_steps_counter < self._animation_steps:
+        timer_paint_steps = int(self._config[f"animation_ms"] / self._timer_ms)
+        if self._timer_animation_steps_counter < timer_paint_steps:
             # get progress
-            t = self._animation_steps_counter / self._animation_steps
+            t = self._timer_animation_steps_counter / timer_paint_steps
             self._current_value = Animation.transition(self._start_value, self._Value, t)
-            self._animation_steps_counter += 1
+            self._timer_animation_steps_counter += 1
         else:
             self._timer_animation.Stop()
-            self._animation_steps_counter = 0
+            self._timer_animation_steps_counter = 0
             self._current_value = self._Value
         self.Refresh()
         event.Skip()

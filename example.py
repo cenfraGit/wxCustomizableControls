@@ -40,8 +40,9 @@ class Main(wx.Frame):
 
         button_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -139,8 +140,9 @@ class Main(wx.Frame):
 
         checkbox_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -275,8 +277,9 @@ class Main(wx.Frame):
 
         radiobutton_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -390,8 +393,9 @@ class Main(wx.Frame):
 
         panel_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -437,8 +441,9 @@ class Main(wx.Frame):
 
         staticbox_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -500,8 +505,9 @@ class Main(wx.Frame):
 
         staticline_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
+            "colourtransition_ms_default": 10000,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 
@@ -531,10 +537,13 @@ class Main(wx.Frame):
 
         gauge_style = {
 
-            # -------------------- colour transition -------------------- #
+            # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_hover": 1500,
-            "colourtransition_ms_pressed": 400,
+            "colourtransition_ms_default": 200,
+            "colourtransition_ms_hover": 200,
+            "colourtransition_ms_pressed": 200,
+            
+            "animation_ms": 500,
 
             # ------------------------- cursor ------------------------- #
 
@@ -642,6 +651,7 @@ class Main(wx.Frame):
 
         # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
 
+        
         gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 60), config=gauge_style, use_smooth_transitions=smooth, use_defaults=False, style=wx.GA_HORIZONTAL)
         gauge.SetRange(100)
 
