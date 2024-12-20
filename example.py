@@ -754,6 +754,11 @@ class Main(wx.Frame):
         # --------------------- scrolled panel --------------------- #
 
         sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300), config=sp_style)
+        sp_panel = sp.GetPanel()
+        sp_sizer = wx.GridBagSizer()
+        for i in range(50):
+            sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, 0))
+        sp_panel.SetSizer(sp_sizer)
 
         self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
 
