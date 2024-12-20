@@ -14,7 +14,6 @@ cenfra
 
 
 from copy import copy
-import math
 import os
 from typing import Tuple, Literal
 import wx

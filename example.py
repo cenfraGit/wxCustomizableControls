@@ -36,7 +36,10 @@ class Main(wx.Frame):
         self.SetMinClientSize(wx.Size(1200, 600))
 
         self.main_panel = wx.Panel(self)
-        self.SetBackgroundColour(wx.Colour(60, 60, 60))
+        self.main_panel.SetBackgroundColour(wx.Colour(60, 60, 60))
+
+        self.main_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.main_panel.SetSizer(self.main_sizer)
 
         button_style = {
 
@@ -623,6 +626,85 @@ class Main(wx.Frame):
             "progress_cornerradius_disabled": 10,
         }
 
+        sp_style = {
+
+            # ----------------------- animation ----------------------- #
+
+            "colourtransition_ms_default": 10000,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "cross",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # ------------------- track (background) ------------------- #
+
+            "track_backgroundcolour_default": (0, 0, 0),
+            "track_backgroundcolour_hover": (0, 0, 0),
+            "track_backgroundcolour_pressed": (0, 0, 0),
+            "track_backgroundcolour_disabled": (231, 1, 202),
+
+            "track_backgroundstyle_default": "solid",
+            "track_backgroundstyle_hover": "solid",
+            "track_backgroundstyle_pressed": "solid",
+            "track_backgroundstyle_disabled": "solid",
+
+            "track_bordercolour_default": (255, 0, 0),
+            "track_bordercolour_hover": (0, 255, 0),
+            "track_bordercolour_pressed": (0, 0, 255),
+            "track_bordercolour_disabled": (46, 31, 95),
+
+            "track_borderwidth_default": 4,
+            "track_borderwidth_hover": 30,
+            "track_borderwidth_pressed": 4,
+            "track_borderwidth_disabled": 4,
+
+            "track_borderstyle_default": "solid",
+            "track_borderstyle_hover": "solid",
+            "track_borderstyle_pressed": "solid",
+            "track_borderstyle_disabled": "solid",
+
+            # ------------------- thumb (foreground) ------------------- #
+
+            "thumb_padding_default": 3,
+            "thumb_padding_hover": 3,
+            "thumb_padding_pressed": 3,
+            "thumb_padding_disabled": 3,
+
+            "thumb_backgroundcolour_default": (255, 0, 0),
+            "thumb_backgroundcolour_hover": (0, 255, 0),
+            "thumb_backgroundcolour_pressed": (0, 0, 255),
+            "thumb_backgroundcolour_disabled": (255, 255, 255),
+
+            "thumb_backgroundstyle_default": "solid",
+            "thumb_backgroundstyle_hover": "solid",
+            "thumb_backgroundstyle_pressed": "solid",
+            "thumb_backgroundstyle_disabled": "solid",
+
+            "thumb_bordercolour_default": (255, 0, 0),
+            "thumb_bordercolour_hover": (0, 255, 0),
+            "thumb_bordercolour_pressed": (0, 0, 255),
+            "thumb_bordercolour_disabled": (46, 31, 95),
+
+            "thumb_borderwidth_default": 4,
+            "thumb_borderwidth_hover": 30,
+            "thumb_borderwidth_pressed": 4,
+            "thumb_borderwidth_disabled": 4,
+
+            "thumb_borderstyle_default": "solid",
+            "thumb_borderstyle_hover": "solid",
+            "thumb_borderstyle_pressed": "solid",
+            "thumb_borderstyle_disabled": "solid",
+
+            "thumb_cornerradius_default": 10,
+            "thumb_cornerradius_hover": 10,
+            "thumb_cornerradius_pressed": 10,
+            "thumb_cornerradius_disabled": 10,
+        }
+
         smooth = True
 
         # button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
@@ -651,26 +733,35 @@ class Main(wx.Frame):
 
         # staticline = cc.StaticLine(self.main_panel, use_defaults=False, style=wx.LI_HORIZONTAL, config=staticline_style, pos=wx.Point(200, 220), size=wx.Size(300, 70), use_smooth_transitions=smooth)
 
+
+        # ------------------------- gauge ------------------------- #
         
-        gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 60), config=gauge_style, use_smooth_transitions=smooth, use_defaults=False, style=wx.GA_HORIZONTAL)
-        gauge.SetRange(100)
+        # gauge = cc.Gauge(self.main_panel, pos=(10, 10), size=(300, 60), config=gauge_style, use_smooth_transitions=smooth, use_defaults=False, style=wx.GA_HORIZONTAL)
+        # gauge.SetRange(100)
 
-        self.val = 0
+        # self.val = 0
         
-        def test(event):
+        # def test(event):
 
-            self.val += 30
-            if self.val > 100:
-                self.val = 0
-            gauge.SetValue(self.val)
+        #     self.val += 10
+        #     if self.val > 100:
+        #         self.val = 0
+        #     gauge.SetValue(self.val)
 
-        b = wx.Button(self.main_panel, pos=(10, 60))
-        b.Bind(wx.EVT_BUTTON, test)
+        # b = wx.Button(self.main_panel, pos=(10, 60))
+        # b.Bind(wx.EVT_BUTTON, test)
+
+        # --------------------- scrolled panel --------------------- #
+
+        sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300), config=sp_style)
+
+        self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
+
+        self.main_sizer.Layout()
+
         
 
         
-
-
         
 if __name__ == "__main__":
     app = wx.App()

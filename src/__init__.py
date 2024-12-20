@@ -1,5 +1,6 @@
 from .panel import Panel
 from .staticbox import StaticBox
+from .scrolledpanel import ScrolledPanel
 
 from .staticline import StaticLine
 

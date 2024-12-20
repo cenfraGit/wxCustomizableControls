@@ -11,10 +11,10 @@
 ** DONE static box
 ** DONE static lines
 ** DONE gauge
-** TODO static text with wrap
 ** TODO scrolledwindow
 ** TODO combobox (choice)
 ** TODO menubar
+** TODO static text with wrap
 ** TODO text control
 ** TODO plotting graphs?
 ** TODO switch (checkbox functionality)
