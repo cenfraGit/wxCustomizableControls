@@ -11,6 +11,72 @@ from wx.lib.scrolledpanel import ScrolledPanel as wxScrolledPanel
 import wx
 
 
+class ScrolledPanel(Window):
+    def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
+                 size=wx.DefaultSize, name=wx.PanelNameStr, config={},
+                 **kwargs):
+
+        # the idea is to have a wx scrolled panel inside this window,
+        # hide its native scrollbars, and then draw our own scrollbars
+        # to the sides.
+
+        # ------------------- initialize window ------------------- #
+        
+        super().__init__(parent, id, pos, size, 0, name, config, **kwargs)
+
+        # ----------------- set up scrolled panel ----------------- #
+
+        self._scroll_x = True
+        self._scroll_y = True
+        self._rate_x = 20
+        self._rate_y = 20
+
+        # create the scrolled panel and set up its scrolling values
+        self.__scrolled_panel = wxScrolledPanel(self)
+        self.__scrolled_panel.SetupScrolling(self._scroll_x, self._scroll_y,
+                                             self._rate_x, self._rate_y)
+        # now we hide its scrollbars
+        # self.__scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
+        self.__scrolled_panel.SetBackgroundColour(wx.YELLOW)
+
+        # ------------------- set up scrollbars ------------------- #
+
+        scrollbar_width = self._config["thumb_width"]
+        self.__scrollbar_window_vertical = ScrollBar(self, "vertical", self.__scrolled_panel,
+                                                     size=wx.Size(scrollbar_width, -1), config=config)
+        self.__scrollbar_window_horizontal = ScrollBar(self, "horizontal", self.__scrolled_panel,
+                                                       size=wx.Size(-1, scrollbar_width), config=config)
+
+        self.__scrollbar_window_vertical.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+        self.__scrollbar_window_horizontal.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+
+        # ---------------------- add to sizer ---------------------- #
+
+        self.__sizer = wx.GridBagSizer()
+        self.SetSizer(self.__sizer)
+        self.__sizer.Add(self.__scrolled_panel, pos=(0, 0), flag=wx.EXPAND)
+        self.__sizer.Add(self.__scrollbar_window_vertical, pos=(0, 1), flag=wx.EXPAND)
+        self.__sizer.Add(self.__scrollbar_window_horizontal, pos=(1, 0), flag=wx.EXPAND)
+
+        self.__sizer.AddGrowableCol(0, 1)
+        self.__sizer.AddGrowableRow(0, 1)
+
+        self.__sizer.Layout()
+
+        # ------------------------- events ------------------------- #
+
+        self.__scrolled_panel.Bind(wx.EVT_MOUSEWHEEL, self._on_mousewheel)
+
+    def GetPanel(self):
+        return self.__scrolled_panel
+
+    def _on_mousewheel(self, event: wx.Event) -> None:
+        pass
+
+    def _handle_event(self) -> None:
+        pass
+
+    
 class ScrollBar(Window):
     def __init__(self, parent, scrollbar_type, scrolled_panel,
                  id=wx.ID_ANY, pos=wx.DefaultPosition,
@@ -30,7 +96,7 @@ class ScrollBar(Window):
         # ------------------------- events ------------------------- #
         
         self.Unbind(wx.EVT_ENTER_WINDOW, handler=self._on_enter_window)
-
+        self.Bind(wx.EVT_MOTION, self._on_motion)
 
     def _on_paint(self, event: wx.Event) -> None:
 
@@ -109,7 +175,7 @@ class ScrollBar(Window):
             # real rectangle
             scrollbar_thumb_x = 0
             scrollbar_thumb_y = int(start_of_bar)
-            scrollbar_thumb_width = self._config[f"thumb_width_{self._get_state()}"]
+            scrollbar_thumb_width = self._config[f"thumb_width"]
             scrollbar_thumb_height = int(bar_length)
             # drawn rectangle
             scrollbar_thumb_drawn_x = scrollbar_thumb_x + padding
@@ -121,7 +187,7 @@ class ScrollBar(Window):
             scrollbar_thumb_x = int(start_of_bar)
             scrollbar_thumb_y = 0
             scrollbar_thumb_width = int(bar_length)
-            scrollbar_thumb_height = self._config[f"thumb_width_{self._get_state()}"]
+            scrollbar_thumb_height = self._config[f"thumb_width"]
             # drawn rectangle
             scrollbar_thumb_drawn_x = scrollbar_thumb_x + padding
             scrollbar_thumb_drawn_y = scrollbar_thumb_y
@@ -193,85 +259,28 @@ class ScrollBar(Window):
         self._handle_colour_transition()
         event.Skip()
 
-        
-
-
-class ScrolledPanel(Window):
-    def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
-                 size=wx.DefaultSize, name=wx.PanelNameStr, config={},
-                 **kwargs):
-
-        # the idea is to have a wx scrolled panel inside this window,
-        # hide its native scrollbars, and then draw our own scrollbars
-        # to the sides.
-
-        # ------------------- initialize window ------------------- #
-        
-        super().__init__(parent, id, pos, size, 0, name, config, **kwargs)
-
-        # ----------------- set up scrolled panel ----------------- #
-
-        self._scroll_x = True
-        self._scroll_y = True
-        self._rate_x = 20
-        self._rate_y = 20
-
-        # create the scrolled panel and set up its scrolling values
-        self.__scrolled_panel = wxScrolledPanel(self)
-        self.__scrolled_panel.SetupScrolling(self._scroll_x, self._scroll_y,
-                                             self._rate_x, self._rate_y)
-        # now we hide its scrollbars
-        # self.__scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
-        self.__scrolled_panel.SetBackgroundColour(wx.YELLOW)
-
-        # ------------------- set up scrollbars ------------------- #
-
-        self._scrollbar_width = 30
-        self._scrollbar_padding = 5
-
-        # initialize rectangles to check clicks
-        self._scrollbar_vertical_rectangle = wx.Rect(0, 0, 0, 0)
-        self._scrollbar_horizontal_rectangle = wx.Rect(0, 0, 0, 0)
-
-        self.__scrollbar_window_vertical = ScrollBar(self, "vertical", self.__scrolled_panel,
-                                                     size=wx.Size(self._scrollbar_width, -1), config=config)
-        self.__scrollbar_window_horizontal = ScrollBar(self, "horizontal", self.__scrolled_panel,
-                                                       size=wx.Size(-1, self._scrollbar_width), config=config)
-
-        self.__scrollbar_window_vertical.SetBackgroundStyle(wx.BG_STYLE_PAINT)
-        self.__scrollbar_window_horizontal.SetBackgroundStyle(wx.BG_STYLE_PAINT)
-
-        # ---------------------- add to sizer ---------------------- #
-
-        self.__sizer = wx.GridBagSizer()
-        self.SetSizer(self.__sizer)
-        self.__sizer.Add(self.__scrolled_panel, pos=(0, 0), flag=wx.EXPAND)
-        self.__sizer.Add(self.__scrollbar_window_vertical, pos=(0, 1), flag=wx.EXPAND)
-        self.__sizer.Add(self.__scrollbar_window_horizontal, pos=(1, 0), flag=wx.EXPAND)
-
-        self.__sizer.AddGrowableCol(0, 1)
-        self.__sizer.AddGrowableRow(0, 1)
-
-        self.__sizer.Layout()
-
-        # ------------------------- events ------------------------- #
-
-        self.__scrolled_panel.Bind(wx.EVT_MOUSEWHEEL, self._on_mousewheel)
-
-    def GetPanel(self):
-        return self.__scrolled_panel
-
     def _on_motion(self, event: wx.MouseEvent) -> None:
-        
+
         # --------------------- get event data --------------------- #
-        
-        scrollbar_window = event.GetEventObject()
-        scrollbar_window_is_vertical = scrollbar_window == self.__scrollbar_window_vertical
 
-    def _on_mousewheel(self, event: wx.Event) -> None:
-        pass
+        x, y = event.GetPosition()
+        scrollbar_window_is_vertical = self._scrollbar_type == "vertical"
 
-    def _handle_event(self) -> None:
-        pass
+        if self.HasCapture():
+
+            units_x, units_y = self._scrolled_panel.GetScrollPixelsPerUnit()
+
+            
         
+        else:
+            if self._scrollbar_rectangle.Contains(x, y):
+                self._Hover = True
+            else:
+                self._Hover = False
+            self._handle_colour_transition()
+            
+        event.Skip()
+        
+        
+
         

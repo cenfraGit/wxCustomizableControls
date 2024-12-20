@@ -630,9 +630,9 @@ class Main(wx.Frame):
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 1500,
-            "colourtransition_ms_hover": 1500,
-            "colourtransition_ms_pressed": 400,
+            "colourtransition_ms_default": 200,
+            "colourtransition_ms_hover": 200,
+            "colourtransition_ms_pressed": 200,
 
             # ------------------------- cursor ------------------------- #
 
@@ -658,7 +658,7 @@ class Main(wx.Frame):
             "track_bordercolour_disabled": (46, 31, 95),
 
             "track_borderwidth_default": 4,
-            "track_borderwidth_hover": 30,
+            "track_borderwidth_hover": 4,
             "track_borderwidth_pressed": 4,
             "track_borderwidth_disabled": 4,
 
@@ -674,10 +674,7 @@ class Main(wx.Frame):
             "thumb_padding_pressed": 3,
             "thumb_padding_disabled": 3,
 
-            "thumb_width_default": 30,
-            "thumb_width_hover": 30,
-            "thumb_width_pressed": 30,
-            "thumb_width_disabled": 30,
+            "thumb_width": 30,
 
             "thumb_backgroundcolour_default": (255, 0, 0),
             "thumb_backgroundcolour_hover": (0, 255, 0),
@@ -695,7 +692,7 @@ class Main(wx.Frame):
             "thumb_bordercolour_disabled": (46, 31, 95),
 
             "thumb_borderwidth_default": 4,
-            "thumb_borderwidth_hover": 30,
+            "thumb_borderwidth_hover": 4,
             "thumb_borderwidth_pressed": 4,
             "thumb_borderwidth_disabled": 4,
 
@@ -762,7 +759,7 @@ class Main(wx.Frame):
         sp_panel = sp.GetPanel()
         sp_sizer = wx.GridBagSizer()
         for i in range(50):
-            sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, 0))
+            sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, i))
         sp_panel.SetSizer(sp_sizer)
 
         self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
