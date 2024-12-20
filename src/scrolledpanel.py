@@ -92,6 +92,7 @@ class ScrollBar(Window):
         self._scrollbar_thumb_rectangle = wx.Rect(0, 0, 0, 0)
         self._scrollbar_thumb_length = 0
         self._scrollbar_thumb_start = 0
+        self._scrollbar_click_offset = 0
 
         # ------------------- initialize window ------------------- #
 
@@ -235,6 +236,9 @@ class ScrollBar(Window):
             event.Skip()
             return
 
+        variable = y if (self._scrollbar_type == "vertical") else x
+        self._scrollbar_click_offset = self._scrollbar_thumb_start - variable
+
         self._Pressed = True
         self._handle_colour_transition()
         self.CaptureMouse()
@@ -287,8 +291,7 @@ class ScrollBar(Window):
                     return
                 virtual_scrolled_panel = virtual_size_scrolled_panel[1]
                 client_scrollbar_window = client_size_scrollbar_window[1]
-                #scrollbar_click = y + self.
-                orientation_variable = y
+                scrollbar_click = y + self._scrollbar_click_offset
                 focus = units_y
             else:
                 event.Skip()
@@ -302,7 +305,7 @@ class ScrollBar(Window):
 
             click_range = int(client_scrollbar_window - self._scrollbar_thumb_length)
 
-            percentage = orientation_variable / click_range
+            percentage = scrollbar_click / click_range
 
             value = percentage * scroll_range / focus
 
