@@ -294,8 +294,10 @@ class ScrollBar(Window):
                 scrollbar_click = y + self._scrollbar_click_offset
                 focus = units_y
             else:
-                event.Skip()
-                return
+                virtual_scrolled_panel = virtual_size_scrolled_panel[0]
+                client_scrollbar_window = client_size_scrollbar_window[0]
+                scrollbar_click = x + self._scrollbar_click_offset
+                focus = units_x
 
             transform = (self._scrollbar_thumb_length * virtual_scrolled_panel / client_scrollbar_window)
 
