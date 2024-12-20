@@ -138,6 +138,8 @@ class Window(wx.Window):
         self.Bind(wx.EVT_LEFT_DCLICK, self._on_left_down)
         self.Bind(wx.EVT_LEFT_DOWN, self._on_left_down)
         self.Bind(wx.EVT_LEFT_UP, self._on_left_up)
+        
+        self.Bind(wx.EVT_SIZE, self._on_size)
 
         self.Bind(wx.EVT_TIMER, self._on_timer_colour, self._timer_colour)
         self.Bind(wx.EVT_TIMER, self._on_timer_animation, self._timer_animation)
@@ -251,6 +253,11 @@ class Window(wx.Window):
                 self._handle_event()
             self.Refresh()
         event.Skip()
+        
+    def _on_size(self, event: wx.Event):
+        self.Refresh()
+        event.Skip()
+        
 
     def _on_timer_colour(self, event: wx.TimerEvent) -> None:
         """Updates the current colour for all pens and brushes using

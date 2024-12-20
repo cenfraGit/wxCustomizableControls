@@ -38,7 +38,7 @@ class ScrolledPanel(Window):
                                              self._rate_x,
                                              self._rate_y)
         # now we hide its scrollbars
-        # self._scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
+        self._scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
         self._scrolled_panel.SetBackgroundColour(wx.YELLOW)
 
         # ------------------- set up scrollbars ------------------- #
@@ -212,10 +212,10 @@ class ScrollBar(Window):
             scrollbar_thumb_width = int(bar_length)
             scrollbar_thumb_height = self._config[f"thumb_width"]
             # drawn rectangle
-            scrollbar_thumb_drawn_x = scrollbar_thumb_x + padding
-            scrollbar_thumb_drawn_y = scrollbar_thumb_y
-            scrollbar_thumb_drawn_width = scrollbar_thumb_width - 2 * padding
-            scrollbar_thumb_drawn_height = scrollbar_thumb_height
+            scrollbar_thumb_drawn_x = scrollbar_thumb_x
+            scrollbar_thumb_drawn_y = scrollbar_thumb_y + padding
+            scrollbar_thumb_drawn_width = scrollbar_thumb_width
+            scrollbar_thumb_drawn_height = scrollbar_thumb_height - 2 * padding
 
         # we created two rectangles because one is used to check if
         # the user clicked on the sidebar thumb and the other one is
