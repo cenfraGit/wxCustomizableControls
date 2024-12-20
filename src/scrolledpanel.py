@@ -26,15 +26,17 @@ class ScrolledPanel(Window):
 
         # ----------------- set up scrolled panel ----------------- #
 
-        self._scroll_x = True
-        self._scroll_y = True
-        self._rate_x = 20
-        self._rate_y = 20
+        self._scroll_x = self._config["scroll_x"]
+        self._scroll_y = self._config["scroll_y"]
+        self._rate_x = self._config["rate_x"]
+        self._rate_y = self._config["rate_y"]
 
         # create the scrolled panel and set up its scrolling values
         self.__scrolled_panel = wxScrolledPanel(self)
-        self.__scrolled_panel.SetupScrolling(self._scroll_x, self._scroll_y,
-                                             self._rate_x, self._rate_y)
+        self.__scrolled_panel.SetupScrolling(self._scroll_x,
+                                             self._scroll_y,
+                                             self._rate_x,
+                                             self._rate_y)
         # now we hide its scrollbars
         # self.__scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
         self.__scrolled_panel.SetBackgroundColour(wx.YELLOW)
@@ -87,7 +89,9 @@ class ScrollBar(Window):
 
         self._scrollbar_type = scrollbar_type # vertical or horizontal
         self._scrolled_panel = scrolled_panel
-        self._scrollbar_rectangle = wx.Rect(0, 0, 0, 0)
+        self._scrollbar_thumb_rectangle = wx.Rect(0, 0, 0, 0)
+        self._scrollbar_thumb_length = 0
+        self._scrollbar_thumb_start = 0
 
         # ------------------- initialize window ------------------- #
 
@@ -134,6 +138,8 @@ class ScrollBar(Window):
         
         bar_length *= scrollbar_window_length
 
+        self._scrollbar_thumb_length = bar_length
+
         # now that we have the scrollbar thumb dimensions, we need to
         # determine its starting x and y coordinate. to do this, we
         # need to know up to which point the user has scrolled.
@@ -148,6 +154,8 @@ class ScrollBar(Window):
         # now we scale this distance to our view, the same thing we
         # did to get the original bar length.
         start_of_bar = -distance_from_start * visible / real
+
+        self._scrollbar_thumb_start = start_of_bar
 
         # now that we have the length value and start coordinates of
         # the scrollbar, we can draw it.
@@ -209,7 +217,7 @@ class ScrollBar(Window):
             scrollbar_thumb_drawn_width, scrollbar_thumb_drawn_height)
 
         # save the real rectangle data
-        self._scrollbar_rectangle = scrollbar_thumb_rectangle
+        self._scrollbar_thumb_rectangle = scrollbar_thumb_rectangle
 
         gcdc.DrawRoundedRectangle(
             scrollbar_thumb_drawn_rectangle,
@@ -221,7 +229,7 @@ class ScrollBar(Window):
         """        
         x, y = event.GetPosition()
 
-        clicked_on_scrollbar = self._scrollbar_rectangle.Contains(x, y)
+        clicked_on_scrollbar = self._scrollbar_thumb_rectangle.Contains(x, y)
 
         if not clicked_on_scrollbar:
             event.Skip()
@@ -270,10 +278,44 @@ class ScrollBar(Window):
 
             units_x, units_y = self._scrolled_panel.GetScrollPixelsPerUnit()
 
+            virtual_size_scrolled_panel = self._scrolled_panel.GetVirtualSize()
+            client_size_scrollbar_window = self.GetClientSize()
             
-        
+            if scrollbar_window_is_vertical:
+                if not self._config["scroll_y"]:
+                    event.Skip()
+                    return
+                virtual_scrolled_panel = virtual_size_scrolled_panel[1]
+                client_scrollbar_window = client_size_scrollbar_window[1]
+                #scrollbar_click = y + self.
+                orientation_variable = y
+                focus = units_y
+            else:
+                event.Skip()
+                return
+
+            transform = (self._scrollbar_thumb_length * virtual_scrolled_panel / client_scrollbar_window)
+
+            # the very bottom cannot be scrolled down to
+
+            scroll_range = virtual_scrolled_panel - transform
+
+            click_range = int(client_scrollbar_window - self._scrollbar_thumb_length)
+
+            percentage = orientation_variable / click_range
+
+            value = percentage * scroll_range / focus
+
+            if scrollbar_window_is_vertical:
+                self._scrolled_panel.Scroll(-1, int(value))
+            else:
+                self._scrolled_panel.Scroll(int(value), -1)
+
+            self.Refresh()
+
+
         else:
-            if self._scrollbar_rectangle.Contains(x, y):
+            if self._scrollbar_thumb_rectangle.Contains(x, y):
                 self._Hover = True
             else:
                 self._Hover = False

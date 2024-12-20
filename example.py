@@ -705,6 +705,13 @@ class Main(wx.Frame):
             "thumb_cornerradius_hover": 10,
             "thumb_cornerradius_pressed": 10,
             "thumb_cornerradius_disabled": 10,
+
+            # ----------------------- properties ----------------------- #
+
+            "scroll_x": True,
+            "scroll_y": True,
+            "rate_x": 20,
+            "rate_y": 20,
         }
 
         smooth = True
