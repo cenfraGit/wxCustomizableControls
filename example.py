@@ -33,7 +33,7 @@ class Main(wx.Frame):
         """Initializes the user interface."""
 
         self.SetTitle("wxCustomizableControls Examples")
-        self.SetMinClientSize(wx.Size(1200, 600))
+        # self.SetMinClientSize(wx.Size(1200, 600))
 
         self.main_panel = wx.Panel(self)
         self.main_panel.SetBackgroundColour(wx.Colour(60, 60, 60))
@@ -765,7 +765,7 @@ class Main(wx.Frame):
         sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300), config=sp_style)
         sp_panel = sp.GetPanel()
         sp_sizer = wx.GridBagSizer()
-        for i in range(50):
+        for i in range(10):
             sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, i))
         sp_panel.SetSizer(sp_sizer)
 

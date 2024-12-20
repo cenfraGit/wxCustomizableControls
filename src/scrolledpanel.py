@@ -43,11 +43,14 @@ class ScrolledPanel(Window):
 
         # ------------------- set up scrollbars ------------------- #
 
+        self._scrollbar_window_vertical_is_shown = True
+        self._scrollbar_window_horizontal_is_shown = True
+
         scrollbar_width = self._config["thumb_width"]
         self._scrollbar_window_vertical = ScrollBar(self, "vertical", self._scrolled_panel,
-                                                     size=wx.Size(scrollbar_width, -1), config=config)
+                                                    size=wx.Size(scrollbar_width, -1), config=config)
         self._scrollbar_window_horizontal = ScrollBar(self, "horizontal", self._scrolled_panel,
-                                                       size=wx.Size(-1, scrollbar_width), config=config)
+                                                      size=wx.Size(-1, scrollbar_width), config=config)
 
         self._scrollbar_window_vertical.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self._scrollbar_window_horizontal.SetBackgroundStyle(wx.BG_STYLE_PAINT)
@@ -72,6 +75,39 @@ class ScrolledPanel(Window):
     def GetPanel(self):
         return self._scrolled_panel
 
+    def UpdateScrollbars(self):
+        """Should be called when scroll_x or scroll_y was changed.
+        """
+        if self._config["scroll_y"] and not self._scrollbar_window_vertical_is_shown:
+            self._show_scrollbar("vertical", True)
+        elif not self._config["scroll_y"] and self._scrollbar_window_vertical_is_shown:
+            self._show_scrollbar("vertical", False)
+
+        if self._config["scroll_x"] and not self._scrollbar_window_horizontal_is_shown:
+            self._show_scrollbar("horizontal", True)
+        elif not self._config["scroll_x"] and self._scrollbar_window_horizontal_is_shown:
+            self._show_scrollbar("horizontal", False)
+
+    def _show_scrollbar(self, scrollbar: str, show: bool) -> None:
+        if show:
+            if scrollbar == "vertical" and not self._scrollbar_window_vertical_is_shown:
+                self._sizer.Add(self._scrollbar_window_vertical, pos=(0, 1), flag=wx.EXPAND)
+                self._scrollbar_window_vertical.Show()
+                self._scrollbar_window_vertical_is_shown = True
+            elif scrollbar == "horizontal" and not self._scrollbar_window_horizontal_is_shown:
+                self._sizer.Add(self._scrollbar_window_horizontal, pos=(1, 0), flag=wx.EXPAND)
+                self._scrollbar_window_horizontal.Show()
+                self._scrollbar_window_horizontal_is_shown = True
+        else:
+            if scrollbar == "vertical" and self._scrollbar_window_vertical_is_shown:
+                self._sizer.Detach(self._scrollbar_window_vertical)
+                self._scrollbar_window_vertical.Hide()
+                self._scrollbar_window_vertical_is_shown = False
+            elif scrollbar == "horizontal" and self._scrollbar_window_horizontal_is_shown:
+                self._sizer.Detach(self._scrollbar_window_horizontal)
+                self._scrollbar_window_horizontal.Hide()
+                self._scrollbar_window_horizontal_is_shown = False
+
     def _on_mousewheel(self, event: wx.MouseEvent) -> None:
 
         current_view = self._scrolled_panel.GetViewStart()
@@ -91,6 +127,35 @@ class ScrolledPanel(Window):
             y = current_view[1]
             self._scrollbar_window_horizontal.Refresh()
         self._scrolled_panel.Scroll(int(x), int(y))
+
+    def _on_size(self, event: wx.Event):
+        """Determines if scrollbars need to be drawn or not.
+        """
+
+        client_size = self._scrolled_panel.GetClientSize()
+        virtual_size = self._scrolled_panel.GetVirtualSize()
+
+        real_vertical, visible_vertical = virtual_size[1], client_size[1]
+        real_horizontal, visible_horizontal = virtual_size[0], client_size[0]
+
+        vertical_proportion = visible_vertical / real_vertical
+        horizontal_proportion = visible_horizontal / real_horizontal
+
+        if (vertical_proportion >= 1.0) and self._scrollbar_window_vertical_is_shown:
+            self._show_scrollbar("vertical", False)
+        elif (vertical_proportion < 1.0) and not self._scrollbar_window_vertical_is_shown:
+            self._show_scrollbar("vertical", True)
+
+        if (horizontal_proportion >= 1.0) and self._scrollbar_window_horizontal_is_shown:
+            self._show_scrollbar("horizontal", False)
+        elif (horizontal_proportion < 1.0) and not self._scrollbar_window_horizontal_is_shown:
+            self._show_scrollbar("horizontal", True)
+
+        self._sizer.Layout()
+
+        event.Skip()
+        
+        
 
     
 class ScrollBar(Window):
@@ -137,11 +202,6 @@ class ScrollBar(Window):
         # now we calculate the proportion of the corresponding
         # scrollbar
         bar_length = visible / real
-
-        # we will use this value to check if there is need to scroll.
-        # if (bar_length >= 1.0):
-        #     scrollbar_window.SetSize(wx.Size(0, 0))
-        # wxPizza??????????????????????????????        
 
         # and now we use this value to scale the dimension
         # corresponding to the orientation of the scrollbar window (if
