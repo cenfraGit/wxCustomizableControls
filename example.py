@@ -539,9 +539,9 @@ class Main(wx.Frame):
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 200,
-            "colourtransition_ms_hover": 200,
-            "colourtransition_ms_pressed": 200,
+            "colourtransition_ms_default": 600,
+            "colourtransition_ms_hover": 600,
+            "colourtransition_ms_pressed": 600,
             
             "animation_ms": 500,
 

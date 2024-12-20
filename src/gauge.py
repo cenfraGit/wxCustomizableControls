@@ -7,7 +7,6 @@ cenfra
 
 
 from ._window import Window
-from ._utils import Animation
 import wx
 
 
@@ -30,36 +29,21 @@ class Gauge(Window):
         
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
-        self._current_value = 0
+        # -------------- initialize animation values -------------- #
+
+        self._current_values["progress"] = {"current": 0, "target": 0, "start": 0}
 
     def SetValue(self, value:int) -> None:
-        if value < 0 or value > self._Range:
+        """Sets the value of the gauge's progress.
+        """
+        if (value < 0) or (value > self._Range):
             raise ValueError("SetValue out of range.")
         else:
             self._Value = value
-            
-        if not self._timer_animation.IsRunning():
-            self._timer_animation.Start(self._timer_ms)
-            
-        self._timer_animation_steps_counter = 0
-        self._start_value = self._current_value
+            self._handle_animation()
 
     def IsVertical(self) -> bool:
         return (self._Style == wx.GA_VERTICAL)
-
-    def _on_timer_animation(self, event):
-        timer_paint_steps = int(self._config[f"animation_ms"] / self._timer_ms)
-        if self._timer_animation_steps_counter < timer_paint_steps:
-            # get progress
-            t = self._timer_animation_steps_counter / timer_paint_steps
-            self._current_value = Animation.transition(self._start_value, self._Value, t)
-            self._timer_animation_steps_counter += 1
-        else:
-            self._timer_animation.Stop()
-            self._timer_animation_steps_counter = 0
-            self._current_value = self._Value
-        self.Refresh()
-        event.Skip()
 
     def _on_paint(self, event: wx.Event) -> None:
 
@@ -102,8 +86,7 @@ class Gauge(Window):
         """
         # get both gauge and progressbar info
         gauge_range = self.GetRange()
-        # gauge_value = self.GetValue()
-        gauge_value = self._current_value
+        gauge_value = self._current_values["progress"]["current"]
         gauge_size = self.GetSize()
         gauge_vertical = self.IsVertical()
         padding = (self._config[f"progress_padding_{self._get_state()}"] +

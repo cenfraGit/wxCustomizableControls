@@ -20,6 +20,7 @@ from typing import Tuple, Literal
 import wx
 
 from ._utils import VectorRGB
+from ._utils import Animation
 
 
 class Window(wx.Window):    
@@ -64,36 +65,68 @@ class Window(wx.Window):
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self.SetInitialSize(size)
 
-        # -------------- timers and colour transitions -------------- #
+        # ------------ color transitions and animations ------------ #
 
-        self._timer_ms = 15
-        
+        # the _timer_ms attribute represents the miliseconds that
+        # would take to call the transition/animation handler until
+        # its finished.
+        self._timer_ms = 16
+
+        # we need two timers to handle the colour transitions and
+        # animations because if both are active in the window, they
+        # may have different time lengths
+        self._timer_colour = wx.Timer(self)     # timer used for colour transitions
+        self._timer_animation = wx.Timer(self)  # timer used for other animations
+
+        # these counters are used to measure the progress of the
+        # transition/animation in their respective handler methods.
         self._timer_colour_steps_counter = 0
         self._timer_animation_steps_counter = 0
 
-        self._timer_colour = wx.Timer(self)
-        self._timer_animation = wx.Timer(self)
-
-        # these attributes will store the element (key), and a new
-        # dict containing its current rgb colour and its target rgb
-        # colour. used for colour smoothing for all elements which need
-        # them        
+        # these dictionaries will store the current and target color
+        # (called "start" and "end" in the animation functions) in
+        # VectorRGB types. used in color transitions. example:
         # {"button": {"current": VectorRGB(0, 0, 0), "target": VectorRGB(0, 0, 0)}}
-        self._colour_smoothing_brushes = {} # using backgroundcolour attributes
-        self._colour_smoothing_pens    = {} # using bordercolour attributes
+        self._current_color_brushes = {} # using backgroundcolour attributes
+        self._current_color_pens    = {} # using bordercolour attributes
+        
+        # the previous dictionaries are used exclusively for color
+        # transitions. this new dictionary will be used to handle
+        # animations with values such as progress in gauges, sizes for
+        # dropdowns, etc.
+        self._current_values = {}
 
-        # save initial colour data
+        # we have to save the default window elements colour data so
+        # that the paint method can actually draw the window
+        # initially. targets will be initialized to zero because no
+        # transition data is needed at the start.
         for key in self._config.keys():
+
+            # find and get background brush colors
+            
             if "backgroundcolour_default" in key:
                 attribute_parts = key.split('_')
+                # we need to know if the background is a solid color or a gradient
                 backgroundtype = self._get_background_type(attribute_parts[0])
+                # if the backgroundtype is a solid color, the current
+                # color will be that color. if the backgroundtype is a
+                # gradient, we will make the current color some
+                # gray. in this last case, the current color will not
+                # actually look gray by default, only when a color
+                # transition is needed (maybe use memorydc and
+                # transition each pixel then blit each frame?)
                 current = VectorRGB(*self._config[key]) if (backgroundtype == "solid") else VectorRGB(127, 127, 127)
-                self._colour_smoothing_brushes[attribute_parts[0]] = {"current": current,
-                                                                     "target": VectorRGB(0, 0, 0)}
+                self._current_color_brushes[attribute_parts[0]] = {
+                    "current": current,
+                    "target": VectorRGB(0, 0, 0)}
+
+            # find and get border pen colors
+                
             elif "bordercolour_default" in key:
                 attribute_parts = key.split('_')
-                self._colour_smoothing_pens[attribute_parts[0]] = {"current": VectorRGB(*self._config[key]),
-                                                                  "target": VectorRGB(0, 0, 0)}
+                self._current_color_pens[attribute_parts[0]] = {
+                    "current": VectorRGB(*self._config[key]),
+                    "target": VectorRGB(0, 0, 0)}
 
         # ------------------------- events ------------------------- #
 
@@ -151,6 +184,7 @@ class Window(wx.Window):
             if len(colour) == 3:
                 return wx.Colour(*colour)
             else:
+                # return black if gradient?
                 return wx.BLACK
         else:
             return self.GetParent().GetBackgroundColour()
@@ -164,6 +198,12 @@ class Window(wx.Window):
         self.Enable(False)
 
     # ------------------------- events ------------------------- #
+
+    def _on_paint(self, event: wx.Event) -> None:
+        raise NotImplementedError("_on_paint")
+    
+    def _handle_event(self) -> None:
+        raise NotImplementedError("_handle_event")
 
     def _on_enter_window(self, event: wx.Event) -> None:
         if self._UseDefaults:
@@ -212,80 +252,132 @@ class Window(wx.Window):
         event.Skip()
 
     def _on_timer_colour(self, event: wx.TimerEvent) -> None:
-        """Uses easing functions so smooth out the colour transition
-        between states. Updates the current colour for all pens and
-        brushes.
+        """Updates the current colour for all pens and brushes using
+        easing functions.
         """
         timer_paint_steps = int(self._config[f"colourtransition_ms_{self._get_state()}"] / self._timer_ms)
         if self._timer_colour_steps_counter < timer_paint_steps:
             
             t = self._timer_colour_steps_counter / timer_paint_steps
-            easing_t = self._get_easing_t(t)
 
-            for colour_values in self._colour_smoothing_brushes.values():
+            for colour_values in self._current_color_brushes.values():
                 if isinstance(colour_values["current"], VectorRGB) and isinstance(colour_values["target"], VectorRGB):
-                    colour_values["current"] = colour_values["current"] + (colour_values["target"] - colour_values["current"]) * easing_t
+                    colour_values["current"] = Animation.transition(colour_values["start"], colour_values["target"], t)
                 else:
                     colour_values["current"] = colour_values["target"]
-            for colour_values in self._colour_smoothing_pens.values():
-                colour_values["current"] = colour_values["current"] + (colour_values["target"] - colour_values["current"]) * easing_t
+            for colour_values in self._current_color_pens.values():
+                colour_values["current"] = Animation.transition(colour_values["start"], colour_values["target"], t)
 
             self._timer_colour_steps_counter += 1
         else:
-            self._timer_colour_steps_counter = 0
             self._timer_colour.Stop()
         self.Refresh()
         event.Skip()
 
-    def _on_timer_animation(self, event):
-        pass
+    def _on_timer_animation(self, event: wx.TimerEvent) -> None:
+        """Updates the current value for self._current_values using
+        easing functions.
+        """
+        timer_paint_steps = int(self._config[f"animation_ms"] / self._timer_ms)
+        if self._timer_animation_steps_counter < timer_paint_steps:
 
-    def _on_paint(self, event: wx.Event) -> None:
-        raise NotImplementedError("_on_paint")
-    
-    def _handle_event(self) -> None:
-        raise NotImplementedError("_handle_event")
-    
-    # -------------------- colour smoothing -------------------- #
+            t = self._timer_animation_steps_counter / timer_paint_steps
+
+            for values in self._current_values.values():
+                values["current"] = Animation.transition(values["start"], values["target"], t)
+
+            self._timer_animation_steps_counter += 1
+        else:
+            self._timer_animation.Stop()
+        self.Refresh()
+        event.Skip()
+
+    # ---------------------- start timers ---------------------- #
+
+    def _start_timer_colour(self):
+        """Resets color counter and starts the timer if not already
+        running.
+        """
+        self._timer_colour_steps_counter = 0
+        if not self._timer_colour.IsRunning():
+            self._timer_colour.Start(self._timer_ms)
+
+    def _start_timer_animation(self):
+        """Resets animation counter and starts the timer if not already
+        running.
+        """
+        self._timer_animation_steps_counter = 0
+        if not self._timer_animation.IsRunning():
+            self._timer_animation.Start(self._timer_ms)
+
+    # --------------------- timer handlers --------------------- #
+
+    """These methods determine if the timers start or not, depending
+    on the time specified."""
 
     def _handle_colour_transition(self) -> None:
+        """This method will be called when the state of the window
+        changes to default, hover or pressed. If the miliseconds value
+        for the colour transition is 0, the transition will occurr
+        instantly.
+        """
         if self._config[f"colourtransition_ms_{self._get_state()}"] != 0:
             self._update_colour_targets()
-            self._timer_colour_steps_counter = 0
-            if not self._timer_colour.IsRunning():
-                self._timer_colour.Start(self._timer_ms)
+            self._start_timer_colour()
         else:
             self._update_colour_currents()
+
+    def _handle_animation(self) -> None:
+        """Starts the timer if the animation miliseconds value is not 0.
+        """
+        if self._config[f"animation_ms"] != 0:
+            self._update_animation_targets()
+            self._start_timer_animation()
+        else:
+            self._update_animation_currents()
+
+    # ------------- updating currents and targets ------------- #
+
+    def _update_animation_targets(self) -> None:
+        """Updates the targets for all values.
+        """
+        # if the window is a gauge
+        if "progress" in self._current_values.keys():
+            self._current_values["progress"]["target"] = self._Value
+            self._current_values["progress"]["start"] = self._current_values["progress"]["current"]
+
+    def _update_animation_currents(self) -> None:
+        """"""
+        # if the window is a gauge
+        if "progress" in self._current_values.keys():
+            self._current_values["progress"]["current"] = self._Value
 
     def _update_colour_targets(self) -> None:
         """Updates the colour targets for all brushes and pens
         depending on the state of the window.
         """
-        for element, colour_values in self._colour_smoothing_brushes.items():
+        for element, colour_values in self._current_color_brushes.items():
             if self._get_background_type(element) == "solid":
                 colour_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
             else: # if gradient
                 colour_values["target"] = VectorRGB(0, 0, 0)
-        for element, colour_values in self._colour_smoothing_pens.items():
+            # copy current value to start
+            colour_values["start"] = colour_values["current"]
+            
+        for element, colour_values in self._current_color_pens.items():
             colour_values["target"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
+            # copy current value to start
+            colour_values["start"] = colour_values["current"]
 
     def _update_colour_currents(self) -> None:
         """Updates the colour currents for all brushes and pens
         depending on the state of the window. Used for non-smooth
         colour transitioning.
         """
-        for element, colour_values in self._colour_smoothing_brushes.items():
+        for element, colour_values in self._current_color_brushes.items():
             colour_values["current"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
-        for element, colour_values in self._colour_smoothing_pens.items():
+        for element, colour_values in self._current_color_pens.items():
             colour_values["current"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
-
-    def _cubic_bezier(self, t, p0, p1, p2, p3) -> float:
-        return (1 - t)**3 * p0 + 3 * (1 - t)**2 * t * p1 + 3 * (1 - t) * t**2 * p2 + t**3 * p3
-
-    def _get_easing_t(self, t: float) -> float:
-        p0, p3 = 0, 1
-        p1, p2 = 0.42, 0.58
-        return self._cubic_bezier(t, p0, p1, p2, p3)
     
     # ---------------------- get methods ---------------------- #
 
@@ -320,7 +412,7 @@ class Window(wx.Window):
         penstyle = self._config[f"{element}_borderstyle_{state}"]
         if (penwidth == 0):
             return wx.TRANSPARENT_PEN
-        return wx.Pen(self._colour_smoothing_pens[element]["current"].GetValue(),
+        return wx.Pen(self._current_color_pens[element]["current"].GetValue(),
                       penwidth,
                       self._get_tool_style("pen", penstyle))
 
@@ -329,7 +421,7 @@ class Window(wx.Window):
         backgroundcolour = self._config[f"{element}_backgroundcolour_{state}"]
         backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
         if len(backgroundcolour) == 3:
-            return wx.Brush(self._colour_smoothing_brushes[element]["current"].GetValue(),
+            return wx.Brush(self._current_color_brushes[element]["current"].GetValue(),
                             self._get_tool_style("brush", backgroundstyle))
         else:
             return gc.CreateLinearGradientBrush(*backgroundcolour)
@@ -563,7 +655,7 @@ class Window(wx.Window):
         else:
             return "gradient"
 
-    # --------------------- useful methods --------------------- #
+    # -------------------------- misc -------------------------- #
 
     def _configure_cursor(self) -> None:
         state = self._get_state()
