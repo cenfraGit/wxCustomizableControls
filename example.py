@@ -543,7 +543,7 @@ class Main(wx.Frame):
             "colourtransition_ms_hover": 600,
             "colourtransition_ms_pressed": 600,
             
-            "animation_ms": 500,
+            "animation_ms": 200,
 
             # ------------------------- cursor ------------------------- #
 

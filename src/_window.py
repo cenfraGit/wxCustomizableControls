@@ -257,6 +257,8 @@ class Window(wx.Window):
         """
         timer_paint_steps = int(self._config[f"colourtransition_ms_{self._get_state()}"] / self._timer_ms)
         if self._timer_colour_steps_counter < timer_paint_steps:
+
+            self._timer_colour_steps_counter += 1
             
             t = self._timer_colour_steps_counter / timer_paint_steps
 
@@ -267,8 +269,6 @@ class Window(wx.Window):
                     colour_values["current"] = colour_values["target"]
             for colour_values in self._current_color_pens.values():
                 colour_values["current"] = Animation.transition(colour_values["start"], colour_values["target"], t)
-
-            self._timer_colour_steps_counter += 1
         else:
             self._timer_colour.Stop()
         self.Refresh()
@@ -281,12 +281,12 @@ class Window(wx.Window):
         timer_paint_steps = int(self._config[f"animation_ms"] / self._timer_ms)
         if self._timer_animation_steps_counter < timer_paint_steps:
 
+            self._timer_animation_steps_counter += 1
+            
             t = self._timer_animation_steps_counter / timer_paint_steps
 
             for values in self._current_values.values():
                 values["current"] = Animation.transition(values["start"], values["target"], t)
-
-            self._timer_animation_steps_counter += 1
         else:
             self._timer_animation.Stop()
         self.Refresh()
@@ -321,7 +321,8 @@ class Window(wx.Window):
         for the colour transition is 0, the transition will occurr
         instantly.
         """
-        if self._config[f"colourtransition_ms_{self._get_state()}"] != 0:
+        ms = self._config[f"colourtransition_ms_{self._get_state()}"]
+        if ms != 0 and ((ms / self._timer_ms) > 1):
             self._update_colour_targets()
             self._start_timer_colour()
         else:
@@ -330,11 +331,13 @@ class Window(wx.Window):
     def _handle_animation(self) -> None:
         """Starts the timer if the animation miliseconds value is not 0.
         """
-        if self._config[f"animation_ms"] != 0:
+        ms = self._config[f"animation_ms"]
+        if (ms != 0) and ((ms / self._timer_ms) > 1):
             self._update_animation_targets()
             self._start_timer_animation()
         else:
             self._update_animation_currents()
+            self.Refresh()
 
     # ------------- updating currents and targets ------------- #
 

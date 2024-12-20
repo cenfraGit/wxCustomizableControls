@@ -10,7 +10,7 @@
 ** DONE panels
 ** DONE static box
 ** DONE static lines
-** TODO gauge
+** DONE gauge
 ** TODO static text with wrap
 ** TODO scrolledwindow
 ** TODO combobox (choice)
