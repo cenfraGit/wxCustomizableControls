@@ -630,7 +630,7 @@ class Main(wx.Frame):
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 10000,
+            "colourtransition_ms_default": 1500,
             "colourtransition_ms_hover": 1500,
             "colourtransition_ms_pressed": 400,
 

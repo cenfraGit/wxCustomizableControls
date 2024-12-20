@@ -204,7 +204,7 @@ class Window(wx.Window):
     def _handle_event(self) -> None:
         raise NotImplementedError("_handle_event")
 
-    def _on_enter_window(self, event: wx.Event) -> None:
+    def _on_enter_window(self, event: wx.MouseEvent) -> None:
         if self._UseDefaults:
             event.Skip()
             return None
@@ -215,7 +215,7 @@ class Window(wx.Window):
         self.Refresh()
         event.Skip()
 
-    def _on_leave_window(self, event: wx.Event) -> None:
+    def _on_leave_window(self, event: wx.MouseEvent) -> None:
         if self._UseDefaults:
             event.Skip()
             return None
@@ -226,7 +226,7 @@ class Window(wx.Window):
         self.Refresh()
         event.Skip()
 
-    def _on_left_down(self, event: wx.Event) -> None:
+    def _on_left_down(self, event: wx.MouseEvent) -> None:
         if not self._Pressed:
 
             self._Pressed = True
@@ -238,7 +238,7 @@ class Window(wx.Window):
             self.Refresh()
         event.Skip()
 
-    def _on_left_up(self, event: wx.Event) -> None:
+    def _on_left_up(self, event: wx.MouseEvent) -> None:
         if self._Pressed:
 
             self._Pressed = False

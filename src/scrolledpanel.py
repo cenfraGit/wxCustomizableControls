@@ -44,6 +44,10 @@ class ScrolledPanel(Window):
         self._scrollbar_width = 30
         self._scrollbar_padding = 5
 
+        # initialize rectangles to check clicks
+        self._scrollbar_vertical_rectangle = wx.Rect(0, 0, 0, 0)
+        self._scrollbar_horizontal_rectangle = wx.Rect(0, 0, 0, 0)
+
         self.__scrollbar_window_vertical = wx.Window(self, size=wx.Size(self._scrollbar_width, -1))
         self.__scrollbar_window_horizontal = wx.Window(self, size=wx.Size(-1, self._scrollbar_width))
 
@@ -115,6 +119,11 @@ class ScrolledPanel(Window):
         # scrollbar
         bar_length = visible / real
 
+        # we will use this value to check if there is need to scroll.
+        # if (bar_length >= 1.0):
+        #     scrollbar_window.SetSize(wx.Size(0, 0))
+        # wxPizza??????????????????????????????        
+
         # and now we use this value to scale the dimension
         # corresponding to the orientation of the scrollbar window (if
         # its a vertical scrollbar, we will scale the height of its
@@ -161,7 +170,7 @@ class ScrolledPanel(Window):
         # we determine on which dimensions the previous calculations
         # will apply to
         padding = (self._config[f"thumb_padding_{self._get_state()}"] +
-                   self._get_pen_current("thumb").GetWidth())
+                   self._get_pen_current("thumb").GetWidth() // 2)
         if scrollbar_window_is_vertical:
             # real rectangle
             scrollbar_thumb_x = 0
@@ -199,24 +208,73 @@ class ScrolledPanel(Window):
             scrollbar_thumb_drawn_x, scrollbar_thumb_drawn_y,
             scrollbar_thumb_drawn_width, scrollbar_thumb_drawn_height)
 
+        # save the real rectangle data
+        if scrollbar_window_is_vertical:
+            self._scrollbar_vertical_rectangle = scrollbar_thumb_rectangle
+        else:
+            self._scrollbar_horizontal_rectangle = scrollbar_thumb_rectangle
+
         gcdc.DrawRoundedRectangle(
             scrollbar_thumb_drawn_rectangle,
             self._config[f"thumb_cornerradius_{self._get_state()}"])
 
+        
 
+    def _on_left_down(self, event: wx.MouseEvent) -> None:
+        """Checks if the user clicked on a scrollbar and captures
+        mouse.
+        """        
+        scrollbar_window = event.GetEventObject()
+        x, y = event.GetPosition()
 
+        clicked_on_scrollbar = (self._scrollbar_vertical_rectangle.Contains(x, y) or
+                                self._scrollbar_horizontal_rectangle.Contains(x, y))
 
-    def _on_left_down(self, event: wx.Event) -> None:
-        pass
+        if not clicked_on_scrollbar:
+            event.Skip()
+            return
 
-    def _on_left_up(self, event: wx.Event) -> None:
-        pass
+        self._Pressed = True
+        self._handle_colour_transition()
+        scrollbar_window.CaptureMouse()
+        event.Skip()
+        
+    def _on_left_up(self, event: wx.MouseEvent) -> None:
+        """Releases mouse capture.
+        """
+        scrollbar_window = event.GetEventObject()
+        
+        if not scrollbar_window.HasCapture():
+            event.Skip()
+            return
 
-    def _on_leave_window(self, event: wx.Event) -> None:
-        pass
+        self._Pressed = False
+        self._Hover = False
+        self._handle_colour_transition()
+        scrollbar_window.ReleaseMouse()
+        event.Skip()
 
-    def _on_motion(self, event: wx.Event) -> None:
-        pass
+    def _on_leave_window(self, event: wx.MouseEvent) -> None:
+        """If mouse leaves window but has capture, does nothing. If it
+        has no capture, resets state values.
+        """
+        scrollbar_window = event.GetEventObject()
+        
+        if scrollbar_window.HasCapture():
+            event.Skip()
+            return
+
+        self._Pressed = False
+        self._Hover = False
+        self._handle_colour_transition()
+        event.Skip()
+
+    def _on_motion(self, event: wx.MouseEvent) -> None:
+        
+        # --------------------- get event data --------------------- #
+        
+        scrollbar_window = event.GetEventObject()
+        scrollbar_window_is_vertical = scrollbar_window == self.__scrollbar_window_vertical
 
     def _on_mousewheel(self, event: wx.Event) -> None:
         pass
