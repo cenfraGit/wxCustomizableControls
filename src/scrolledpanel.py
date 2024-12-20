@@ -32,51 +32,65 @@ class ScrolledPanel(Window):
         self._rate_y = self._config["rate_y"]
 
         # create the scrolled panel and set up its scrolling values
-        self.__scrolled_panel = wxScrolledPanel(self)
-        self.__scrolled_panel.SetupScrolling(self._scroll_x,
+        self._scrolled_panel = wxScrolledPanel(self)
+        self._scrolled_panel.SetupScrolling(self._scroll_x,
                                              self._scroll_y,
                                              self._rate_x,
                                              self._rate_y)
         # now we hide its scrollbars
-        # self.__scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
-        self.__scrolled_panel.SetBackgroundColour(wx.YELLOW)
+        # self._scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
+        self._scrolled_panel.SetBackgroundColour(wx.YELLOW)
 
         # ------------------- set up scrollbars ------------------- #
 
         scrollbar_width = self._config["thumb_width"]
-        self.__scrollbar_window_vertical = ScrollBar(self, "vertical", self.__scrolled_panel,
+        self._scrollbar_window_vertical = ScrollBar(self, "vertical", self._scrolled_panel,
                                                      size=wx.Size(scrollbar_width, -1), config=config)
-        self.__scrollbar_window_horizontal = ScrollBar(self, "horizontal", self.__scrolled_panel,
+        self._scrollbar_window_horizontal = ScrollBar(self, "horizontal", self._scrolled_panel,
                                                        size=wx.Size(-1, scrollbar_width), config=config)
 
-        self.__scrollbar_window_vertical.SetBackgroundStyle(wx.BG_STYLE_PAINT)
-        self.__scrollbar_window_horizontal.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+        self._scrollbar_window_vertical.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+        self._scrollbar_window_horizontal.SetBackgroundStyle(wx.BG_STYLE_PAINT)
 
         # ---------------------- add to sizer ---------------------- #
 
-        self.__sizer = wx.GridBagSizer()
-        self.SetSizer(self.__sizer)
-        self.__sizer.Add(self.__scrolled_panel, pos=(0, 0), flag=wx.EXPAND)
-        self.__sizer.Add(self.__scrollbar_window_vertical, pos=(0, 1), flag=wx.EXPAND)
-        self.__sizer.Add(self.__scrollbar_window_horizontal, pos=(1, 0), flag=wx.EXPAND)
+        self._sizer = wx.GridBagSizer()
+        self.SetSizer(self._sizer)
+        self._sizer.Add(self._scrolled_panel, pos=(0, 0), flag=wx.EXPAND)
+        self._sizer.Add(self._scrollbar_window_vertical, pos=(0, 1), flag=wx.EXPAND)
+        self._sizer.Add(self._scrollbar_window_horizontal, pos=(1, 0), flag=wx.EXPAND)
 
-        self.__sizer.AddGrowableCol(0, 1)
-        self.__sizer.AddGrowableRow(0, 1)
+        self._sizer.AddGrowableCol(0, 1)
+        self._sizer.AddGrowableRow(0, 1)
 
-        self.__sizer.Layout()
+        self._sizer.Layout()
 
         # ------------------------- events ------------------------- #
 
-        self.__scrolled_panel.Bind(wx.EVT_MOUSEWHEEL, self._on_mousewheel)
+        self._scrolled_panel.Bind(wx.EVT_MOUSEWHEEL, self._on_mousewheel)
 
     def GetPanel(self):
-        return self.__scrolled_panel
+        return self._scrolled_panel
 
-    def _on_mousewheel(self, event: wx.Event) -> None:
-        pass
+    def _on_mousewheel(self, event: wx.MouseEvent) -> None:
 
-    def _handle_event(self) -> None:
-        pass
+        current_view = self._scrolled_panel.GetViewStart()
+        wheel_axis = event.GetWheelAxis()
+        wheel_rotation = event.GetWheelRotation()
+
+        if wheel_axis == wx.MOUSE_WHEEL_VERTICAL:
+            if not self._config[f"scroll_y"]:
+                return
+            x = current_view[0]
+            y = current_view[1] - (wheel_rotation / 8)
+            self._scrollbar_window_vertical.Refresh()
+        else:
+            if not self._config[f"scroll_x"]:
+                return
+            x = current_view[0] + (wheel_rotation / 8)
+            y = current_view[1]
+            self._scrollbar_window_horizontal.Refresh()
+        self._scrolled_panel.Scroll(int(x), int(y))
 
     
 class ScrollBar(Window):
@@ -318,7 +332,6 @@ class ScrollBar(Window):
 
             self.Refresh()
 
-
         else:
             if self._scrollbar_thumb_rectangle.Contains(x, y):
                 self._Hover = True
@@ -327,7 +340,4 @@ class ScrollBar(Window):
             self._handle_colour_transition()
             
         event.Skip()
-        
-        
-
         
