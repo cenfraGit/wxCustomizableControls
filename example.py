@@ -674,6 +674,11 @@ class Main(wx.Frame):
             "thumb_padding_pressed": 3,
             "thumb_padding_disabled": 3,
 
+            "thumb_width_default": 30,
+            "thumb_width_hover": 30,
+            "thumb_width_pressed": 30,
+            "thumb_width_disabled": 30,
+
             "thumb_backgroundcolour_default": (255, 0, 0),
             "thumb_backgroundcolour_hover": (0, 255, 0),
             "thumb_backgroundcolour_pressed": (0, 0, 255),

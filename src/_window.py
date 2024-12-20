@@ -199,10 +199,12 @@ class Window(wx.Window):
     # ------------------------- events ------------------------- #
 
     def _on_paint(self, event: wx.Event) -> None:
-        raise NotImplementedError("_on_paint")
+        pass
+        # raise NotImplementedError("_on_paint")
     
     def _handle_event(self) -> None:
-        raise NotImplementedError("_handle_event")
+        pass
+        # raise NotImplementedError("_handle_event")
 
     def _on_enter_window(self, event: wx.MouseEvent) -> None:
         if self._UseDefaults:
