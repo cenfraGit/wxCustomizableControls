@@ -66,6 +66,8 @@ class ScrolledPanel(Window):
         self._sizer.AddGrowableCol(0, 1)
         self._sizer.AddGrowableRow(0, 1)
 
+        self.UpdateScrollbars()
+        
         self._sizer.Layout()
 
         # ------------------------- events ------------------------- #
@@ -155,8 +157,6 @@ class ScrolledPanel(Window):
 
         event.Skip()
         
-        
-
     
 class ScrollBar(Window):
     def __init__(self, parent, scrollbar_type, scrolled_panel,

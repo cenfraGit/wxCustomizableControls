@@ -714,6 +714,17 @@ class Main(wx.Frame):
             "rate_y": 20,
         }
 
+        dropdown_style = {
+
+            # ----------------------- animation ----------------------- #
+
+            "colourtransition_ms_default": 600,
+            "colourtransition_ms_hover": 600,
+            "colourtransition_ms_pressed": 600,
+            
+            "animation_ms": 200,
+        }
+
         smooth = True
 
         # button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
@@ -762,16 +773,34 @@ class Main(wx.Frame):
 
         # --------------------- scrolled panel --------------------- #
 
-        sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300), config=sp_style)
-        sp_panel = sp.GetPanel()
-        sp_sizer = wx.GridBagSizer()
-        for i in range(10):
-            sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, i))
-        sp_panel.SetSizer(sp_sizer)
+        # sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300), config=sp_style)
+        # sp_panel = sp.GetPanel()
+        # sp_sizer = wx.GridBagSizer()
+        # for i in range(10):
+        #     sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, i))
+        # sp_panel.SetSizer(sp_sizer)
 
-        self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
+        # self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
 
-        self.main_sizer.Layout()
+        # self.main_sizer.Layout()
+
+        # ------------------------ dropdown ------------------------ #
+
+        from src.dropdown import DropDown
+
+        def test(event):
+            d = DropDown(self.main_panel, config=dropdown_style)
+            ctrl = event.GetEventObject()
+            pos = ctrl.ClientToScreen((0, 0))
+            sz = ctrl.GetSize()
+            pos[1] += sz[1]
+            d.SetupAnimation(pos)
+
+
+        a = wx.Button(self.main_panel, label="dropdown")
+        a.Bind(wx.EVT_BUTTON, test)
+        
+            
 
         
 

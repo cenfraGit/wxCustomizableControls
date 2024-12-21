@@ -27,7 +27,14 @@ class Window(wx.Window):
                  size=wx.DefaultSize, style=0, name=wx.PanelNameStr,
                  config={}, **kwargs):
 
-        super().__init__(parent, id, pos, size, style|wx.NO_BORDER, name)
+        # --------------------- special cases --------------------- #
+
+        class_name = self.__class__.__name__
+
+        if class_name == "DropDown":
+            pass
+        else:
+            super().__init__(parent, id, pos, size, style|wx.NO_BORDER, name)
 
         # --------------------- window states --------------------- #
 
