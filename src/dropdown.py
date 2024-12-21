@@ -50,7 +50,7 @@ class DropDown(wx.PopupTransientWindow, Window):
         self.SetSize(wx.Size(-1, int(self._current_values["height"]["current"])))
         
     def DoGetBestClientSize(self):
-        return wx.Size(300, 300)
+        return wx.Size(300, 0)
         
 
         
