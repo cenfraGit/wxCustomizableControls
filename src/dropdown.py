@@ -23,6 +23,7 @@ class DropDown(wx.PopupTransientWindow, Window):
         self._opening = False
         
         self._main_panel = wx.Panel(self)
+        self._main_panel.SetSize(wx.Size(300, 300))
         self._main_panel.SetBackgroundColour(wx.GREEN)
         self._main_sizer = wx.BoxSizer(wx.VERTICAL)
         self._main_panel.SetSizer(self._main_sizer)
@@ -53,7 +54,6 @@ class DropDown(wx.PopupTransientWindow, Window):
         self._opening = False
 
     def _update_dropdown(self):
-        print("updating dropdown")
         height = int(self._current_values["height"]["current"])
         self.SetSize(wx.Size(-1, height))
         if not self._opening and height == 0:
@@ -61,6 +61,5 @@ class DropDown(wx.PopupTransientWindow, Window):
         
     def DoGetBestClientSize(self):
         return wx.Size(300, 0)
-        
 
-        
+    
