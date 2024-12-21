@@ -714,18 +714,107 @@ class Main(wx.Frame):
             "rate_y": 20,
         }
 
-        dropdown_style = {
+        combobox_style = {
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 600,
-            "colourtransition_ms_hover": 600,
-            "colourtransition_ms_pressed": 600,
-            
-            "animation_ms": 500,
+            "colourtransition_ms_default": 10000,
+            "colourtransition_ms_hover": 1500,
+            "colourtransition_ms_pressed": 400,
+
+            "animation_ms": 300,
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "cross",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # -------------------- font attributes -------------------- #
+
+            "fontfacename_default": "Verdana",
+            "fontfacename_hover": "Verdana",
+            "fontfacename_pressed": "Verdana",
+            "fontfacename_disabled": "Verdana",
+
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
+
+            "fontsize_default": 12,
+            "fontsize_hover": 12,
+            "fontsize_pressed": 12,
+            "fontsize_disabled": 12,
+
+            "fontstyle_default": "normal",
+            "fontstyle_hover": "italic",
+            "fontstyle_pressed": "normal",
+            "fontstyle_disabled": "normal",
+
+            "fontweight_default": "normal",
+            "fontweight_hover": "bold",
+            "fontweight_pressed": "normal",
+            "fontweight_disabled": "normal",
+
+            # ------------------------ combobox ------------------------ #
+
+            "combobox_backgroundcolour_default": (0, 0, 0),
+            "combobox_backgroundcolour_hover": (0, 0, 0),
+            "combobox_backgroundcolour_pressed": (0, 0, 0),
+            "combobox_backgroundcolour_disabled": (231, 1, 202),
+
+            "combobox_backgroundstyle_default": "solid",
+            "combobox_backgroundstyle_hover": "solid",
+            "combobox_backgroundstyle_pressed": "solid",
+            "combobox_backgroundstyle_disabled": "solid",
+
+            "combobox_bordercolour_default": (255, 0, 0),
+            "combobox_bordercolour_hover": (0, 255, 0),
+            "combobox_bordercolour_pressed": (0, 0, 255),
+            "combobox_bordercolour_disabled": (46, 31, 95),
+
+            "combobox_borderwidth_default": 4,
+            "combobox_borderwidth_hover": 30,
+            "combobox_borderwidth_pressed": 4,
+            "combobox_borderwidth_disabled": 4,
+
+            "combobox_borderstyle_default": "solid",
+            "combobox_borderstyle_hover": "solid",
+            "combobox_borderstyle_pressed": "solid",
+            "combobox_borderstyle_disabled": "solid",
+
+            "combobox_cornerradius_default": 10,
+            "combobox_cornerradius_hover": 10,
+            "combobox_cornerradius_pressed": 10,
+            "combobox_cornerradius_disabled": 10,
+
+            # ------------------------- images ------------------------- #
+
+            "image_path_default": "images/example.png",
+            "image_path_hover": "images/example.png",
+            "image_path_pressed": "",
+            "image_path_disabled": "",
+
+            "image_width_default": 70,
+            "image_width_hover": 70,
+            "image_width_pressed": 10,
+            "image_width_disabled": 10,
+
+            "image_height_default": 70, 
+            "image_height_hover": 70,
+            "image_height_pressed": 10,
+            "image_height_disabled": 10,
+
+            "image_channels_default": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
+            "image_channels_pressed": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
+
+            "image_separation": 10,
+            "image_side": "right",
         }
 
-        smooth = True
 
         # button = cc.Button(self.main_panel, label="test", config=button_style, use_smooth_transitions=smooth)
         # button.Bind(wx.EVT_BUTTON, lambda e: print("button pressed"))
@@ -786,19 +875,22 @@ class Main(wx.Frame):
 
         # ------------------------ dropdown ------------------------ #
 
-        from src.dropdown import DropDown
+        # from src.dropdown import DropDown
 
-        def test(event):
-            d = DropDown(self.main_panel, config=dropdown_style)
-            ctrl = event.GetEventObject()
-            pos = ctrl.ClientToScreen((0, 0))
-            sz = ctrl.GetSize()
-            pos[1] += sz[1]
-            d.SetupAnimation(pos)
+        # def test(event):
+        #     d = DropDown(self.main_panel, config=dropdown_style)
+        #     ctrl = event.GetEventObject()
+        #     pos = ctrl.ClientToScreen((0, 0))
+        #     sz = ctrl.GetSize()
+        #     pos[1] += sz[1]
+        #     d.SetupAnimation(pos)
 
 
-        a = wx.Button(self.main_panel, label="dropdown")
-        a.Bind(wx.EVT_BUTTON, test)
+        # a = wx.Button(self.main_panel, label="dropdown")
+        # a.Bind(wx.EVT_BUTTON, test)
+
+        c = cc.ComboBox(self.main_panel, value="test", config=combobox_style)
+        
         
             
 

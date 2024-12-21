@@ -13,12 +13,12 @@
 ** DONE gauge
 ** DONE scrolledwindow
 ** TODO combobox (choice)
-** TODO menubar
-** TODO static text with wrap
 ** TODO text control
+** TODO static text with wrap
+
 ** TODO plotting graphs?
 ** TODO switch (checkbox functionality)
-** TODO custom frame
+** TODO menubar
 
 /* ------------------------ notes ------------------------ */
 
@@ -26,57 +26,3 @@
 - interpolate between gradient pixels and target color/gradient in
   memorydc?
   
-/* --------------- customizable attributes --------------- */
-
-the layout for customizing an attribute is
-
-| element | property | state |
-
-for example: "checkbox_backgroundcolor_default" refers to the
-checkbox's background when the object's state is default.
-
-some properties will not have a particular element assigned to
-them. its value will be assigned to the object as a whole. for
-example, we wouldn't want different mouse cursors when he hover over
-the checkbox itself and when he hover over the text label (or maybe we
-might, but might over complicate the implementation)
-
-properties include:
-
-| property        | has element | element examples                                   |
-| backgroundcolor | yes         | drawingarea, checkbox, radiobutton, staticbox, etc |
-| bordercolor     | yes         | drawingarea, checkbox, radiobutton, staticbox, etc |
-| borderwidth     | yes         | checkbox, radiobutton, etc                         |
-| cornerradius    | yes         | checkbox, combobox, staticbox, etc                 |
-| textseparation  | yes         | checkbox, radiobutton, image                       |
-| textside        | yes         | checkbox, radiobutton, image                       |
-| textcolor       | no          |                                                    |
-| textfont        | no          |                                                    |
-| textsize        | no          |                                                    |
-| textstyle       | no          |                                                    |
-| mousecursor     | no          |                                                    |
-| path            | yes         | image                                              |
-| width           | yes         | checkbox, image                                    |
-| height          | yes         | checkbox, image                                    |
-| radius          | yes         | radiobutton                                        |
-
-the object states are:
-
-| state   |
-| default |
-| hover   |
-| pressed |
-| default |
-
-all objects will have a "use_defaults" option that will make the
-object's drawing method use the default state values, regardless of
-its state. this is helpful for objects that are not intended to behave
-like controls. for example, we normally don't want to use a different
-background color every time the user hovers over a panel, but this is
-easily modifiable.
-
-the "elements" refer to a section that is drawn inside the object
-interface. for example, a checkbox has: the checkbox itself, a text
-label, and optionally an image.
-
-
