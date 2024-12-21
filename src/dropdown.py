@@ -19,7 +19,9 @@ class DropDown(wx.PopupTransientWindow, Window):
 
         wx.PopupTransientWindow.__init__(self, parent, flags)
         Window.__init__(self, parent, config=config, **kwargs)
-
+        
+        self._opening = False
+        
         self._main_panel = wx.Panel(self)
         self._main_panel.SetBackgroundColour(wx.GREEN)
         self._main_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -29,7 +31,6 @@ class DropDown(wx.PopupTransientWindow, Window):
 
         # self._scrolled_panel = ScrolledPanel(self._main_panel)
 
-        # self.Bind(wx.EVT_PAINT, self._on_paint)
 
         # -------------- initialize animation values -------------- #
 
@@ -42,12 +43,21 @@ class DropDown(wx.PopupTransientWindow, Window):
         self.Position(pos, wx.Size(0, 0))
         self.Popup()
         self._start_timer_animation()
+        self._opening = True
 
-    def _on_paint(self, event: wx.Event) -> None:
-        self.UpdateDropdown()
+    def OnDismiss(self):
+        self._current_values["height"]["target"] = 0
+        self._current_values["height"]["start"] = self._current_values["height"]["current"]
+        self.Popup()
+        self._start_timer_animation()
+        self._opening = False
 
-    def UpdateDropdown(self):
-        self.SetSize(wx.Size(-1, int(self._current_values["height"]["current"])))
+    def _update_dropdown(self):
+        print("updating dropdown")
+        height = int(self._current_values["height"]["current"])
+        self.SetSize(wx.Size(-1, height))
+        if not self._opening and height == 0:
+            self.Dismiss()
         
     def DoGetBestClientSize(self):
         return wx.Size(300, 0)

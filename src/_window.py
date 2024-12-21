@@ -304,7 +304,14 @@ class Window(wx.Window):
                 values["current"] = Animation.transition(values["start"], values["target"], t)
         else:
             self._timer_animation.Stop()
-        self.Refresh()
+
+        # refresh will only be used for values that require
+        # redrawing. in the case of the dropdown we are interested in
+        # changing its size, so no repaint needed.
+        if self.__class__.__name__ == "DropDown":
+            self._update_dropdown()
+        else:
+            self.Refresh()
         event.Skip()
 
     # ---------------------- start timers ---------------------- #
@@ -697,4 +704,9 @@ class Window(wx.Window):
             gcdc.DrawText(text, text_x, text_y)
         if (image_width != 0) and (image_height != 0):
             gcdc.DrawBitmap(bitmap, image_x, image_y)
+
+    # ---------------- window specific methods ---------------- #
+
+    def _update_dropdown(self):
+        pass
     

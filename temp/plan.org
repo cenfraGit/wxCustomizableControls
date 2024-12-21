@@ -11,7 +11,7 @@
 ** DONE static box
 ** DONE static lines
 ** DONE gauge
-** TODO scrolledwindow
+** DONE scrolledwindow
 ** TODO combobox (choice)
 ** TODO menubar
 ** TODO static text with wrap
