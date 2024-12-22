@@ -787,7 +787,7 @@ class Main(wx.Frame):
             "combobox_bordercolour_disabled": (46, 31, 95),
 
             "combobox_borderwidth_default": 4,
-            "combobox_borderwidth_hover": 30,
+            "combobox_borderwidth_hover": 4,
             "combobox_borderwidth_pressed": 4,
             "combobox_borderwidth_disabled": 4,
 
@@ -906,7 +906,7 @@ class Main(wx.Frame):
             "animation_ms": 300,
         }
 
-        c = cc.ComboBox(self.main_panel, value="test", choices=["one", "two", "three"],
+        c = cc.ComboBox(self.main_panel, value="test", choices=["one", "two", "threeeeeeeeeeeee"],
                         config=combobox_style, config_dropdown=dropdown_style,
                         config_button=button_style, config_scrolledpanel=sp_style)
 

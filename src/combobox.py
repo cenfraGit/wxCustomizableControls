@@ -137,5 +137,24 @@ class ComboBox(Window):
         self._handle_colour_transition()
 
     def DoGetBestClientSize(self):
-        return wx.Size(150, 50)
+        # get contexts
+        dc = wx.ClientDC(self)
+        gcdc = wx.GCDC(dc)
+        gc: wx.GraphicsContext = gcdc.GetGraphicsContext()
+        # get max dimensions
+        choices_lengths = [len(choice) for choice in self._Choices]
+        longest_choice_string = self._Choices[choices_lengths.index(max(choices_lengths))]
+        text_width, text_height = self._get_text_dimensions(longest_choice_string, gc)
+        arrow_width, arrow_height = self._config["arrow_width"], self._config["arrow_height"]
+        width, height = self._get_object_sides_dimensions(text_width, text_height,
+                                                          arrow_width, arrow_height,
+                                                          self._config[f"arrow_separation"],
+                                                          self._config[f"arrow_side"])
+        # add border widths
+        width += 2 * self._get_max_value("borderwidth", "combobox")
+        height += 2 * self._get_max_value("borderwidth", "combobox")
+        # padding
+        width += 2 * 10
+        height += 2 * 5
+        return wx.Size(int(width), int(height))
 
