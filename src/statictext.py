@@ -42,7 +42,7 @@ class StaticText(Window):
 
         # ----------------------- draw words ----------------------- #
 
-        gc.SetFont(self._get_font(), wx.WHITE)
+        gc.SetFont(*self._get_font())
 
         if self._WordWrap:
 
@@ -94,7 +94,7 @@ class StaticText(Window):
             return wx.Size(int(width), int(height))
         else:
 
-            gc.SetFont(self._get_font(), wx.WHITE)
+            gc.SetFont(*self._get_font())
             
             horizontal_offset = 0
             vertical_offset = 0

@@ -476,12 +476,13 @@ class Window(wx.Window):
     def _get_brush_parent_background(self) -> wx.Brush:
         return wx.Brush(self.GetParent().GetBackgroundColour())
 
-    def _get_font(self) -> wx.Font:
+    def _get_font(self) -> Tuple[wx.Font, wx.Colour]:
         state = self._get_state()
         fontfacename = self._config[f"fontfacename_{state}"]
         fontsize = self._config[f"fontsize_{state}"]
         fontstyle = self._config[f"fontstyle_{state}"]
         fontweight = self._config[f"fontweight_{state}"]
+        fontcolour = self._config[f"fontcolour_{state}"]
         
         if fontstyle == "normal":
             fontstyle = wx.FONTSTYLE_NORMAL
@@ -493,7 +494,7 @@ class Window(wx.Window):
         elif fontweight == "bold":
             fontweight = wx.FONTWEIGHT_BOLD
 
-        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle, fontweight, faceName=fontfacename)
+        return wx.Font(fontsize, wx.FONTFAMILY_DEFAULT, fontstyle, fontweight, faceName=fontfacename), wx.Colour(*fontcolour)
 
     def _get_cursor(self, cursor: str) -> wx.Cursor:
         cursor_styles = {
@@ -572,7 +573,7 @@ class Window(wx.Window):
     def _get_text_dimensions(self, text: str, gc: wx.GraphicsContext) -> Tuple[int, int]:
         text_width, text_height = 0, 0
         if (text.strip() != ""):
-            gc.SetFont(self._get_font(), wx.WHITE)
+            gc.SetFont(*self._get_font())
             text_width, text_height, _, _ = gc.GetFullTextExtent(text)
         return text_width, text_height
 

@@ -16,9 +16,9 @@ import wx
 if platform.system() == "Windows":
     import ctypes
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
-elif platform.system() == "Linux":
-    import os
-    os.environ["GDK_BACKEND"] = "x11"
+# elif platform.system() == "Linux":
+#     import os
+#     os.environ["GDK_BACKEND"] = "x11"
 
 
 class Main(wx.Frame):
@@ -935,8 +935,8 @@ class Main(wx.Frame):
             "fontfacename_pressed": "Verdana",
             "fontfacename_disabled": "Verdana",
 
-            "fontcolour_default": (0, 0, 0),
-            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_default": (255, 0, 0),
+            "fontcolour_hover": (0, 255, 0),
             "fontcolour_pressed": (0, 0, 0),
             "fontcolour_disabled": (0, 0, 0),
 
@@ -962,7 +962,7 @@ class Main(wx.Frame):
         st = cc.StaticText(self.main_panel,
                            label=text,
                            pos=(10, 50),
-                           config=statictext_style, wordwrap=True)
+                           config=statictext_style, wordwrap=True, use_defaults=False)
 
         self.main_sizer.Add(st, 1, wx.EXPAND)
         self.main_sizer.Layout()

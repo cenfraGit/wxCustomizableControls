@@ -39,7 +39,8 @@ class StaticBox(Window):
         # first we get the text label height to offset the content
         # panel from the top
         dc = wx.ScreenDC()
-        dc.SetFont(self._get_font())
+        font, _ = self._get_font()
+        dc.SetFont(font)
         _, self._text_height = dc.GetTextExtent(self._Label)
 
         # create content panel
@@ -99,7 +100,7 @@ class StaticBox(Window):
         
         gcdc.SetPen(wx.TRANSPARENT_PEN)
         gc.SetBrush(self._get_brush_parent_background())
-        gcdc.SetFont(self._get_font())
+        gc.SetFont(*self._get_font())
 
         text_width, text_height = gcdc.GetTextExtent(self._Label)
 
