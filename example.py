@@ -899,16 +899,19 @@ class Main(wx.Frame):
         # a = wx.Button(self.main_panel, label="dropdown")
         # a.Bind(wx.EVT_BUTTON, test)
 
-        dropdown_style = {
-            "colourtransition_ms_default": 500,
-            "colourtransition_ms_hover": 500,
-            "colourtransition_ms_pressed": 500,
-            "animation_ms": 300,
-        }
 
-        c = cc.ComboBox(self.main_panel, value="test", choices=["one", "two", "threeeeeeeeeeeee"],
-                        config=combobox_style, config_dropdown=dropdown_style,
-                        config_button=button_style, config_scrolledpanel=sp_style)
+        # ----------------------------  ---------------------------- #
+
+        # dropdown_style = {
+        #     "colourtransition_ms_default": 500,
+        #     "colourtransition_ms_hover": 500,
+        #     "colourtransition_ms_pressed": 500,
+        #     "animation_ms": 300,
+        # }
+
+        # c = cc.ComboBox(self.main_panel, value="test", choices=["one", "two", "threeeeeeeeeeeee"],
+        #                 config=combobox_style, config_dropdown=dropdown_style,
+        #                 config_button=button_style, config_scrolledpanel=sp_style)
 
         statictext_style = {
 
@@ -953,9 +956,16 @@ class Main(wx.Frame):
             "fontweight_disabled": "normal",
         }
 
+
+        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
         st = cc.StaticText(self.main_panel,
-                           label="test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ",
-                           pos=(10, 50), config=statictext_style, wordwrap=True)
+                           label=text,
+                           pos=(10, 50),
+                           config=statictext_style, wordwrap=True)
+
+        self.main_sizer.Add(st, 1, wx.EXPAND)
+        self.main_sizer.Layout()
 
         
         

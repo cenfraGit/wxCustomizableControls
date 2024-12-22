@@ -13,16 +13,19 @@
 ** DONE gauge
 ** DONE scrolledwindow
 ** DONE combobox (choice)
-** TODO text control
-** TODO static text with wrap
+** DONE static text with wrap
 
 ** TODO plotting graphs?
 ** TODO switch (checkbox functionality)
 
 ** TODO config object and dict functionality
 
+** TEST
+
 /* ------------------------ notes ------------------------ */
 
 - interpolate between gradient pixels and target color/gradient in
   memorydc?
+- statictext: draw characters instead of words? add basic bold/italic
+  symbols.
   
