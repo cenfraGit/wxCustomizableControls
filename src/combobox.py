@@ -97,20 +97,25 @@ class ComboBox(Window):
 
     def _display_choices_in_dropdown(self, dropdown: DropDown) -> None:
         panel, sizer = dropdown.GetPanelAndSizer()
+        self._button_choices = []
         if self._Choices:
             for index, choice in enumerate(self._Choices):
-                sizer.Add(Button(panel, label=choice, config=self._config_button), pos=(index, 0), flag=wx.EXPAND)
+                button_choice = Button(panel, label=choice, config=self._config_button)
+                self._button_choices.append(button_choice)
+                
+                sizer.Add(button_choice, pos=(index, 0), flag=wx.EXPAND)
             sizer.AddGrowableCol(0, 1)
-        # elif self._ControlChoices:
-        #     for index, control in enumerate(self._ControlChoices):
-        #         sizer.Add(control, pos=(index, 0), flag=wx.EXPAND)
-        #     sizer.AddGrowableCol(0, 1)
 
-    # def Append(self, control: wx.Window):
-    #     self._ControlChoices.append(control)
+        for button in self._button_choices:
+            button.Bind(wx.EVT_BUTTON, lambda event: self._set_value_click(event, dropdown))
+
+    def _set_value_click(self, event: wx.Event, dropdown: DropDown):
+        # button event configured incorrectly?
+        # button = event.GetEventObject()
+        button = wx.Window.FindWindowById(event.GetId())        
+        self.SetValue(button.GetLabel())
+        dropdown.Dismiss()
 
     def DoGetBestClientSize(self):
         return wx.Size(150, 50)
-                
 
-        
