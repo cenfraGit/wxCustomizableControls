@@ -8,6 +8,7 @@ cenfra
 
 from ._window import Window
 from .dropdown import DropDown
+from .button import Button
 import wx
 
 
@@ -22,6 +23,9 @@ class ComboBox(Window):
         # ------------------- control attributes ------------------- #
 
         kwargs["value"] = value
+        kwargs["choices"] = choices
+
+        # self._ControlChoices = []
 
         # this attribute will help us keep track of the state of the
         # dropdown so that we can send the correct events.
@@ -93,9 +97,17 @@ class ComboBox(Window):
 
     def _display_choices_in_dropdown(self, dropdown: DropDown) -> None:
         panel, sizer = dropdown.GetPanelAndSizer()
-        for i in range(10):
-            sizer.Add(wx.Button(panel, label="testnew"), pos=(i, 0), flag=wx.EXPAND)
-        sizer.AddGrowableCol(0, 1)
+        if self._Choices:
+            for index, choice in enumerate(self._Choices):
+                sizer.Add(Button(panel, label=choice, config=self._config_button), pos=(index, 0), flag=wx.EXPAND)
+            sizer.AddGrowableCol(0, 1)
+        # elif self._ControlChoices:
+        #     for index, control in enumerate(self._ControlChoices):
+        #         sizer.Add(control, pos=(index, 0), flag=wx.EXPAND)
+        #     sizer.AddGrowableCol(0, 1)
+
+    # def Append(self, control: wx.Window):
+    #     self._ControlChoices.append(control)
 
     def DoGetBestClientSize(self):
         return wx.Size(150, 50)

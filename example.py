@@ -45,9 +45,9 @@ class Main(wx.Frame):
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 10000,
-            "colourtransition_ms_hover": 1500,
-            "colourtransition_ms_pressed": 400,
+            "colourtransition_ms_default": 300,
+            "colourtransition_ms_hover": 300,
+            "colourtransition_ms_pressed": 300,
 
             # ------------------------- cursor ------------------------- #
 
@@ -100,10 +100,10 @@ class Main(wx.Frame):
             "button_bordercolour_pressed": (0, 0, 255),
             "button_bordercolour_disabled": (46, 31, 95),
 
-            "button_borderwidth_default": 4,
-            "button_borderwidth_hover": 30,
-            "button_borderwidth_pressed": 4,
-            "button_borderwidth_disabled": 4,
+            "button_borderwidth_default": 3,
+            "button_borderwidth_hover": 3,
+            "button_borderwidth_pressed": 3,
+            "button_borderwidth_disabled": 3,
 
             "button_borderstyle_default": "solid",
             "button_borderstyle_hover": "solid",
@@ -117,20 +117,32 @@ class Main(wx.Frame):
 
             # ------------------------- images ------------------------- #
 
-            "image_path_default": "images/example.png",
-            "image_path_hover": "images/example.png",
+            # "image_path_default": "images/example.png",
+            # "image_path_hover": "images/example.png",
+            "image_path_default": "",
+            "image_path_hover": "",
             "image_path_pressed": "",
             "image_path_disabled": "",
 
-            "image_width_default": 70,
-            "image_width_hover": 70,
-            "image_width_pressed": 10,
-            "image_width_disabled": 10,
+            # "image_width_default": 70,
+            # "image_width_hover": 70,
+            # "image_width_pressed": 10,
+            # "image_width_disabled": 10,
 
-            "image_height_default": 70, 
-            "image_height_hover": 70,
-            "image_height_pressed": 10,
-            "image_height_disabled": 10,
+            # "image_height_default": 70, 
+            # "image_height_hover": 70,
+            # "image_height_pressed": 10,
+            # "image_height_disabled": 10,
+
+            "image_width_default": 0,
+            "image_width_hover": 0,
+            "image_width_pressed": 0,
+            "image_width_disabled": 0,
+
+            "image_height_default": 0, 
+            "image_height_hover": 0,
+            "image_height_pressed": 0,
+            "image_height_disabled": 0,
 
             "image_channels_default": (1.0, 1.0, 1.0, 1.0),
             "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
@@ -896,10 +908,10 @@ class Main(wx.Frame):
             "animation_ms": 300,
         }
 
-        c = cc.ComboBox(self.main_panel, value="test",
+        c = cc.ComboBox(self.main_panel, value="test", choices=["one", "two", "three"],
                         config=combobox_style, config_dropdown=dropdown_style,
                         config_button=button_style, config_scrolledpanel=sp_style)
-        
+
         
         
         

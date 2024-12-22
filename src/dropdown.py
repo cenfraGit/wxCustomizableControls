@@ -29,8 +29,6 @@ class DropDown(wx.PopupTransientWindow, Window):
         self._panel = scrolledpanel.GetPanel()
         self._sizer = wx.GridBagSizer()
         self._panel.SetSizer(self._sizer)
-        # for i in range(10):
-        #     self._sizer.Add(wx.Button(self._panel, label="test"), pos=(i, 0))
         self._sizer.Layout()
         
         self._main_sizer.Add(scrolledpanel, 1, wx.EXPAND)
