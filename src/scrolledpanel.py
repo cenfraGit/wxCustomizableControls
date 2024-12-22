@@ -381,6 +381,8 @@ class ScrollBar(Window):
 
             click_range = int(client_scrollbar_window - self._scrollbar_thumb_length)
 
+            click_range = 0.01 if click_range == 0 else click_range
+
             percentage = scrollbar_click / click_range
 
             value = percentage * scroll_range / focus

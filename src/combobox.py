@@ -92,7 +92,10 @@ class ComboBox(Window):
         dropdown.setup_dropdown(position)
 
     def _display_choices_in_dropdown(self, dropdown: DropDown) -> None:
-        pass
+        panel, sizer = dropdown.GetPanelAndSizer()
+        for i in range(10):
+            sizer.Add(wx.Button(panel, label="testnew"), pos=(i, 0), flag=wx.EXPAND)
+        sizer.AddGrowableCol(0, 1)
 
     def DoGetBestClientSize(self):
         return wx.Size(150, 50)

@@ -29,8 +29,8 @@ class DropDown(wx.PopupTransientWindow, Window):
         self._panel = scrolledpanel.GetPanel()
         self._sizer = wx.GridBagSizer()
         self._panel.SetSizer(self._sizer)
-        for i in range(10):
-            self._sizer.Add(wx.Button(self._panel, label="test"), pos=(i, 0))
+        # for i in range(10):
+        #     self._sizer.Add(wx.Button(self._panel, label="test"), pos=(i, 0))
         self._sizer.Layout()
         
         self._main_sizer.Add(scrolledpanel, 1, wx.EXPAND)
@@ -43,8 +43,17 @@ class DropDown(wx.PopupTransientWindow, Window):
     def GetPanelAndSizer(self):
         return self._panel, self._sizer
 
+    def _get_children_heights(self) -> int:
+        height = 0
+        for child in self._sizer.GetChildren():
+            height += child.GetSize()[1]
+        return height
+
     def setup_dropdown(self, position):
-        self._current_values["height"]["target"] = 300
+        children_heights = self._get_children_heights()
+        if children_heights > 200:
+            children_heights = 200
+        self._current_values["height"]["target"] = children_heights + 10
         self._current_values["height"]["start"] = self._current_values["height"]["current"]
         self.Position(position, wx.Size(0, 0))
         self.Popup()
