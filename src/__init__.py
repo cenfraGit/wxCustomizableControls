@@ -7,6 +7,7 @@ from .staticline import StaticLine
 from .button import Button
 from .checkbox import CheckBox
 from .radiobutton import RadioButton
+from .statictext import StaticText
 from .combobox import ComboBox
 from .gauge import Gauge
 

@@ -12,7 +12,7 @@
 ** DONE static lines
 ** DONE gauge
 ** DONE scrolledwindow
-** TODO combobox (choice)
+** DONE combobox (choice)
 ** TODO text control
 ** TODO static text with wrap
 

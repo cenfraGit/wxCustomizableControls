@@ -910,6 +910,53 @@ class Main(wx.Frame):
                         config=combobox_style, config_dropdown=dropdown_style,
                         config_button=button_style, config_scrolledpanel=sp_style)
 
+        statictext_style = {
+
+            # ----------------------- animation ----------------------- #
+
+            "colourtransition_ms_default": 500,
+            "colourtransition_ms_hover": 500,
+            "colourtransition_ms_pressed": 500,
+            "animation_ms": 300,
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "cross",
+            "mousecursor_pressed": "arrow",
+            "mousecursor_disabled": "arrow",
+
+            # -------------------- font attributes -------------------- #
+
+            "fontfacename_default": "Verdana",
+            "fontfacename_hover": "Verdana",
+            "fontfacename_pressed": "Verdana",
+            "fontfacename_disabled": "Verdana",
+
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
+
+            "fontsize_default": 12,
+            "fontsize_hover": 12,
+            "fontsize_pressed": 12,
+            "fontsize_disabled": 12,
+
+            "fontstyle_default": "normal",
+            "fontstyle_hover": "italic",
+            "fontstyle_pressed": "normal",
+            "fontstyle_disabled": "normal",
+
+            "fontweight_default": "normal",
+            "fontweight_hover": "bold",
+            "fontweight_pressed": "normal",
+            "fontweight_disabled": "normal",
+        }
+
+        st = cc.StaticText(self.main_panel,
+                           label="test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ",
+                           pos=(10, 50), config=statictext_style, wordwrap=True)
+
         
         
         
