@@ -718,9 +718,9 @@ class Main(wx.Frame):
 
             # ----------------------- animation ----------------------- #
 
-            "colourtransition_ms_default": 10000,
-            "colourtransition_ms_hover": 1500,
-            "colourtransition_ms_pressed": 400,
+            "colourtransition_ms_default": 500,
+            "colourtransition_ms_hover": 500,
+            "colourtransition_ms_pressed": 500,
 
             "animation_ms": 300,
 
@@ -889,14 +889,21 @@ class Main(wx.Frame):
         # a = wx.Button(self.main_panel, label="dropdown")
         # a.Bind(wx.EVT_BUTTON, test)
 
-        c = cc.ComboBox(self.main_panel, value="test", config=combobox_style)
-        
-        
-            
+        dropdown_style = {
+            "colourtransition_ms_default": 500,
+            "colourtransition_ms_hover": 500,
+            "colourtransition_ms_pressed": 500,
+            "animation_ms": 300,
+        }
 
+        c = cc.ComboBox(self.main_panel, value="test",
+                        config=combobox_style, config_dropdown=dropdown_style,
+                        config_button=button_style, config_scrolledpanel=sp_style)
+        
+        
+        
         
 
-        
         
 if __name__ == "__main__":
     app = wx.App()

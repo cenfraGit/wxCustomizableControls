@@ -15,7 +15,9 @@ class ComboBox(Window):
     def __init__(self, parent, id=wx.ID_ANY, value="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
                  choices=[], style=0, validator=wx.DefaultValidator,
-                 name=wx.ComboBoxNameStr, config={}, **kwargs):
+                 name=wx.ComboBoxNameStr, config={},
+                 config_dropdown={}, config_button={},
+                 config_scrolledpanel={}, **kwargs):
 
         # ------------------- control attributes ------------------- #
 
@@ -24,6 +26,10 @@ class ComboBox(Window):
         # this attribute will help us keep track of the state of the
         # dropdown so that we can send the correct events.
         self._dropdown_active = False
+
+        self._config_dropdown = config_dropdown
+        self._config_button = config_button
+        self._config_scrolledpanel = config_scrolledpanel
 
         # ------------------- initialize window ------------------- #
         
@@ -76,19 +82,17 @@ class ComboBox(Window):
 
             self._display_dropdown()
                 
-    def _display_dropdown(self):
-        dropdown_style = {
-            "colourtransition_ms_default": 0,
-            "colourtransition_ms_hover": 0,
-            "colourtransition_ms_pressed": 0,
-            "animation_ms": self._config["animation_ms"],
-        }
-
-        dropdown = DropDown(self, config=dropdown_style)
+    def _display_dropdown(self) -> None:
+        dropdown = DropDown(self, config=self._config_dropdown,
+                            config_scrolledpanel=self._config_scrolledpanel)
+        self._display_choices_in_dropdown(dropdown)
         position = self.ClientToScreen(wx.Point(0, 0))
         size = self.GetSize()
         position[1] += size[1]
         dropdown.setup_dropdown(position)
+
+    def _display_choices_in_dropdown(self, dropdown: DropDown) -> None:
+        pass
 
     def DoGetBestClientSize(self):
         return wx.Size(150, 50)

@@ -15,24 +15,33 @@ import wx
 
 class DropDown(wx.PopupTransientWindow, Window):
     def __init__(self, parent, flags=wx.BORDER_NONE, config={},
-                 **kwargs):
+                 config_scrolledpanel={}, **kwargs):
 
         wx.PopupTransientWindow.__init__(self, parent, flags)
         Window.__init__(self, parent, config=config, **kwargs)
         
         self._opening = False
-        
-        self._main_panel = wx.Panel(self)
-        self._main_panel.SetSize(wx.Size(self.GetParent().GetSize()[0], 300))
-        self._main_panel.SetBackgroundColour(wx.GREEN)
-        self._main_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._main_panel.SetSizer(self._main_sizer)
 
-        # self._scrolled_panel = ScrolledPanel(self._main_panel)
+        self._main_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.SetSizer(self._main_sizer)
+
+        scrolledpanel = ScrolledPanel(self, config=config_scrolledpanel)
+        self._panel = scrolledpanel.GetPanel()
+        self._sizer = wx.GridBagSizer()
+        self._panel.SetSizer(self._sizer)
+        for i in range(10):
+            self._sizer.Add(wx.Button(self._panel, label="test"), pos=(i, 0))
+        self._sizer.Layout()
+        
+        self._main_sizer.Add(scrolledpanel, 1, wx.EXPAND)
+        self._main_sizer.Layout()
 
         # -------------- initialize animation values -------------- #
 
         self._current_values["height"] = {"current": 0, "target": 0, "start": 0}
+
+    def GetPanelAndSizer(self):
+        return self._panel, self._sizer
 
     def setup_dropdown(self, position):
         self._current_values["height"]["target"] = 300
