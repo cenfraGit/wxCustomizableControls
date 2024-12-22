@@ -801,30 +801,28 @@ class Main(wx.Frame):
             "combobox_cornerradius_pressed": 10,
             "combobox_cornerradius_disabled": 10,
 
-            # ------------------------- images ------------------------- #
+            # ------------------------- arrow ------------------------- #
 
-            "image_path_default": "images/example.png",
-            "image_path_hover": "images/example.png",
-            "image_path_pressed": "",
-            "image_path_disabled": "",
+            "arrow_width": 20,
+            "arrow_height": 10,
 
-            "image_width_default": 70,
-            "image_width_hover": 70,
-            "image_width_pressed": 10,
-            "image_width_disabled": 10,
+            "arrow_separation": 50,
+            "arrow_side": "right",
 
-            "image_height_default": 70, 
-            "image_height_hover": 70,
-            "image_height_pressed": 10,
-            "image_height_disabled": 10,
+            "arrow_bordercolour_default": (255, 0, 0),
+            "arrow_bordercolour_hover": (0, 255, 0),
+            "arrow_bordercolour_pressed": (0, 0, 255),
+            "arrow_bordercolour_disabled": (46, 31, 95),
 
-            "image_channels_default": (1.0, 1.0, 1.0, 1.0),
-            "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
-            "image_channels_pressed": (1.0, 1.0, 1.0, 1.0),
-            "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
+            "arrow_borderwidth_default": 2,
+            "arrow_borderwidth_hover": 2,
+            "arrow_borderwidth_pressed": 2,
+            "arrow_borderwidth_disabled": 2,
 
-            "image_separation": 10,
-            "image_side": "right",
+            "arrow_borderstyle_default": "solid",
+            "arrow_borderstyle_hover": "solid",
+            "arrow_borderstyle_pressed": "solid",
+            "arrow_borderstyle_disabled": "solid",
         }
 
 

@@ -25,8 +25,6 @@ class ComboBox(Window):
         kwargs["value"] = value
         kwargs["choices"] = choices
 
-        # self._ControlChoices = []
-
         # this attribute will help us keep track of the state of the
         # dropdown so that we can send the correct events.
         self._dropdown_active = False
@@ -59,16 +57,35 @@ class ComboBox(Window):
         gc.SetBrush(self._get_brush_current("combobox", gc))
         gcdc.DrawRoundedRectangle(combobox_rectangle, self._config[f"combobox_cornerradius_{self._get_state()}"])
 
-        # --------------------- text and image --------------------- #
+        # ----------------- text and arrow coords ----------------- #
 
         text_width, text_height = self._get_text_dimensions(self._Value, gc)
 
-        bitmap, image_width, image_height = self._get_bitmap_and_dimensions()
+        text_x, text_y, arrow_x, arrow_y = self._get_coords_object_sides(
+            drawing_rect,
+            text_width, text_height,
+            self._config["arrow_width"],
+            self._config["arrow_height"],
+            self._config["arrow_separation"],
+            self._config["arrow_side"])
 
-        self._draw_text_and_bitmap(self._Value, text_width,
-                                   text_height, bitmap, image_width,
-                                   image_height, combobox_rectangle,
-                                   gcdc)
+        # ----------------------- draw text ----------------------- #
+
+        gcdc.DrawText(self._Value, text_x, text_y)
+
+        # ----------------------- draw arrow ----------------------- #
+
+        arrow_rectangle = wx.Rect(arrow_x, arrow_y, self._config["arrow_width"], self._config["arrow_height"])
+
+        gcdc.SetPen(self._get_pen_current("arrow"))
+        gc.SetBrush(wx.TRANSPARENT_BRUSH)
+        
+        path: wx.GraphicsPath = gc.CreatePath()
+        path.MoveToPoint(arrow_rectangle.GetX(), arrow_rectangle.GetY())
+        path.AddLineToPoint(arrow_rectangle.GetX() + arrow_rectangle.GetWidth() // 2,
+                            arrow_rectangle.GetY() + arrow_rectangle.GetHeight())
+        path.AddLineToPoint(arrow_rectangle.GetX() + arrow_rectangle.GetWidth(), arrow_rectangle.GetY())
+        gc.StrokePath(path)
 
         # ---------------------- mouse cursor ---------------------- #
         
@@ -112,9 +129,12 @@ class ComboBox(Window):
     def _set_value_click(self, event: wx.Event, dropdown: DropDown):
         # button event configured incorrectly?
         # button = event.GetEventObject()
-        button = wx.Window.FindWindowById(event.GetId())        
+        button = wx.Window.FindWindowById(event.GetId())
         self.SetValue(button.GetLabel())
-        dropdown.Dismiss()
+        dropdown.close()
+        self._Hover = False
+        self._Pressed = False
+        self._handle_colour_transition()
 
     def DoGetBestClientSize(self):
         return wx.Size(150, 50)

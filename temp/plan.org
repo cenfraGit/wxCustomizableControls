@@ -18,11 +18,11 @@
 
 ** TODO plotting graphs?
 ** TODO switch (checkbox functionality)
-** TODO menubar
+
+** TODO config object and dict functionality
 
 /* ------------------------ notes ------------------------ */
 
-- create reusable dropdown popup to use in menubar and combobox
 - interpolate between gradient pixels and target color/gradient in
   memorydc?
   

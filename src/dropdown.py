@@ -65,6 +65,13 @@ class DropDown(wx.PopupTransientWindow, Window):
         self._start_timer_animation()
         self._opening = False
 
+    def close(self):
+        self._current_values["height"]["target"] = 0
+        self._current_values["height"]["start"] = self._current_values["height"]["current"]
+        # self.Popup()
+        self._start_timer_animation()
+        self._opening = False
+
     def _update_dropdown(self):
         """This method is called from within _window inside the
         animation timer event handler.
