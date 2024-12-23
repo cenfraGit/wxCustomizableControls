@@ -370,12 +370,21 @@ class Window(wx.Window):
         if "progress" in self._current_values.keys():
             self._current_values["progress"]["target"] = self._Value
             self._current_values["progress"]["start"] = self._current_values["progress"]["current"]
+        # if the window is a switch
+        if "switchmarker" in self._current_values.keys():
+            self._current_values["switchmarker"]["target"] = self._get_switch_marker_coord()
+            self._current_values["switchmarker"]["start"] = self._current_values["switchmarker"]["current"]
+            
 
     def _update_animation_currents(self) -> None:
         """"""
         # if the window is a gauge
         if "progress" in self._current_values.keys():
             self._current_values["progress"]["current"] = self._Value
+        # if the window is a switch
+        if "switchmarker" in self._current_values.keys():
+            self._current_values["switchmarker"]["target"] = self._get_switch_marker_coord()
+            self._current_values["switchmarker"]["start"] = self._current_values["switchmarker"]["current"]
 
     def _update_colour_targets(self) -> None:
         """Updates the colour targets for all brushes and pens
@@ -709,5 +718,8 @@ class Window(wx.Window):
     # ---------------- window specific methods ---------------- #
 
     def _update_dropdown(self):
+        pass
+
+    def _get_switch_marker_coord(self):
         pass
     

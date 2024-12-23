@@ -26,6 +26,10 @@ class Switch(Window):
         
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
 
+        # -------------- initialize animation values -------------- #
+
+        self._current_values["switchmarker"] = {"current": 0, "target": 0, "start": 0}
+
     def _on_paint(self, event: wx.Event) -> None:
 
         # ------------ drawing contexts and background ------------ #
@@ -73,7 +77,7 @@ class Switch(Window):
         # rectangle is the actual switch, without border width
         # consideration.
         switch_rectangle = switch_rectangle.Deflate(self._get_max_value("borderwidth", "switch") // 2 + 1,
-                                                        self._get_max_value("borderwidth", "switch") // 2 + 1)
+                                                    self._get_max_value("borderwidth", "switch") // 2 + 1)
         text_image_rectangle = wx.Rect(
             text_image_rectangle_x,
             text_image_rectangle_y,
@@ -97,16 +101,24 @@ class Switch(Window):
         # if switch is True, draw selection marker to the
         # right. otherwise, draw to the left.
 
-        if self._Value: 
-            selectionmarker_x = (switch_rectangle.GetX() +
-                                 switch_rectangle.GetWidth() -
-                                 self._get_pen_current("selectionmarker").GetWidth() -
-                                 (self._config["selectionmarker_width"]) -
-                                 self._config["selectionmarker_horizontalpadding"])            
-        else:
-            selectionmarker_x = (switch_rectangle.GetX() +
-                                 self._get_pen_current("selectionmarker").GetWidth() +
-                                 self._config["selectionmarker_horizontalpadding"])
+        # if self._Value: 
+        #     selectionmarker_x = (switch_rectangle.GetX() +
+        #                          switch_rectangle.GetWidth() -
+        #                          self._get_pen_current("selectionmarker").GetWidth() -
+        #                          (self._config["selectionmarker_width"]) -
+        #                          self._config["selectionmarker_horizontalpadding"])            
+        # else:
+        #     selectionmarker_x = (switch_rectangle.GetX() +
+        #                          self._get_pen_current("selectionmarker").GetWidth() +
+        #                          self._config["selectionmarker_horizontalpadding"])
+
+        side_scaler = (switch_rectangle.GetWidth() * self._current_values["switchmarker"]["current"]) # scale width value
+
+
+        selectionmarker_x = (switch_rectangle.GetX() +
+                             side_scaler)
+
+        selectionmarker_x = int(selectionmarker_x)
 
         selectionmarker_y = (switch_rectangle.GetY() +
                              switch_rectangle.GetHeight() // 2 -
@@ -126,11 +138,23 @@ class Switch(Window):
         # ---------------------- mouse cursor ---------------------- #
         
         self._configure_cursor()
+
+    def _get_switch_marker_coord(self):
+        if self._Value: 
+            selectionmarker_x_scaler = 1         
+        else:
+            selectionmarker_x_scaler = 0
+        return selectionmarker_x_scaler
                           
     def _handle_event(self) -> None:
         if self._Hover:
             self._Value = not self._Value
             wx.PostEvent(self, wx.PyCommandEvent(wx.EVT_CHECKBOX.typeId, self.GetId()))
+            self._handle_animation()
+
+    def SetValue(self, value:int) -> None:
+        self._Value = value
+        self._handle_animation()
 
     def DoGetBestClientSize(self) -> wx.Size:
         # get contexts
