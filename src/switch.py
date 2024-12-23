@@ -112,13 +112,16 @@ class Switch(Window):
         #                          self._get_pen_current("selectionmarker").GetWidth() +
         #                          self._config["selectionmarker_horizontalpadding"])
 
-        side_scaler = (switch_rectangle.GetWidth() * self._current_values["switchmarker"]["current"]) # scale width value
+
+        animation_range = (switch_rectangle.GetWidth() -
+                           2 * self._config["selectionmarker_horizontalpadding"] -
+                           self._get_pen_current("selectionmarker").GetWidth() -
+                           self._config["selectionmarker_width"])
+
+        animation_progress_scaled = self._current_values["switchmarker"]["current"] * animation_range
 
 
-        selectionmarker_x = (switch_rectangle.GetX() +
-                             side_scaler)
-
-        selectionmarker_x = int(selectionmarker_x)
+        selectionmarker_x = int(switch_rectangle.GetX() + self._config["selectionmarker_horizontalpadding"] + animation_progress_scaled)
 
         selectionmarker_y = (switch_rectangle.GetY() +
                              switch_rectangle.GetHeight() // 2 -
