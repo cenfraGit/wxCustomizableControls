@@ -1041,17 +1041,17 @@ class Main(wx.Frame):
             "switch_cornerradius_disabled": 3,
 
             "switch_width": 50,
-            "switch_height": 20,
+            "switch_height": 30,
             "switch_side": "left",
-            "switch_separation": 4,
+            "switch_separation": 8,
 
             # -------------------- selection marker -------------------- #
 
-            "selectionmarker_rounded": False,
-            "selectionmarker_width": 20,
-            "selectionmarker_height": 20,
+            "selectionmarker_rounded": True,
+            "selectionmarker_width": 10,
+            "selectionmarker_height": 10,
 
-            "selectionmarker_padding": 7,
+            "selectionmarker_horizontalpadding": 7, # implement too with combobox arrow
 
             "selectionmarker_backgroundcolour_default": (0, 0, 0),
             "selectionmarker_backgroundcolour_hover": (0, 0, 0),

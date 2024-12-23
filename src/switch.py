@@ -98,11 +98,19 @@ class Switch(Window):
         # right. otherwise, draw to the left.
 
         if self._Value: 
-            selectionmarker_x = switch_rectangle.GetX() + switch_rectangle.GetWidth() - (self._config["selectionmarker_width"] // 2)
-            selectionmarker_y = switch_rectangle.GetY()
+            selectionmarker_x = (switch_rectangle.GetX() +
+                                 switch_rectangle.GetWidth() -
+                                 self._get_pen_current("selectionmarker").GetWidth() -
+                                 (self._config["selectionmarker_width"]) -
+                                 self._config["selectionmarker_horizontalpadding"])            
         else:
-            selectionmarker_x = switch_rectangle.GetX()
-            selectionmarker_y = switch_rectangle.GetY()
+            selectionmarker_x = (switch_rectangle.GetX() +
+                                 self._get_pen_current("selectionmarker").GetWidth() +
+                                 self._config["selectionmarker_horizontalpadding"])
+
+        selectionmarker_y = (switch_rectangle.GetY() +
+                             switch_rectangle.GetHeight() // 2 -
+                             self._config["selectionmarker_height"] // 2)
 
         gcdc.SetPen(self._get_pen_current("selectionmarker"))
         gc.SetBrush(self._get_brush_current("selectionmarker", gc))
@@ -114,22 +122,6 @@ class Switch(Window):
             gcdc.DrawEllipse(selectionmarker_x, selectionmarker_y, width, height)
         else:
             gcdc.DrawRectangle(selectionmarker_x, selectionmarker_y, width, height)
-            
-
-        # if self._Value:
-        #     # create smaller rectangle to represent checkmark area
-        #     selection_rectangle: wx.Rect = copy(switch_rectangle).Deflate(int(self._config["switch_width"] * 0.3),
-        #                                                                     int(self._config["switch_height"] * 0.3))
-        #     # draw the selection marker
-        #     gcdc.SetPen(self._get_pen_current("selectionmarker"))
-        #     gc.SetBrush(wx.TRANSPARENT_BRUSH)
-        #     path: wx.GraphicsPath = gc.CreatePath()
-        #     path.MoveToPoint(selection_rectangle.GetX(),
-        #                      selection_rectangle.GetY() + (selection_rectangle.GetHeight() // 1.5))
-        #     path.AddLineToPoint(selection_rectangle.GetX() + (selection_rectangle.GetWidth() // 2.5),
-        #                         selection_rectangle.GetY() + selection_rectangle.GetHeight())
-        #     path.AddLineToPoint(*selection_rectangle.GetTopRight())
-        #     gc.StrokePath(path)
 
         # ---------------------- mouse cursor ---------------------- #
         
