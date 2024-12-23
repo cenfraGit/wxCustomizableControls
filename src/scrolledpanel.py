@@ -76,6 +76,9 @@ class ScrolledPanel(Window):
     def GetPanel(self):
         return self._scrolled_panel
 
+    # def _on_paint(self, event: wx.Event) -> None:
+    #     pass
+
     def UpdateScrollbars(self):
         """Should be called when scroll_x or scroll_y was changed.
         """
@@ -161,7 +164,7 @@ class ScrollBar(Window):
     def __init__(self, parent, scrollbar_type, scrolled_panel,
                  id=wx.ID_ANY, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, name=wx.ScrollBarNameStr,
-                 config={}, **kwargs):
+                 config=None, **kwargs):
 
         # ----------------------- attributes ----------------------- #
 
@@ -293,6 +296,8 @@ class ScrollBar(Window):
         # save the real rectangle data
         self._scrollbar_thumb_rectangle = scrollbar_thumb_rectangle
 
+        gcdc.SetPen(self._get_pen_current("thumb"))
+        gc.SetBrush(self._get_brush_current("thumb", gc))
         gcdc.DrawRoundedRectangle(
             scrollbar_thumb_drawn_rectangle,
             self._config[f"thumb_cornerradius_{self._get_state()}"])

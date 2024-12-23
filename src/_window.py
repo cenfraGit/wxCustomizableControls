@@ -70,8 +70,10 @@ class Window(wx.Window):
         # if the user specified a config object, copy its value. if
         # not, create a new config object with default values
 
-        if config:
+        if isinstance(config, Config):
             self._config = copy(config).__dict__
+        elif isinstance(config, dict):
+            self._config = copy(config)
         else:
             self._config = Config().__dict__
 
@@ -88,7 +90,7 @@ class Window(wx.Window):
         # the _timer_ms attribute represents the miliseconds that
         # would take to call the transition/animation handler until
         # its finished.
-        self._timer_ms = 16
+        self._timer_ms = 10
 
         # we need two timers to handle the colour transitions and
         # animations because if both are active in the window, they
@@ -402,18 +404,38 @@ class Window(wx.Window):
         """Updates the colour targets for all brushes and pens
         depending on the state of the window.
         """
+        # for element, colour_values in self._current_color_brushes.items():
+        #     if self._get_background_type(element) == "solid":
+        #         colour_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
+        #     else: # if gradient
+        #         colour_values["target"] = VectorRGB(0, 0, 0)
+        #     # copy current value to start
+        #     colour_values["start"] = colour_values["current"]
+            
+        # for element, colour_values in self._current_color_pens.items():
+        #     colour_values["target"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
+        #     # copy current value to start
+        #     colour_values["start"] = colour_values["current"]
+        
         for element, colour_values in self._current_color_brushes.items():
-            if self._get_background_type(element) == "solid":
-                colour_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
+
+            element_name = "active" if (self._Value and element in ["checkbox", "switch", "radiobutton"]) else element
+
+            if self._get_background_type(element_name) == "solid":
+                colour_values["target"] = VectorRGB(*self._config[f"{element_name}_backgroundcolour_{self._get_state()}"])
             else: # if gradient
                 colour_values["target"] = VectorRGB(0, 0, 0)
             # copy current value to start
             colour_values["start"] = colour_values["current"]
             
         for element, colour_values in self._current_color_pens.items():
-            colour_values["target"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
+
+            element_name = "active" if (self._Value and element in ["checkbox", "switch", "radiobutton"]) else element
+            
+            colour_values["target"] = VectorRGB(*self._config[f"{element_name}_bordercolour_{self._get_state()}"])
             # copy current value to start
             colour_values["start"] = colour_values["current"]
+        
 
     def _update_colour_currents(self) -> None:
         """Updates the colour currents for all brushes and pens
@@ -454,8 +476,9 @@ class Window(wx.Window):
 
     def _get_pen_current(self, element: str) -> wx.Pen:
         state = self._get_state()
-        penwidth = self._config[f"{element}_borderwidth_{state}"]
-        penstyle = self._config[f"{element}_borderstyle_{state}"]
+        element_name = "active" if (self._Value and element in ["checkbox", "switch", "radiobutton"]) else element
+        penwidth = self._config[f"{element_name}_borderwidth_{state}"]
+        penstyle = self._config[f"{element_name}_borderstyle_{state}"]
         if (penwidth == 0):
             return wx.TRANSPARENT_PEN
         return wx.Pen(self._current_color_pens[element]["current"].GetValue(),
@@ -464,8 +487,9 @@ class Window(wx.Window):
 
     def _get_brush_current(self, element: str, gc: wx.GraphicsContext) -> wx.Brush:
         state = self._get_state()
-        backgroundcolour = self._config[f"{element}_backgroundcolour_{state}"]
-        backgroundstyle = self._config[f"{element}_backgroundstyle_{state}"]
+        element_name = "active" if (self._Value and element in ["checkbox", "switch", "radiobutton"]) else element
+        backgroundcolour = self._config[f"{element_name}_backgroundcolour_{state}"]
+        backgroundstyle = self._config[f"{element_name}_backgroundstyle_{state}"]
         if len(backgroundcolour) == 3:
             return wx.Brush(self._current_color_brushes[element]["current"].GetValue(),
                             self._get_tool_style("brush", backgroundstyle))

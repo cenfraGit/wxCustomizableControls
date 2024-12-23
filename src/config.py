@@ -11,11 +11,11 @@ class Config:
 
         # ----------------------- animation ----------------------- #
 
-        self.colourtransition_ms_default = kwargs.get("colourtransition_ms_default", 300)
-        self.colourtransition_ms_hover = kwargs.get("colourtransition_ms_hover", 300)
-        self.colourtransition_ms_pressed = kwargs.get("colourtransition_ms_pressed", 300)
+        self.colourtransition_ms_default = kwargs.get("colourtransition_ms_default", 200)
+        self.colourtransition_ms_hover = kwargs.get("colourtransition_ms_hover", 200)
+        self.colourtransition_ms_pressed = kwargs.get("colourtransition_ms_pressed", 200)
 
-        self.animation_ms = kwargs.get("animation_ms", 300)
+        self.animation_ms = kwargs.get("animation_ms", 200)
 
         # ------------------------- cursor ------------------------- #
 
@@ -111,6 +111,38 @@ class Config:
         self.selectionmarker_borderstyle_hover = kwargs.get("selectionmarker_borderstyle_hover", "solid")
         self.selectionmarker_borderstyle_pressed = kwargs.get("selectionmarker_borderstyle_pressed", "solid")
         self.selectionmarker_borderstyle_disabled = kwargs.get("selectionmarker_borderstyle_disabled", "solid")
+
+        # --------- active (checkbox, radiobutton, switch) --------- #
+
+        self.active_backgroundcolour_default = kwargs.get("active_backgroundcolour_default", (52, 60, 180))
+        self.active_backgroundcolour_hover = kwargs.get("active_backgroundcolour_hover", (52, 72, 200))
+        self.active_backgroundcolour_pressed = kwargs.get("active_backgroundcolour_pressed", (52, 60, 140))
+        self.active_backgroundcolour_disabled = kwargs.get("active_backgroundcolour_disabled", (0, 0, 0))
+
+        self.active_backgroundstyle_default = kwargs.get("active_backgroundstyle_default", "solid")
+        self.active_backgroundstyle_hover = kwargs.get("active_backgroundstyle_hover", "solid")
+        self.active_backgroundstyle_pressed = kwargs.get("active_backgroundstyle_pressed", "solid")
+        self.active_backgroundstyle_disabled = kwargs.get("active_backgroundstyle_disabled", "solid")
+
+        self.active_bordercolour_default = kwargs.get("active_bordercolour_default", (40, 45, 131))
+        self.active_bordercolour_hover = kwargs.get("active_bordercolour_hover", (40, 45, 131))
+        self.active_bordercolour_pressed = kwargs.get("active_bordercolour_pressed", (40, 45, 131))
+        self.active_bordercolour_disabled = kwargs.get("active_bordercolour_disabled", (40, 45, 131))
+
+        self.active_borderwidth_default = kwargs.get("active_borderwidth_default", 2)
+        self.active_borderwidth_hover = kwargs.get("active_borderwidth_hover", 2)
+        self.active_borderwidth_pressed = kwargs.get("active_borderwidth_pressed", 2)
+        self.active_borderwidth_disabled = kwargs.get("active_borderwidth_disabled", 2)
+
+        self.active_borderstyle_default = kwargs.get("active_borderstyle_default", "solid")
+        self.active_borderstyle_hover = kwargs.get("active_borderstyle_hover", "solid")
+        self.active_borderstyle_pressed = kwargs.get("active_borderstyle_pressed", "solid")
+        self.active_borderstyle_disabled = kwargs.get("active_borderstyle_disabled", "solid")
+
+        self.active_cornerradius_default = kwargs.get("active_cornerradius_default", 0)
+        self.active_cornerradius_hover = kwargs.get("active_cornerradius_hover", 0)
+        self.active_cornerradius_pressed = kwargs.get("active_cornerradius_pressed", 0)
+        self.active_cornerradius_disabled = kwargs.get("active_cornerradius_disabled", 0)
 
         # ------------------------- button ------------------------- #
 
@@ -251,20 +283,20 @@ class Config:
 
         # ------------------------- panel ------------------------- #
 
-        self.panel_backgroundcolour_default = kwargs.get("panel_backgroundcolour_default", (0, 0, 0))
-        self.panel_backgroundcolour_hover = kwargs.get("panel_backgroundcolour_hover", (0, 0, 0))
-        self.panel_backgroundcolour_pressed = kwargs.get("panel_backgroundcolour_pressed", (0, 0, 0))
-        self.panel_backgroundcolour_disabled = kwargs.get("panel_backgroundcolour_disabled", (0, 0, 0))
+        self.panel_backgroundcolour_default = kwargs.get("panel_backgroundcolour_default", (255, 255, 255))
+        self.panel_backgroundcolour_hover = kwargs.get("panel_backgroundcolour_hover", (255, 255, 255))
+        self.panel_backgroundcolour_pressed = kwargs.get("panel_backgroundcolour_pressed", (255, 255, 255))
+        self.panel_backgroundcolour_disabled = kwargs.get("panel_backgroundcolour_disabled", (255, 255, 255))
 
         self.panel_backgroundstyle_default = kwargs.get("panel_backgroundstyle_default", "solid")
         self.panel_backgroundstyle_hover = kwargs.get("panel_backgroundstyle_hover", "solid")
         self.panel_backgroundstyle_pressed = kwargs.get("panel_backgroundstyle_pressed", "solid")
         self.panel_backgroundstyle_disabled = kwargs.get("panel_backgroundstyle_disabled", "solid")
 
-        self.panel_bordercolour_default = kwargs.get("panel_bordercolour_default", (0, 0, 0))
-        self.panel_bordercolour_hover = kwargs.get("panel_bordercolour_hover", (0, 0, 0))
-        self.panel_bordercolour_pressed = kwargs.get("panel_bordercolour_pressed", (0, 0, 0))
-        self.panel_bordercolour_disabled = kwargs.get("panel_bordercolour_disabled", (0, 0, 0))
+        self.panel_bordercolour_default = kwargs.get("panel_bordercolour_default", (179, 179, 179))
+        self.panel_bordercolour_hover = kwargs.get("panel_bordercolour_hover", (179, 179, 179))
+        self.panel_bordercolour_pressed = kwargs.get("panel_bordercolour_pressed", (179, 179, 179))
+        self.panel_bordercolour_disabled = kwargs.get("panel_bordercolour_disabled", (179, 179, 179))
 
         self.panel_borderwidth_default = kwargs.get("panel_borderwidth_default", 0)
         self.panel_borderwidth_hover = kwargs.get("panel_borderwidth_hover", 0)
@@ -283,15 +315,15 @@ class Config:
 
         # ----------------------- staticbox ----------------------- #
 
-        self.staticbox_bordercolour_default = kwargs.get("staticbox_bordercolour_default", (0, 0, 0))
-        self.staticbox_bordercolour_hover = kwargs.get("staticbox_bordercolour_hover", (0, 0, 0))
-        self.staticbox_bordercolour_pressed = kwargs.get("staticbox_bordercolour_pressed", (0, 0, 0))
-        self.staticbox_bordercolour_disabled = kwargs.get("staticbox_bordercolour_disabled", (0, 0, 0))
+        self.staticbox_bordercolour_default = kwargs.get("staticbox_bordercolour_default", (179, 179, 179))
+        self.staticbox_bordercolour_hover = kwargs.get("staticbox_bordercolour_hover", (179, 179, 179))
+        self.staticbox_bordercolour_pressed = kwargs.get("staticbox_bordercolour_pressed", (179, 179, 179))
+        self.staticbox_bordercolour_disabled = kwargs.get("staticbox_bordercolour_disabled", (179, 179, 179))
 
-        self.staticbox_borderwidth_default = kwargs.get("staticbox_borderwidth_default", 0)
-        self.staticbox_borderwidth_hover = kwargs.get("staticbox_borderwidth_hover", 0)
-        self.staticbox_borderwidth_pressed = kwargs.get("staticbox_borderwidth_pressed", 0)
-        self.staticbox_borderwidth_disabled = kwargs.get("staticbox_borderwidth_disabled", 0)
+        self.staticbox_borderwidth_default = kwargs.get("staticbox_borderwidth_default", 2)
+        self.staticbox_borderwidth_hover = kwargs.get("staticbox_borderwidth_hover", 2)
+        self.staticbox_borderwidth_pressed = kwargs.get("staticbox_borderwidth_pressed", 2)
+        self.staticbox_borderwidth_disabled = kwargs.get("staticbox_borderwidth_disabled", 2)
 
         self.staticbox_borderstyle_default = kwargs.get("staticbox_borderstyle_default", "solid")
         self.staticbox_borderstyle_hover = kwargs.get("staticbox_borderstyle_hover", "solid")
@@ -305,15 +337,15 @@ class Config:
 
         # ----------------------- staticline ----------------------- #
 
-        self.staticline_bordercolour_default = kwargs.get("staticline_bordercolour_default", (0, 0, 0))
-        self.staticline_bordercolour_hover = kwargs.get("staticline_bordercolour_hover", (0, 0, 0))
-        self.staticline_bordercolour_pressed = kwargs.get("staticline_bordercolour_pressed", (0, 0, 0))
-        self.staticline_bordercolour_disabled = kwargs.get("staticline_bordercolour_disabled", (0, 0, 0))
+        self.staticline_bordercolour_default = kwargs.get("staticline_bordercolour_default", (179, 179, 179))
+        self.staticline_bordercolour_hover = kwargs.get("staticline_bordercolour_hover", (179, 179, 179))
+        self.staticline_bordercolour_pressed = kwargs.get("staticline_bordercolour_pressed", (179, 179, 179))
+        self.staticline_bordercolour_disabled = kwargs.get("staticline_bordercolour_disabled", (179, 179, 179))
 
-        self.staticline_borderwidth_default = kwargs.get("staticline_borderwidth_default", 0)
-        self.staticline_borderwidth_hover = kwargs.get("staticline_borderwidth_hover", 0)
-        self.staticline_borderwidth_pressed = kwargs.get("staticline_borderwidth_pressed", 0)
-        self.staticline_borderwidth_disabled = kwargs.get("staticline_borderwidth_disabled", 0)
+        self.staticline_borderwidth_default = kwargs.get("staticline_borderwidth_default", 2)
+        self.staticline_borderwidth_hover = kwargs.get("staticline_borderwidth_hover", 2)
+        self.staticline_borderwidth_pressed = kwargs.get("staticline_borderwidth_pressed", 2)
+        self.staticline_borderwidth_disabled = kwargs.get("staticline_borderwidth_disabled", 2)
 
         self.staticline_borderstyle_default = kwargs.get("staticline_borderstyle_default", "solid")
         self.staticline_borderstyle_hover = kwargs.get("staticline_borderstyle_hover", "solid")
@@ -393,10 +425,10 @@ class Config:
 
         # ------------------ scrolledpanel track ------------------ #
 
-        self.track_backgroundcolour_default = kwargs.get("track_backgroundcolour_default", (0, 0, 0))
-        self.track_backgroundcolour_hover = kwargs.get("track_backgroundcolour_hover", (0, 0, 0))
-        self.track_backgroundcolour_pressed = kwargs.get("track_backgroundcolour_pressed", (0, 0, 0))
-        self.track_backgroundcolour_disabled = kwargs.get("track_backgroundcolour_disabled", (0, 0, 0))
+        self.track_backgroundcolour_default = kwargs.get("track_backgroundcolour_default", (225, 225, 225))
+        self.track_backgroundcolour_hover = kwargs.get("track_backgroundcolour_hover", (225, 225, 225))
+        self.track_backgroundcolour_pressed = kwargs.get("track_backgroundcolour_pressed", (225, 225, 225))
+        self.track_backgroundcolour_disabled = kwargs.get("track_backgroundcolour_disabled", (225, 225, 225))
 
         self.track_backgroundstyle_default = kwargs.get("track_backgroundstyle_default", "solid")
         self.track_backgroundstyle_hover = kwargs.get("track_backgroundstyle_hover", "solid")
@@ -427,9 +459,9 @@ class Config:
         self.thumb_padding_pressed = kwargs.get("thumb_padding_pressed", 3)
         self.thumb_padding_disabled = kwargs.get("thumb_padding_disabled", 3)
 
-        self.thumb_backgroundcolour_default = kwargs.get("thumb_backgroundcolour_default", (0, 0, 0))
-        self.thumb_backgroundcolour_hover = kwargs.get("thumb_backgroundcolour_hover", (0, 0, 0))
-        self.thumb_backgroundcolour_pressed = kwargs.get("thumb_backgroundcolour_pressed", (0, 0, 0))
+        self.thumb_backgroundcolour_default = kwargs.get("thumb_backgroundcolour_default", (173, 173, 173))
+        self.thumb_backgroundcolour_hover = kwargs.get("thumb_backgroundcolour_hover", (130, 130, 130))
+        self.thumb_backgroundcolour_pressed = kwargs.get("thumb_backgroundcolour_pressed", (100, 100, 100))
         self.thumb_backgroundcolour_disabled = kwargs.get("thumb_backgroundcolour_disabled", (0, 0, 0))
 
         self.thumb_backgroundstyle_default = kwargs.get("thumb_backgroundstyle_default", "solid")
@@ -452,9 +484,9 @@ class Config:
         self.thumb_borderstyle_pressed = kwargs.get("thumb_borderstyle_pressed", "solid")
         self.thumb_borderstyle_disabled = kwargs.get("thumb_borderstyle_disabled", "solid")
 
-        self.thumb_cornerradius_default = kwargs.get("thumb_cornerradius_default", 0)
-        self.thumb_cornerradius_hover = kwargs.get("thumb_cornerradius_hover", 0)
-        self.thumb_cornerradius_pressed = kwargs.get("thumb_cornerradius_pressed", 0)
+        self.thumb_cornerradius_default = kwargs.get("thumb_cornerradius_default", 4)
+        self.thumb_cornerradius_hover = kwargs.get("thumb_cornerradius_hover", 4)
+        self.thumb_cornerradius_pressed = kwargs.get("thumb_cornerradius_pressed", 4)
         self.thumb_cornerradius_disabled = kwargs.get("thumb_cornerradius_disabled", 0)
 
         # ---------------- scrolledpanel properties ---------------- #

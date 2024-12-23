@@ -7,6 +7,7 @@ cenfra
 """
 
 
+from src.config import Config
 import platform
 import src as cc
 import wx
@@ -1121,8 +1122,6 @@ class Main(wx.Frame):
             "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
         }
 
-        # s = cc.Switch(self.main_panel, label="switch", pos=(10, 50), config=switch_style)
-
         c1 = cc.Button(self.main_panel, label="test", pos=(10, 50))
 
         c2 = cc.CheckBox(self.main_panel, label="test", pos=(10, 100))
@@ -1138,13 +1137,14 @@ class Main(wx.Frame):
 
         c10 = cc.StaticText(self.main_panel, label="test", pos=(10, 350))
 
-        # c5 = cc.Panel(self.main_panel, pos=(10, 250), size=(50, 50))
-
-        # c7 = cc.ScrolledPanel(self.main_panel, pos=(10, 350), size=())
-
-        # c8 = cc.StaticBox(self.main_panel, pos=(10, 400), size=())
-
-        # c9 = cc.StaticLine(self.main_panel, pos=(10, 450), size=())
+        # sp = cc.ScrolledPanel(self.main_panel, pos=(10, 10), size=(300, 300))
+        # sp_panel = sp.GetPanel()
+        # sp_sizer = wx.GridBagSizer()
+        # for i in range(20):
+        #     sp_sizer.Add(wx.Button(sp_panel, label="test"), pos=(i, i))
+        # sp_panel.SetSizer(sp_sizer)
+        # self.main_sizer.Add(sp, proportion=1, flag=wx.EXPAND)
+        # self.main_sizer.Layout()
 
         
 

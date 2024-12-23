@@ -43,8 +43,7 @@ class StaticBox(Window):
 
         # create content panel
         self.__Panel = wx.Panel(self)
-        # self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
-        self.__Panel.SetBackgroundColour(wx.YELLOW)
+        self.__Panel.SetBackgroundColour(self.GetParent().GetBackgroundColour())
         # redirect panel events to ourselves
         self.__Panel.Bind(wx.EVT_ENTER_WINDOW, self._on_enter_window)
         self.__Panel.Bind(wx.EVT_LEAVE_WINDOW, self._on_leave_window)
