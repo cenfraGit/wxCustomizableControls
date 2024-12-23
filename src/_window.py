@@ -13,6 +13,7 @@ cenfra
 """
 
 
+from .config import Config
 from copy import copy
 import os
 from typing import Tuple, Literal
@@ -25,11 +26,13 @@ from ._utils import Animation
 class Window(wx.Window):    
     def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=0, name=wx.PanelNameStr,
-                 config={}, **kwargs):
+                 config=None, **kwargs):
 
         # --------------------- special cases --------------------- #
 
         class_name = self.__class__.__name__
+
+        # the dropdown class initializes a PopupTransientWindow
 
         if class_name == "DropDown":
             pass
@@ -64,7 +67,16 @@ class Window(wx.Window):
         # the _config attribute holds the configuration data in
         # dictionary format for convenient key manipulation.
 
-        self._config = copy(config)
+        # if the user specified a config object, copy its value. if
+        # not, create a new config object with default values
+
+        if config:
+            self._config = copy(config).__dict__
+        else:
+            self._config = Config().__dict__
+
+        # update config dictionary with user-specified kwargs.
+        self._config.update(kwargs)
 
         # ---------------------- window setup ---------------------- #
 

@@ -16,9 +16,9 @@ class ComboBox(Window):
     def __init__(self, parent, id=wx.ID_ANY, value="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
                  choices=[], style=0, validator=wx.DefaultValidator,
-                 name=wx.ComboBoxNameStr, config={},
-                 config_dropdown={}, config_button={},
-                 config_scrolledpanel={}, **kwargs):
+                 name=wx.ComboBoxNameStr, config=None,
+                 config_dropdown=None, config_button=None,
+                 config_scrolledpanel=None, **kwargs):
 
         # ------------------- control attributes ------------------- #
 

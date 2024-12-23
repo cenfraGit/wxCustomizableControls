@@ -14,7 +14,7 @@ class Button(Window):
     def __init__(self, parent, id=wx.ID_ANY, label="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize, style=0,
                  validator=wx.DefaultValidator, name=wx.ButtonNameStr,
-                 config={}, **kwargs):
+                 config=None, **kwargs):
 
         # ------------------- control attributes ------------------- #
         

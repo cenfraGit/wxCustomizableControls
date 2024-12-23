@@ -13,7 +13,7 @@ import wx
 class StaticText(Window):
     def __init__(self, parent, id=wx.ID_ANY, label="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
-                 style=0,name=wx.StaticTextNameStr, config={}, **kwargs):
+                 style=0,name=wx.StaticTextNameStr, config=None, **kwargs):
 
         # ------------------- control attributes ------------------- #
         

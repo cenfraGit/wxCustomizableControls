@@ -14,7 +14,7 @@ class Gauge(Window):
     def __init__(self, parent, id=wx.ID_ANY, range=100,
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
                  style=wx.GA_HORIZONTAL, validator=wx.DefaultValidator,
-                 name=wx.GaugeNameStr, config={}, **kwargs):
+                 name=wx.GaugeNameStr, config=None, **kwargs):
 
         # ----------------------- attributes ----------------------- #
 

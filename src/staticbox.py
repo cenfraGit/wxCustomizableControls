@@ -13,7 +13,7 @@ import wx
 class StaticBox(Window):
     def __init__(self, parent, id=wx.ID_ANY, label="",
                  pos=wx.DefaultPosition, size=wx.DefaultSize, style=0,
-                 name=wx.StaticBoxNameStr, config={}, **kwargs):
+                 name=wx.StaticBoxNameStr, config=None, **kwargs):
 
         # ----------------------- attributes ----------------------- #
         

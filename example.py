@@ -1121,7 +1121,34 @@ class Main(wx.Frame):
             "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
         }
 
-        s = cc.Switch(self.main_panel, label="switch", pos=(10, 50), config=switch_style)
+        # s = cc.Switch(self.main_panel, label="switch", pos=(10, 50), config=switch_style)
+
+        c1 = cc.Button(self.main_panel, label="test", pos=(10, 50))
+
+        c2 = cc.CheckBox(self.main_panel, label="test", pos=(10, 100))
+
+        c3 = cc.ComboBox(self.main_panel, label="test", choices=["val1", "val2"], pos=(10, 150))
+
+        c4 = cc.Gauge(self.main_panel, pos=(10, 200), size=(200, 40), range=200)
+        c4.SetValue(50)
+
+        c6 = cc.RadioButton(self.main_panel, label="test", pos=(10, 250))
+
+        c11 = cc.Switch(self.main_panel, label="test", pos=(10, 300))
+
+        c10 = cc.StaticText(self.main_panel, label="test", pos=(10, 350))
+
+        # c5 = cc.Panel(self.main_panel, pos=(10, 250), size=(50, 50))
+
+        # c7 = cc.ScrolledPanel(self.main_panel, pos=(10, 350), size=())
+
+        # c8 = cc.StaticBox(self.main_panel, pos=(10, 400), size=())
+
+        # c9 = cc.StaticLine(self.main_panel, pos=(10, 450), size=())
+
+        
+
+        
 
         
         

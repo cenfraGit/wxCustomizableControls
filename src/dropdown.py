@@ -16,8 +16,8 @@ import wx
 
 
 class DropDown(wx.PopupTransientWindow, Window):
-    def __init__(self, parent, flags=wx.BORDER_NONE, config={},
-                 config_scrolledpanel={}, **kwargs):
+    def __init__(self, parent, flags=wx.BORDER_NONE, config=None,
+                 config_scrolledpanel=None, **kwargs):
 
         wx.PopupTransientWindow.__init__(self, parent, flags)
         Window.__init__(self, parent, config=config, **kwargs)

@@ -13,7 +13,7 @@ import wx
 class StaticLine(Window):
     def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=wx.LI_HORIZONTAL,
-                 name=wx.StaticLineNameStr, config={}, **kwargs):
+                 name=wx.StaticLineNameStr, config=None, **kwargs):
 
         # ----------------------- attributes ----------------------- #
 

@@ -13,7 +13,7 @@ import wx
 
 class ScrolledPanel(Window):
     def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
-                 size=wx.DefaultSize, name=wx.PanelNameStr, config={},
+                 size=wx.DefaultSize, name=wx.PanelNameStr, config=None,
                  **kwargs):
 
         # the idea is to have a wx scrolled panel inside this window,
@@ -39,7 +39,6 @@ class ScrolledPanel(Window):
                                              self._rate_y)
         # now we hide its scrollbars
         self._scrolled_panel.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
-        self._scrolled_panel.SetBackgroundColour(wx.YELLOW)
 
         # ------------------- set up scrollbars ------------------- #
 

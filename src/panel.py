@@ -12,7 +12,7 @@ import wx
 
 class Panel(Window):
     def __init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition,
-                 size=wx.DefaultSize, style=0, name=wx.PanelNameStr, config={},
+                 size=wx.DefaultSize, style=0, name=wx.PanelNameStr, config=None,
                  **kwargs):
 
         # ----------------------- attributes ----------------------- #
