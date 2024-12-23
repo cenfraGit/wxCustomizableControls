@@ -530,20 +530,20 @@ class Config:
 
         # --------------------- combobox arrow --------------------- #
 
-        self.arrow_width = kwargs.get("arrow_width", 20)
-        self.arrow_height = kwargs.get("arrow_height", 10)
+        self.arrow_width = kwargs.get("arrow_width", 15)
+        self.arrow_height = kwargs.get("arrow_height", 5)
         self.arrow_separation = kwargs.get("arrow_separation", 50)
         self.arrow_side = kwargs.get("arrow_side", "right")
 
-        self.arrow_bordercolour_default = kwargs.get("arrow_bordercolour_default", (0, 0, 0))
-        self.arrow_bordercolour_hover = kwargs.get("arrow_bordercolour_hover", (0, 0, 0))
-        self.arrow_bordercolour_pressed = kwargs.get("arrow_bordercolour_pressed", (0, 0, 0))
+        self.arrow_bordercolour_default = kwargs.get("arrow_bordercolour_default", (173, 173, 173))
+        self.arrow_bordercolour_hover = kwargs.get("arrow_bordercolour_hover", (0, 120, 215))
+        self.arrow_bordercolour_pressed = kwargs.get("arrow_bordercolour_pressed", (0, 84, 153))
         self.arrow_bordercolour_disabled = kwargs.get("arrow_bordercolour_disabled", (0, 0, 0))
 
-        self.arrow_borderwidth_default = kwargs.get("arrow_borderwidth_default", 0)
-        self.arrow_borderwidth_hover = kwargs.get("arrow_borderwidth_hover", 0)
-        self.arrow_borderwidth_pressed = kwargs.get("arrow_borderwidth_pressed", 0)
-        self.arrow_borderwidth_disabled = kwargs.get("arrow_borderwidth_disabled", 0)
+        self.arrow_borderwidth_default = kwargs.get("arrow_borderwidth_default", 2)
+        self.arrow_borderwidth_hover = kwargs.get("arrow_borderwidth_hover", 2)
+        self.arrow_borderwidth_pressed = kwargs.get("arrow_borderwidth_pressed", 2)
+        self.arrow_borderwidth_disabled = kwargs.get("arrow_borderwidth_disabled", 2)
 
         self.arrow_borderstyle_default = kwargs.get("arrow_borderstyle_default", "solid")
         self.arrow_borderstyle_hover = kwargs.get("arrow_borderstyle_hover", "solid")

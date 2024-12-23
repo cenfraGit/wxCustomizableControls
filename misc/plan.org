@@ -15,8 +15,8 @@ wxCustomizableControls
 ** DONE scrolledwindow
 ** DONE combobox (choice)
 ** DONE static text with wrap
-** TODO switch (checkbox functionality)
-** TODO config object
+** DONE switch (checkbox functionality)
+** DONE config object
 
 /* ------------------------ maybe ------------------------ */
 
