@@ -1,7 +1,5 @@
 """radiobutton.py
 
-A customizable radiobutton.
-
 wxCustomizableControls
 15/dec/2024
 cenfra

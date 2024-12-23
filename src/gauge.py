@@ -139,5 +139,3 @@ class Gauge(Window):
         return wx.Rect(int(progressbar_x), int(progressbar_y),
                        int(progressbar_width), int(progressbar_height))
 
-    def _handle_event(self) -> None:
-        pass

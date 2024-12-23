@@ -1,7 +1,5 @@
 """staticbox.py
 
-A customizable staticbox.
-
 wxCustomizableControls
 15/dec/2024
 cenfra
@@ -66,9 +64,6 @@ class StaticBox(Window):
         """Returns the reference to the staticbox's content panel.
         """
         return self.__Panel
-
-    def _handle_event(self) -> None:
-        return None
 
     def _on_paint(self, event: wx.Event) -> None:
 

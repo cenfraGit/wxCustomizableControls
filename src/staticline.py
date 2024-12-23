@@ -1,7 +1,5 @@
 """staticline.py
 
-A customizable staticline.
-
 wxCustomizableControls
 16/dec/2024
 cenfra
@@ -27,9 +25,6 @@ class StaticLine(Window):
         # ------------------- initialize window ------------------- #
         
         super().__init__(parent, id, pos, size, style, name, config, **kwargs)
-
-    def _handle_event(self) -> None:
-        return None
 
     def _on_paint(self, event: wx.Event) -> None:
 

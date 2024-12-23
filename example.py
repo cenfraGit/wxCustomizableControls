@@ -959,13 +959,167 @@ class Main(wx.Frame):
 
         text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
-        st = cc.StaticText(self.main_panel,
-                           label=text,
-                           pos=(10, 50),
-                           config=statictext_style, wordwrap=True, use_defaults=False)
+        # st = cc.StaticText(self.main_panel,
+        #                    label=text,
+        #                    pos=(10, 50),
+        #                    config=statictext_style, wordwrap=True, use_defaults=False)
 
-        self.main_sizer.Add(st, 1, wx.EXPAND)
-        self.main_sizer.Layout()
+        # self.main_sizer.Add(st, 1, wx.EXPAND)
+        # self.main_sizer.Layout()
+
+        switch_style = {
+
+            # ----------------------- animation ----------------------- #
+
+            "colourtransition_ms_default": 400,
+            "colourtransition_ms_hover": 400,
+            "colourtransition_ms_pressed": 400,
+
+            # ------------------------- cursor ------------------------- #
+
+            "mousecursor_hover": "hand",
+            "mousecursor_pressed": "cross",
+            "mousecursor_disabled": "arrow",
+
+            # -------------------- font attributes -------------------- #
+
+            "fontfacename_default": "Verdana",
+            "fontfacename_hover": "Verdana",
+            "fontfacename_pressed": "Verdana",
+            "fontfacename_disabled": "Verdana",
+
+            "fontcolour_default": (0, 0, 0),
+            "fontcolour_hover": (0, 0, 0),
+            "fontcolour_pressed": (0, 0, 0),
+            "fontcolour_disabled": (0, 0, 0),
+
+            "fontsize_default": 12,
+            "fontsize_hover": 12,
+            "fontsize_pressed": 12,
+            "fontsize_disabled": 12,
+
+            "fontstyle_default": "normal",
+            "fontstyle_hover": "italic",
+            "fontstyle_pressed": "normal",
+            "fontstyle_disabled": "normal",
+
+            "fontweight_default": "normal",
+            "fontweight_hover": "bold",
+            "fontweight_pressed": "normal",
+            "fontweight_disabled": "normal",
+
+            # ------------------------- switch ------------------------- #
+            
+            "switch_backgroundcolour_default": (0, 0, 0),
+            "switch_backgroundcolour_hover": (0, 0, 0),
+            "switch_backgroundcolour_pressed": (0, 0, 0),
+            "switch_backgroundcolour_disabled": (231, 1, 202),
+
+            "switch_backgroundstyle_default": "solid",
+            "switch_backgroundstyle_hover": "solid",
+            "switch_backgroundstyle_pressed": "solid",
+            "switch_backgroundstyle_disabled": "solid",
+
+            "switch_bordercolour_default": (255, 0, 0),
+            "switch_bordercolour_hover": (0, 255, 0),
+            "switch_bordercolour_pressed": (0, 0, 255),
+            "switch_bordercolour_disabled": (46, 31, 95),
+
+            "switch_borderwidth_default": 2,
+            "switch_borderwidth_hover": 2,
+            "switch_borderwidth_pressed": 2,
+            "switch_borderwidth_disabled": 2,
+
+            "switch_borderstyle_default": "solid",
+            "switch_borderstyle_hover": "solid",
+            "switch_borderstyle_pressed": "solid",
+            "switch_borderstyle_disabled": "solid",
+
+            "switch_cornerradius_default": 3,
+            "switch_cornerradius_hover": 3,
+            "switch_cornerradius_pressed": 3,
+            "switch_cornerradius_disabled": 3,
+
+            "switch_width": 50,
+            "switch_height": 20,
+            "switch_side": "left",
+            "switch_separation": 4,
+
+            # -------------------- selection marker -------------------- #
+
+            "selectionmarker_rounded": False,
+            "selectionmarker_width": 20,
+            "selectionmarker_height": 20,
+
+            "selectionmarker_padding": 7,
+
+            "selectionmarker_backgroundcolour_default": (0, 0, 0),
+            "selectionmarker_backgroundcolour_hover": (0, 0, 0),
+            "selectionmarker_backgroundcolour_pressed": (0, 0, 0),
+            "selectionmarker_backgroundcolour_disabled": (231, 1, 202),
+
+            "selectionmarker_backgroundstyle_default": "solid",
+            "selectionmarker_backgroundstyle_hover": "solid",
+            "selectionmarker_backgroundstyle_pressed": "solid",
+            "selectionmarker_backgroundstyle_disabled": "solid",
+
+            "selectionmarker_bordercolour_default": (255, 0, 0),
+            "selectionmarker_bordercolour_hover": (0, 255, 0),
+            "selectionmarker_bordercolour_pressed": (0, 0, 255),
+            "selectionmarker_bordercolour_disabled": (255, 255, 255),
+
+            "selectionmarker_borderwidth_default": 2,
+            "selectionmarker_borderwidth_hover": 2,
+            "selectionmarker_borderwidth_pressed": 2,
+            "selectionmarker_borderwidth_disabled": 2,
+
+            "selectionmarker_borderstyle_default": "solid",
+            "selectionmarker_borderstyle_hover": "solid",
+            "selectionmarker_borderstyle_pressed": "solid",
+            "selectionmarker_borderstyle_disabled": "solid",
+
+            # ------------------------- images ------------------------- #
+            
+            "image_separation": 10,
+            "image_side": "top",
+
+            # "image_path_default": "images/example.png",
+            # "image_path_hover": "images/example.png",
+            # "image_path_pressed": "",
+            # "image_path_disabled": "",
+
+            # "image_width_default": 70,
+            # "image_width_hover": 70,
+            # "image_width_pressed": 10,
+            # "image_width_disabled": 10,
+
+            # "image_height_default": 70, 
+            # "image_height_hover": 70,
+            # "image_height_pressed": 10,
+            # "image_height_disabled": 10,
+
+            "image_path_default": "",
+            "image_path_hover": "",
+            "image_path_pressed": "",
+            "image_path_disabled": "",
+
+            "image_width_default": 0,
+            "image_width_hover": 0,
+            "image_width_pressed": 0,
+            "image_width_disabled": 0,
+
+            "image_height_default": 0, 
+            "image_height_hover": 0,
+            "image_height_pressed": 0,
+            "image_height_disabled": 0,
+
+            "image_channels_default": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_hover": (1.0, 1.0, 1.0, 0.5),
+            "image_channels_pressed": (1.0, 1.0, 1.0, 1.0),
+            "image_channels_disabled": (1.0, 1.0, 1.0, 1.0),
+        }
+
+        s = cc.Switch(self.main_panel, label="switch", pos=(10, 50), config=switch_style)
 
         
         

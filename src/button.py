@@ -1,7 +1,5 @@
 """button.py
 
-A customizable button.
-
 wxCustomizableControls
 13/dec/2024
 cenfra

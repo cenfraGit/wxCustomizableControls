@@ -1,10 +1,12 @@
 """dropdown.py
 
-A dropdown scrolled panel used for comboboxes and menubars.
+A dropdown with a scrolled panel. Used for displaying the combobox
+choices. Supports opening and closing animations.
 
 wxCustomizableControls
 20/dec/2024
 cenfra
+
 """
 
 

@@ -1,8 +1,9 @@
-# plan.org
-# 13/dec/2024
-# wxCustomizableControls
+"""plan.org
 
-/* ---------------- controls to implement ---------------- */
+wxCustomizableControls
+"""
+
+/* ---------------------- implement ---------------------- */
 
 ** DONE button
 ** DONE checkboxes
@@ -14,18 +15,14 @@
 ** DONE scrolledwindow
 ** DONE combobox (choice)
 ** DONE static text with wrap
-
-** TODO plotting graphs?
 ** TODO switch (checkbox functionality)
+** TODO config object
 
-** TODO config object and dict functionality
+/* ------------------------ maybe ------------------------ */
 
-** TEST
-
-/* ------------------------ notes ------------------------ */
-
-- interpolate between gradient pixels and target color/gradient in
+- interpolate between gradient pixels and target color/gradient using
   memorydc?
 - statictext: draw characters instead of words? add basic bold/italic
   symbols.
-  
+- text control
+- menubar
