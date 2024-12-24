@@ -1,4 +1,104 @@
+* wxCustomizableControls
 
+A library containing customizable windows and controls for
+wxPython. (Work in progress).
 
-[[.images/Untitled.png]]
+All controls support smooth color transitions, and some support
+animations too. The [[file:preview.py]] file demonstrates some of these.
 
+Works decently in Windows 10 and Ubuntu (wayland).
+
+#+BEGIN_HTML
+<img src="images/Untitled.png" width="200"/>
+#+END_HTML
+
+The currently implemented controls are:
+- Button
+- CheckBox
+- Switches (same as checkboxes, but different appearance)
+- StaticText (with optional wordwrap)
+- StaticBox
+- StaticLine
+- ComboBox
+- Gauge
+- Panel
+- ScrolledPanel
+
+The way customization works is by setting some specific attributes
+such as background colour or border widths for a specific part or
+section of the control. For example, a checkbox can be customized by
+changing its font attributes, the border width, border colour,
+background color, and the checkmark color, all of which can be
+configured for the different states of the control.
+
+The states of the control are defined as follows:
+
+| State    | Refers to                                                         |
+| default  | the appearance when the control is not being interacted with      |
+| hover    | the appearance when the mouse cursor is hovering over the control |
+| pressed  | the appearance when the user's left click goes down               |
+| disabled | the appearance when the control is disabled                       |
+
+Note that these states also apply for windows that are not controls,
+such as panels. Panels, by design, will use only the "default" values
+that are specified during customization. You can easily change this
+behavior by setting the argument "use_defaults" to False when
+initializing the Panel. Other windows that behave this way by default
+are: StaticBox, StaticLine, StaticText, Gauge.
+
+All of the controls have initial customization values that can be
+overriden by either:
+
+1. Initializing a Config object (or dict) first and then passing it to
+   the control through its src_python{config} argument (recommended)
+2. Passing the customization attributes directly as arguments when
+   initializing the control
+
+The Config object is a collection of attributes that modify the
+appearance and behavior of the controls. The way you set the values of
+these attributes is by passing them as keyword arguments to the Config
+object when initializing, or by accessing its attributes after
+initializing it. I recommend the first method because you will be
+notified if one of the arguments you entered was not correct.
+
+For example, to set the value of the button's background colour when
+the mouse is hovering over it, you would do:
+
+#+BEGIN_SRC python
+button_config = Config(button_backgroundcolour_hover=(255, 255, 255))
+#+END_SRC
+
+doing this would overwrite only the button's background colour for its
+hover state, leaving the rest of the values unaltered.
+
+Another benefit of doing this is that you can reuse the same config
+variable with other buttons:
+
+#+BEGIN_SRC python
+button1 = cc.Button(parent, label="Button 1", config=button_config)
+button2 = cc.Button(parent, label="Button 2", config=button_config)
+#+END_SRC
+
+Setting these values in dictionaries also work, but you wont be
+notified if an invalid value was written:
+
+#+BEGIN_SRC python
+button_config = {"button_backgroundcolour_hover": (255, 255, 255)
+#+END_SRC
+
+And finally, you can also directly pass the value for this attribute
+to the button. This would be useful if you do not intend to replicate
+this control's appearance.
+
+#+BEGIN_SRC python
+button = cc.Button(parent, label="Test", button_backgroundcolour_hover=(255, 255, 255))
+#+END_SRC
+
+You might want to check the [[file:wxCustomizableControls/config.py]] file
+to see the full list of customization attributes.
+
+** Notes
+- This is a work in progress
+- The Panel inside ScrolledPanel (the one you get by calling the
+  src_python{GetPanel()} method) MUST have a GridBagSizer set in order
+  for the scrolling to work correctly.

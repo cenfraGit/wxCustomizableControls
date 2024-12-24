@@ -26,3 +26,5 @@ wxCustomizableControls
   symbols.
 - text control
 - menubar
+
+- the GetConfig method returns the config object as dict?
