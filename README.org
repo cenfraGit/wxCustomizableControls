@@ -112,11 +112,25 @@ for animations.
 Animations currently just apply for the ComboBox dropdown, the Gauge
 progress bar, and the Switch.
 
+*** SetBackgroundColour
+
+Because of the additional customization options, methods such as
+SetBackgroundColour will not work with the controls. To change the
+color (or any other attribute) you first need to decide the state for
+which the color will be applied to, and then modify it by accessing
+the config object of the control.
+
+For example, to change the background colour of the button when in
+/hover/ mode, you first need to call the GetConfig method of the
+button object, which will give you a reference to the customization
+attributes in DICTIONARY form. You can then modify the attribute using
+this reference.
+
 ** Notes
-- This is a work in progress
+- This is a work in progress.
 - Has not been tested at different screen resolutions with different DPI
 - Do not import the whole library namespace because it may interfere
-  with wx's. I recommend doing it like its done in the preview.py file
+  with wx's.
 - The Panel inside ScrolledPanel (the one you get by calling the
   GetPanel() method) MUST have a GridBagSizer set in order
   for the scrolling to work correctly.

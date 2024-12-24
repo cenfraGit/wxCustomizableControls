@@ -34,7 +34,7 @@ class RadioButton(Window):
         # each instance of radiobuttons can create a new group by
         # having the wx.RB_GROUP style flag set. we'll check at the
         # very beginning if the new instance is creating a new group
-        # and if not, we'll at it to the last created group.
+        # and if not, we'll add it to the last created group.
 
         if style & wx.RB_GROUP or not RadioButton.groups:
             # create new group id and use it to create a new group

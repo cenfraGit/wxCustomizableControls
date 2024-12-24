@@ -98,21 +98,8 @@ class Switch(Window):
 
         # -------------------- selection marker -------------------- #
 
-        # if switch is True, draw selection marker to the
-        # right. otherwise, draw to the left.
-
-        # if self._Value: 
-        #     selectionmarker_x = (switch_rectangle.GetX() +
-        #                          switch_rectangle.GetWidth() -
-        #                          self._get_pen_current("selectionmarker").GetWidth() -
-        #                          (self._config["selectionmarker_width"]) -
-        #                          self._config["selectionmarker_horizontalpadding"])            
-        # else:
-        #     selectionmarker_x = (switch_rectangle.GetX() +
-        #                          self._get_pen_current("selectionmarker").GetWidth() +
-        #                          self._config["selectionmarker_horizontalpadding"])
-
-
+        # the animation_range value will be scaled (between 0 and 1)
+        # depending on the current animation value.
         animation_range = (switch_rectangle.GetWidth() -
                            2 * self._config["selectionmarker_horizontalpadding"] -
                            self._get_pen_current("selectionmarker").GetWidth() -
