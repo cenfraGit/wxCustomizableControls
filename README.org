@@ -9,7 +9,9 @@ animations too. The [[file:preview.py]] file demonstrates some of these.
 Works decently in Windows 10 and Ubuntu (wayland).
 
 #+BEGIN_HTML
-<img src="images/Untitled.png" width="200"/>
+<p align="center">
+<img src="images/Untitled.png" width="600"/>
+</p>
 #+END_HTML
 
 The currently implemented controls are:
@@ -99,6 +101,7 @@ to see the full list of customization attributes.
 
 ** Notes
 - This is a work in progress
+- Has not been tested at different screen resolutions with different DPI
 - The Panel inside ScrolledPanel (the one you get by calling the
-  src_python{GetPanel()} method) MUST have a GridBagSizer set in order
+  GetPanel() method) MUST have a GridBagSizer set in order
   for the scrolling to work correctly.
