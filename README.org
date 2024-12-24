@@ -26,6 +26,8 @@ The currently implemented controls are:
 - Panel
 - ScrolledPanel
 
+** Customization
+
 The way customization works is by setting some specific attributes
 such as background colour or border widths for a specific part or
 section of the control. For example, a checkbox can be customized by
@@ -99,9 +101,22 @@ button = cc.Button(parent, label="Test", button_backgroundcolour_hover=(255, 255
 You might want to check the [[file:wxCustomizableControls/config.py]] file
 to see the full list of customization attributes.
 
+*** Color transitions and animations
+
+All windows and controls support smooth color transitions, and this
+setting is on by default. If you do not desire to use smooth
+transitions, just set the "colourtransitions_ms_state" values to 0 for
+the default, hover and pressed states of the window. The same applies
+for animations.
+
+Animations currently just apply for the ComboBox dropdown, the Gauge
+progress bar, and the Switch.
+
 ** Notes
 - This is a work in progress
 - Has not been tested at different screen resolutions with different DPI
+- Do not import the whole library namespace because it may interfere
+  with wx's. I recommend doing it like its done in the preview.py file
 - The Panel inside ScrolledPanel (the one you get by calling the
   GetPanel() method) MUST have a GridBagSizer set in order
   for the scrolling to work correctly.
