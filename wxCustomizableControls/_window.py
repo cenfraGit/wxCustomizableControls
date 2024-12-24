@@ -255,11 +255,12 @@ class Window(wx.Window):
         if not self._Pressed:
 
             self._Pressed = True
-            self._handle_colour_transition()
-                
+
             self.CaptureMouse()
             if self._ActOnPress:
                 self._handle_event()
+
+            self._handle_colour_transition()
             self.Refresh()
         event.Skip()
 
@@ -267,18 +268,18 @@ class Window(wx.Window):
         if self._Pressed:
 
             self._Pressed = False
-            self._handle_colour_transition()
                 
             self.ReleaseMouse()
             if not self._ActOnPress:
                 self._handle_event()
+
+            self._handle_colour_transition()
             self.Refresh()
         event.Skip()
         
     def _on_size(self, event: wx.Event):
         self.Refresh()
-        event.Skip()
-        
+        event.Skip()        
 
     def _on_timer_colour(self, event: wx.TimerEvent) -> None:
         """Updates the current colour for all pens and brushes using
@@ -403,20 +404,7 @@ class Window(wx.Window):
     def _update_colour_targets(self) -> None:
         """Updates the colour targets for all brushes and pens
         depending on the state of the window.
-        """
-        # for element, colour_values in self._current_color_brushes.items():
-        #     if self._get_background_type(element) == "solid":
-        #         colour_values["target"] = VectorRGB(*self._config[f"{element}_backgroundcolour_{self._get_state()}"])
-        #     else: # if gradient
-        #         colour_values["target"] = VectorRGB(0, 0, 0)
-        #     # copy current value to start
-        #     colour_values["start"] = colour_values["current"]
-            
-        # for element, colour_values in self._current_color_pens.items():
-        #     colour_values["target"] = VectorRGB(*self._config[f"{element}_bordercolour_{self._get_state()}"])
-        #     # copy current value to start
-        #     colour_values["start"] = colour_values["current"]
-        
+        """        
         for element, colour_values in self._current_color_brushes.items():
 
             element_name = "active" if (self._Value and element in ["checkbox", "switch", "radiobutton"]) else element

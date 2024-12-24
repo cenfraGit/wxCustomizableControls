@@ -80,7 +80,7 @@ class Config:
         self.selectionmarker_rounded = kwargs.get("selectionmarker_rounded", True)
         self.selectionmarker_width = kwargs.get("selectionmarker_width", 15)
         self.selectionmarker_height = kwargs.get("selectionmarker_height", 15)
-        self.selectionmarker_horizontalpadding = kwargs.get("selectionmarker_horizontalpadding", 8)
+        self.selectionmarker_horizontalpadding = kwargs.get("selectionmarker_horizontalpadding", 4)
 
         self.selectionmarker_diameter_default = kwargs.get("selectionmarker_diameter_default", 8)
         self.selectionmarker_diameter_hover = kwargs.get("selectionmarker_diameter_hover", 8)
@@ -89,7 +89,7 @@ class Config:
 
         self.selectionmarker_backgroundcolour_default = kwargs.get("selectionmarker_backgroundcolour_default", (173, 173, 173))
         self.selectionmarker_backgroundcolour_hover = kwargs.get("selectionmarker_backgroundcolour_hover", (173, 173, 173))
-        self.selectionmarker_backgroundcolour_pressed = kwargs.get("selectionmarker_backgroundcolour_pressed", (0, 0, 0))
+        self.selectionmarker_backgroundcolour_pressed = kwargs.get("selectionmarker_backgroundcolour_pressed", (173, 173, 173))
         self.selectionmarker_backgroundcolour_disabled = kwargs.get("selectionmarker_backgroundcolour_disabled", (0, 0, 0))
 
         self.selectionmarker_backgroundstyle_default = kwargs.get("selectionmarker_backgroundstyle_default", "solid")

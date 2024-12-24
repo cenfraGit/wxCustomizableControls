@@ -12,3 +12,5 @@ from .statictext import StaticText
 from .combobox import ComboBox
 from .gauge import Gauge
 
+from .config import Config
+

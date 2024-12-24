@@ -54,6 +54,7 @@ class RadioButton(Window):
         if state == True: # explicit
             self._deselect_radiobuttons_in_group()
         self._Value = state
+        self._handle_colour_transition()
         self.Refresh()
 
     def _on_paint(self, event: wx.Event) -> None:
